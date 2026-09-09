@@ -1,0 +1,431 @@
+<title>The 32 Objectives</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,600&display=swap">
+<style>
+:root{
+  --paper:#f6f5f8; --surface:#fff; --ink:#1c1a26; --ink-2:#4a4658; --ink-3:#736e85;
+  --line:#ddd9e6; --line-2:#c9c4d8; --hema:#3e3a70; --hema-soft:#eae7f5; --eosin:#c4547a;
+  --eosin-soft:#fbeef2; --done:#2f7d5c;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#131220; --surface:#1c1a2b; --ink:#eae7f2; --ink-2:#b6b1c7; --ink-3:#8a849e;
+  --line:#322e44; --line-2:#423d59; --hema:#a79fe0; --hema-soft:#262242; --eosin:#e890aa;
+  --eosin-soft:#38222d; --done:#5bb98c;
+}}
+:root[data-theme="dark"]{
+  --paper:#131220; --surface:#1c1a2b; --ink:#eae7f2; --ink-2:#b6b1c7; --ink-3:#8a849e;
+  --line:#322e44; --line-2:#423d59; --hema:#a79fe0; --hema-soft:#262242; --eosin:#e890aa;
+  --eosin-soft:#38222d; --done:#5bb98c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:34px 22px 70px}
+header{margin-bottom:22px}
+h1{font-family:var(--serif);font-size:29px;font-weight:600;margin:0;letter-spacing:-.015em}
+.sub{color:var(--ink-2);margin-top:6px}
+.bar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:18px 0 4px;
+  position:sticky;top:0;background:var(--paper);padding:10px 0;z-index:5;
+  border-bottom:1px solid var(--line)}
+.tally{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-right:auto}
+.tally b{color:var(--ink);font-size:16px}
+button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--line-2);
+  background:var(--surface);border-radius:8px;padding:6px 11px;font-size:13px}
+button:hover{background:var(--hema-soft)}
+button[aria-pressed="true"]{background:var(--hema);border-color:var(--hema);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button[aria-pressed="true"]{color:#17152a}}
+:root[data-theme="dark"] button[aria-pressed="true"]{color:#17152a}
+:focus-visible{outline:2px solid var(--hema);outline-offset:2px}
+.mod{margin-top:26px}
+.mod h2{font-family:var(--serif);font-size:17px;font-weight:600;margin:0 0 8px;
+  display:flex;align-items:baseline;gap:9px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.mnum{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500}
+.mcount{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;font-weight:400}
+.objs{list-style:none;margin:0;padding:0}
+.obj{border-bottom:1px solid var(--line)}
+.obj:last-child{border-bottom:0}
+.obj label{display:flex;gap:11px;align-items:baseline;padding:11px 6px;cursor:pointer;border-radius:6px}
+.obj label:hover{background:var(--surface)}
+.obj input{margin:0;width:16px;height:16px;flex:none;accent-color:var(--hema);
+  position:relative;top:2px;cursor:pointer}
+.num{font-family:var(--mono);font-size:11px;color:var(--ink-3);flex:none;
+  min-width:26px;font-variant-numeric:tabular-nums}
+.text{flex:1}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  background:var(--eosin-soft);color:var(--eosin);padding:2px 6px;border-radius:4px;
+  flex:none;align-self:center}
+.obj.checked .text{color:var(--ink-3);text-decoration:line-through;
+  text-decoration-color:var(--line-2)}
+.obj.checked .num{color:var(--done)}
+body.hyonly .obj:not(.hy){display:none}
+footer{margin-top:30px;color:var(--ink-3);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px}
+@media print{
+  .bar,footer{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  .wrap{max-width:none;padding:0}
+  .obj label:hover{background:none}
+  .mod{break-inside:avoid}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>The 32 Objectives</h1>
+    <p class="sub">Everything the five lecture decks say you have to learn — the list, and nothing else.
+    22 of them are also covered by the high-yield guide.</p>
+  </header>
+
+  <div class="bar">
+    <span class="tally"><b id="done">0</b> / 32 ticked</span>
+    <button id="hy" aria-pressed="false">High-yield only</button>
+    <button id="clear">Clear</button>
+    <button id="print">Print</button>
+  </div>
+
+  
+    <section class="mod" data-mod="m1">
+      <h2><span class="mnum">Module 1</span>Anatomical Terminology of the Trunk
+        <span class="mcount" data-count="m1">0/4</span>
+      </h2>
+      <ol class="objs">
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m1-1">
+          <span class="num">1.1</span>
+          <span class="text">Define the trunk and its major subdivisions</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m1-2">
+          <span class="num">1.2</span>
+          <span class="text">Use regional terms for trunk structures</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m1-3">
+          <span class="num">1.3</span>
+          <span class="text">Apply directional terms within the trunk</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m1-4">
+          <span class="num">1.4</span>
+          <span class="text">Relate planes, cavities, and surface landmarks</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      </ol>
+    </section>
+    <section class="mod" data-mod="m2">
+      <h2><span class="mnum">Module 2</span>First Week of Development
+        <span class="mcount" data-count="m2">0/6</span>
+      </h2>
+      <ol class="objs">
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m2-1">
+          <span class="num">2.1</span>
+          <span class="text">List the events occurring during the first week of human development</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m2-2">
+          <span class="num">2.2</span>
+          <span class="text">Define ovulation</span>
+          
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m2-3">
+          <span class="num">2.3</span>
+          <span class="text">Describe the process of fertilization of the female gamete</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m2-4">
+          <span class="num">2.4</span>
+          <span class="text">List the results of fertilization</span>
+          
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m2-5">
+          <span class="num">2.5</span>
+          <span class="text">Describe cleavage</span>
+          
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m2-6">
+          <span class="num">2.6</span>
+          <span class="text">List the abnormal sites of fertilization</span>
+          
+        </label>
+      </li>
+      </ol>
+    </section>
+    <section class="mod" data-mod="m3">
+      <h2><span class="mnum">Module 3</span>Second to Eighth Week of Development
+        <span class="mcount" data-count="m3">0/10</span>
+      </h2>
+      <ol class="objs">
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-1">
+          <span class="num">3.1</span>
+          <span class="text">Name and briefly describe the layers of the trophoblast</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-2">
+          <span class="num">3.2</span>
+          <span class="text">Describe the differentiation of the embryoblast to form the bilaminar germ disc</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-3">
+          <span class="num">3.3</span>
+          <span class="text">Describe the formation of the amniotic cavity and the primitive and secondary (definitive) yolk sac</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m3-4">
+          <span class="num">3.4</span>
+          <span class="text">Briefly describe the establishment of uteroplacental circulation</span>
+          
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-5">
+          <span class="num">3.5</span>
+          <span class="text">Define and describe gastrulation</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-6">
+          <span class="num">3.6</span>
+          <span class="text">Describe the formation of the notochord</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m3-7">
+          <span class="num">3.7</span>
+          <span class="text">Define prechordal plate, cloacal membrane, and allantois</span>
+          
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-8">
+          <span class="num">3.8</span>
+          <span class="text">List the derivatives of the ectoderm, mesoderm, and endoderm</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-9">
+          <span class="num">3.9</span>
+          <span class="text">Describe the formation of the neural tube and neural crests</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m3-10">
+          <span class="num">3.10</span>
+          <span class="text">Describe the differentiation of the intraembryonic mesoderm and the somites</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      </ol>
+    </section>
+    <section class="mod" data-mod="m4">
+      <h2><span class="mnum">Module 4</span>Development of the Musculoskeletal System
+        <span class="mcount" data-count="m4">0/6</span>
+      </h2>
+      <ol class="objs">
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m4-1">
+          <span class="num">4.1</span>
+          <span class="text">Indicate the origin of skeletal, smooth, and cardiac muscle</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m4-2">
+          <span class="num">4.2</span>
+          <span class="text">Briefly describe the differentiation of myotomal cells into muscle fibers</span>
+          
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m4-3">
+          <span class="num">4.3</span>
+          <span class="text">Describe the differentiation of myotomes into epimere and hypomere and give their corresponding nerve supply</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m4-4">
+          <span class="num">4.4</span>
+          <span class="text">Give examples of muscles derived from epimere and hypomere in different parts of the neck and trunk</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m4-5">
+          <span class="num">4.5</span>
+          <span class="text">Briefly describe the origin of the head and limb musculature</span>
+          
+        </label>
+      </li>
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m4-6">
+          <span class="num">4.6</span>
+          <span class="text">Briefly describe the origin of the skeletal system</span>
+          
+        </label>
+      </li>
+      </ol>
+    </section>
+    <section class="mod" data-mod="m5">
+      <h2><span class="mnum">Module 5</span>Human Birth Defects
+        <span class="mcount" data-count="m5">0/6</span>
+      </h2>
+      <ol class="objs">
+      <li class="obj">
+        <label>
+          <input type="checkbox" data-id="m5-1">
+          <span class="num">5.1</span>
+          <span class="text">Define congenital malformations or anomalies</span>
+          
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m5-2">
+          <span class="num">5.2</span>
+          <span class="text">Define teratogens</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m5-3">
+          <span class="num">5.3</span>
+          <span class="text">Give examples of teratogens of different types and the abnormalities they cause</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m5-4">
+          <span class="num">5.4</span>
+          <span class="text">State the principles of teratology</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m5-5">
+          <span class="num">5.5</span>
+          <span class="text">Define numerical and structural chromosomal abnormalities and give examples of each category</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      <li class="obj hy">
+        <label>
+          <input type="checkbox" data-id="m5-6">
+          <span class="num">5.6</span>
+          <span class="text">Define single gene mutation and give examples of conditions caused by this mechanism</span>
+          <span class="tag">high yield</span>
+        </label>
+      </li>
+      </ol>
+    </section>
+
+  <footer>Ticks are saved in this browser. Module numbering follows each deck's own
+  LEARNING OBJECTIVES slide.</footer>
+</div>
+
+<script>
+(function(){
+  var KEY='trunk-objectives-ticked-v1';
+  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox]'));
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ state={}; }
+
+  function paint(){
+    var total=0;
+    boxes.forEach(function(b){
+      var on=!!state[b.dataset.id];
+      b.checked=on;
+      b.closest('.obj').classList.toggle('checked',on);
+      if(on) total++;
+    });
+    document.getElementById('done').textContent=total;
+    [].forEach.call(document.querySelectorAll('[data-count]'),function(el){
+      var mod=el.getAttribute('data-count');
+      var inMod=boxes.filter(function(b){ return b.dataset.id.indexOf(mod+'-')===0; });
+      var n=inMod.filter(function(b){ return state[b.dataset.id]; }).length;
+      el.textContent=n+'/'+inMod.length;
+    });
+    try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){}
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener('change',function(){
+      if(b.checked) state[b.dataset.id]=1; else delete state[b.dataset.id];
+      paint();
+    });
+  });
+
+  document.getElementById('hy').addEventListener('click',function(){
+    var on=this.getAttribute('aria-pressed')==='true';
+    this.setAttribute('aria-pressed',String(!on));
+    document.body.classList.toggle('hyonly',!on);
+  });
+  document.getElementById('clear').addEventListener('click',function(){
+    if(!confirm('Clear every tick?')) return;
+    state={}; paint();
+  });
+  document.getElementById('print').addEventListener('click',function(){ window.print(); });
+
+  paint();
+})();
+</script>

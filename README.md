@@ -36,6 +36,16 @@ The figures are the real plates from the lectures, filed under the objective eac
 illustrates — never stock or redrawn art. Slides whose figures serve no objective (corpus luteum,
 corpus albicans, Zika, Fragile X, the hormone plates) are deliberately left out.
 
+## Just the objectives
+
+`objectives.html` is the syllabus and nothing else: the 32 objectives as a tickable
+checklist, grouped by module, with a high-yield filter and a print stylesheet. 16 KB, so
+it opens instantly on a phone. Generated from the same `src/content.js` with
+`node tools/build_objectives.js`, so it cannot drift from the full guide.
+
+Unlike the main guide it declares no capabilities, which means it *can* be shared
+publicly from its own share menu.
+
 ## Sharing it with someone else
 
 `share/Trunk-Anatomy-and-Embryology-Study-Guide.html` is a standalone copy — send it by
