@@ -75,6 +75,7 @@ def check_content(content_js, figures):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--preview", help="also write a standalone document here")
+    parser.add_argument("--standalone", help="write a shareable standalone document here")
     args = parser.parse_args()
 
     for name in ("app.css", "content.js", "app.js", "figures.json"):
@@ -119,16 +120,26 @@ def main():
     if size > 15_000_000:
         print("  ! close to the 16 MB artifact limit", file=sys.stderr)
 
-    if args.preview:
-        path = pathlib.Path(args.preview)
+    for flag, label in ((args.preview, "preview"), (args.standalone, "standalone")):
+        if not flag:
+            continue
+        path = pathlib.Path(flag)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        # The published page is a fragment because the Artifact host wraps it. A file
+        # someone opens by double-clicking needs the real document around it, or the
+        # browser falls back to quirks mode and the layout drifts.
+        body = page.replace(f"<title>{TITLE}</title>\n", "", 1)
         path.write_text(
-            '<!doctype html><html lang="en"><head><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+            f"<title>{TITLE}</title>\n"
+            '<meta name="description" content="Interactive study guide for the 32 trunk '
+            'anatomy, embryology and teratology learning objectives.">\n'
             "<style>:root{color-scheme:light dark}body{margin:0;font:14px system-ui}"
-            "img{max-width:100%}[hidden]{display:none!important}</style>"
-            f"</head><body>{page}</body></html>"
+            "img{max-width:100%}[hidden]{display:none!important}</style>\n"
+            f"</head>\n<body>\n{body}</body>\n</html>\n"
         )
-        print(f"preview -> {path}")
+        print(f"{label} -> {path}  {len(path.read_bytes()) // 1024} KB")
 
 
 if __name__ == "__main__":

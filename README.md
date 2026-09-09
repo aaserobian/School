@@ -36,6 +36,20 @@ The figures are the real plates from the lectures, filed under the objective eac
 illustrates — never stock or redrawn art. Slides whose figures serve no objective (corpus luteum,
 corpus albicans, Zika, Fragile X, the hormone plates) are deliberately left out.
 
+## Sharing it with someone else
+
+`share/Trunk-Anatomy-and-Embryology-Study-Guide.html` is a standalone copy — send it by
+email, WhatsApp or Drive and they open it by double-clicking. Everything is inside the one
+file: all 46 figures, 129 questions and 81 cards. It needs no account and no internet after
+it lands, and each person's progress saves in their own browser.
+
+The only thing it cannot do is the AI tutor, which needs Claude's runtime; those buttons say
+so rather than failing. Regenerate it with
+`python3 tools/build.py --standalone <path>`.
+
+Note the published Artifact link is *not* shareable this way: declaring the `db` capability
+makes an artifact organization-internal by platform rule.
+
 ## Rebuilding
 
 `study-guide.html` is generated — edit the files in `src/`, not the built page.
