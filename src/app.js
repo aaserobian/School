@@ -1,0 +1,852 @@
+/* Study app for the trunk anatomy, embryology and teratology objectives.
+ *
+ * Five ways to work: read an objective, drill flashcards, sit a quiz, recall an
+ * objective from memory, and check the mastery map. Every question and card is
+ * tagged to one of the 32 objectives, so progress is always reported per objective.
+ *
+ * Progress lives in the `db` capability so it follows the reader between devices,
+ * mirrored into localStorage so the page is useful instantly and offline. Both the
+ * tutor and the store can be absent — `claude.use()` resolves null — so every mode
+ * has to work without them.
+ */
+
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ setup */
+
+  /* Stable ids from content, not array position, so reordering or inserting a
+   * question later doesn't silently orphan someone's progress. */
+  function hash(text) {
+    var h = 5381;
+    for (var i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36);
+  }
+
+  QUESTIONS.forEach(function (q) { q.id = q.lo + '.' + hash(q.q); });
+  CARDS.forEach(function (c) { c.id = c.lo + '.' + hash(c.f); });
+
+  var OBJ_BY_ID = {};
+  OBJECTIVES.forEach(function (o) { OBJ_BY_ID[o.id] = o; });
+  var MOD_BY_ID = {};
+  MODULES.forEach(function (m) { MOD_BY_ID[m.id] = m; });
+
+  var FIGS_BY_OBJ = {};
+  (FIGURES.placements || []).forEach(function (p) {
+    (FIGS_BY_OBJ[p.objective] = FIGS_BY_OBJ[p.objective] || []).push(p);
+  });
+
+  function objectivesIn(moduleId) {
+    return OBJECTIVES.filter(function (o) { return o.module === moduleId; });
+  }
+  function esc(text) {
+    return String(text).replace(/[&<>"]/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
+  }
+  function shuffled(list) {
+    var out = list.slice();
+    for (var i = out.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = out[i]; out[i] = out[j]; out[j] = t;
+    }
+    return out;
+  }
+
+  /* ---------------------------------------------------------------- storage */
+
+  var STORAGE_KEY = 'trunk-embryo-progress-v1';
+  var DOC_PATH = 'progress/main';
+  var BLANK = { objectives: {}, cards: {}, questions: {}, sessions: [], updatedAt: 0 };
+
+  var progress = JSON.parse(JSON.stringify(BLANK));
+  var db = null;
+  var saveTimer = null;
+
+  function readLocal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return Object.assign({}, BLANK, JSON.parse(raw));
+    } catch (e) { /* private window, blocked storage: start fresh */ }
+    return null;
+  }
+
+  function writeLocal() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) { /* nothing to do */ }
+  }
+
+  /* Local write is immediate so nothing is lost on a reload; the shared document
+   * is debounced so a fast flashcard run doesn't fire a write per tap. */
+  function save() {
+    progress.updatedAt = Date.now();
+    writeLocal();
+    if (!db) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      db.doc(DOC_PATH).set(progress).catch(function () { setSync(false); });
+    }, 1500);
+  }
+
+  function setSync(on) {
+    var el = document.getElementById('sync');
+    if (!el) return;
+    el.innerHTML = '<span class="dot' + (on ? ' on' : '') + '"></span>' +
+      (on ? 'Synced across devices' : 'Saved on this device');
+  }
+
+  async function connectStore() {
+    var local = readLocal();
+    if (local) progress = local;
+    render();
+
+    try { db = await window.claude.use('db'); } catch (e) { db = null; }
+    if (!db) { setSync(false); return; }
+
+    try {
+      var snap = await db.doc(DOC_PATH).get();
+      var remote = snap.exists ? snap.data() : null;
+      if (remote && (remote.updatedAt || 0) > (progress.updatedAt || 0)) {
+        progress = Object.assign({}, BLANK, remote);
+        writeLocal();
+        render();
+      } else if (progress.updatedAt) {
+        await db.doc(DOC_PATH).set(progress);
+      }
+      setSync(true);
+    } catch (e) {
+      db = null;
+      setSync(false);
+    }
+  }
+
+  /* ------------------------------------------------------------------ tutor */
+
+  var sample = null;
+  var tutorGone = false;
+
+  async function getSample() {
+    if (tutorGone) return null;
+    if (sample) return sample;
+    try { sample = await window.claude.use('sample'); } catch (e) { sample = null; }
+    if (!sample) tutorGone = true;
+    return sample;
+  }
+
+  /* Every prompt carries its objective inline and is told to stay inside it —
+   * the tutor is scoped to the syllabus for the same reason the question bank is. */
+  function objectiveBrief(objective) {
+    var lines = ['Learning objective: ' + objective.text];
+    lines.push('Course facts for this objective:');
+    objective.essentials.forEach(function (e) {
+      lines.push('- ' + (e.t ? e.t + ': ' : '') + e.d);
+    });
+    if (objective.mustRemember) lines.push('Key line to remember: ' + objective.mustRemember);
+    if (objective.pitfall) lines.push('Known exam trap: ' + objective.pitfall);
+    return lines.join('\n');
+  }
+
+  async function ask(target, prompt) {
+    var fn = await getSample();
+    if (!fn) {
+      target.innerHTML = '<span class="label">Tutor unavailable</span>Ask-Claude features need to run on the ' +
+        'published page and be allowed by the viewer.';
+      return;
+    }
+    target.hidden = false;
+    target.innerHTML = '<span class="label">Claude</span>Thinking…';
+    try {
+      var result = await fn(prompt, {
+        modelTier: 'default',
+        onText: function (u) { target.innerHTML = '<span class="label">Claude</span>' + esc(u.text); },
+      });
+      target.innerHTML = '<span class="label">Claude</span>' + esc(result.text);
+    } catch (err) {
+      var code = err && err.code;
+      if (code === 'not_granted') {
+        tutorGone = true;
+        target.innerHTML = '<span class="label">Tutor unavailable</span>You declined, so the tutor is off for this visit.';
+        return;
+      }
+      var message = code === 'rate_limited'
+        ? 'Too many requests just now — wait a moment and try again.'
+        : 'That didn’t go through. Try again.';
+      target.innerHTML = '<span class="label">Tutor</span>' + esc(err && err.text ? err.text : message);
+    }
+  }
+
+  /* --------------------------------------------------------------- progress */
+
+  function objectiveState(id) { return progress.objectives[id] || 'unseen'; }
+
+  function questionStats(loId) {
+    var seen = 0, right = 0;
+    QUESTIONS.forEach(function (q) {
+      if (q.lo !== loId) return;
+      var rec = progress.questions[q.id];
+      if (!rec) return;
+      seen += rec.seen;
+      right += rec.right;
+    });
+    return { seen: seen, right: right };
+  }
+
+  function knownCount() {
+    return OBJECTIVES.filter(function (o) { return objectiveState(o.id) === 'known'; }).length;
+  }
+
+  function weakQuestions() {
+    return QUESTIONS.filter(function (q) {
+      var rec = progress.questions[q.id];
+      return rec && rec.lastWrong;
+    });
+  }
+
+  function dueCards(pool) {
+    var now = Date.now();
+    return pool.filter(function (c) {
+      var rec = progress.cards[c.id];
+      return !rec || !rec.due || rec.due <= now;
+    });
+  }
+
+  /* --------------------------------------------------------------------- ui */
+
+  var ui = {
+    view: 'learn',
+    openObjective: null,
+    cards: null,
+    quiz: null,
+    recall: { objective: null, verdict: '' },
+  };
+
+  var VIEWS = [
+    { id: 'learn', key: '01', name: 'Learn' },
+    { id: 'cards', key: '02', name: 'Flashcards' },
+    { id: 'quiz', key: '03', name: 'Quiz' },
+    { id: 'recall', key: '04', name: 'Recall' },
+    { id: 'progress', key: '05', name: 'Progress' },
+  ];
+
+  function go(view) {
+    ui.view = view;
+    window.scrollTo(0, 0);
+    render();
+  }
+
+  function render() {
+    var nav = document.getElementById('nav');
+    var tabs = document.getElementById('tabs');
+    if (nav) {
+      nav.innerHTML = VIEWS.map(function (v) {
+        return '<button data-go="' + v.id + '" aria-current="' + (ui.view === v.id) + '">' +
+          '<span class="k">' + v.key + '</span><span>' + v.name + '</span></button>';
+      }).join('');
+    }
+    if (tabs) {
+      tabs.innerHTML = VIEWS.map(function (v) {
+        return '<button data-go="' + v.id + '" aria-current="' + (ui.view === v.id) + '">' + v.name + '</button>';
+      }).join('');
+    }
+    var count = document.getElementById('known-count');
+    if (count) count.textContent = knownCount() + ' / ' + OBJECTIVES.length;
+
+    var main = document.getElementById('main');
+    if (ui.view === 'learn') renderLearn(main);
+    else if (ui.view === 'cards') renderCards(main);
+    else if (ui.view === 'quiz') renderQuiz(main);
+    else if (ui.view === 'recall') renderRecall(main);
+    else renderProgress(main);
+  }
+
+  /* ------------------------------------------------------------------ learn */
+
+  function figureHtml(placement) {
+    var image = FIGURES.images[placement.image];
+    if (!image) return '';
+    var module = MOD_BY_ID[placement.module];
+    return '<figure class="fig"><div class="plate">' +
+      '<img loading="lazy" src="' + image.src + '" width="' + image.w + '" height="' + image.h +
+      '" alt="' + esc(placement.caption) + '"></div>' +
+      '<figcaption><span class="cap">' + esc(placement.caption) + '</span>' +
+      '<span class="src label">' + esc(module.short) + ' · slide ' + placement.slide + '</span>' +
+      '</figcaption></figure>';
+  }
+
+  function objectiveBodyHtml(o) {
+    var html = '';
+    var figs = FIGS_BY_OBJ[o.id] || [];
+    if (figs.length) html += '<div class="figs">' + figs.map(figureHtml).join('') + '</div>';
+
+    if (o.note) html += '<div class="note">' + esc(o.note) + '</div>';
+
+    html += '<div class="ess">' + o.essentials.map(function (e) {
+      var layer = e.layer ? ' <span class="chip ' + e.layer + '">' + e.layer + '</span>' : '';
+      return '<div><span class="t">' + esc(e.t) + layer + '</span><span class="d">' + esc(e.d) + '</span></div>';
+    }).join('') + '</div>';
+
+    if (o.timeline) {
+      html += '<div class="timeline">' + TIMELINE.map(function (t) {
+        return '<div><span class="when">' + esc(t.when) + '</span><span>' + esc(t.what) + '</span></div>';
+      }).join('') + '</div>';
+    }
+
+    if (o.pitfall) {
+      html += '<div class="pitfall"><span class="label">Exam trap</span><p>' + esc(o.pitfall) + '</p></div>';
+    }
+    if (o.mustRemember) {
+      html += '<div class="must"><span class="label">Must remember</span><p>' + esc(o.mustRemember) + '</p></div>';
+    }
+
+    var known = objectiveState(o.id) === 'known';
+    html += '<div class="obj-actions">' +
+      '<button class="btn small" data-known="' + o.id + '">' +
+      (known ? 'Mark as still learning' : 'Mark as known') + '</button>' +
+      '<button class="btn small" data-explain="' + o.id + '">Explain this differently</button>' +
+      '<button class="btn small" data-newq="' + o.id + '">Give me a practice question</button>' +
+      '<button class="btn small" data-drill="' + o.id + '">Quiz me on this</button>' +
+      '</div><div class="tutor" id="tutor-' + o.id + '" hidden></div>';
+    return html;
+  }
+
+  function renderLearn(main) {
+    var html = '<div class="wrap"><div class="view-head"><h2>Learn</h2>' +
+      '<p>All 32 learning objectives from the five lecture decks. The ones your high-yield ' +
+      'guide covers are marked, and each objective carries the lecture figures that illustrate it.</p></div>';
+
+    MODULES.forEach(function (m) {
+      var objs = objectivesIn(m.id);
+      html += '<section class="mod"><div class="mod-head">' +
+        '<span class="label">Module ' + m.num + '</span><h3>' + esc(m.title) + '</h3>' +
+        '<div class="somites" title="' + objs.filter(function (o) {
+          return objectiveState(o.id) === 'known';
+        }).length + ' of ' + objs.length + ' known">' + objs.map(function (o) {
+          return '<i class="' + (objectiveState(o.id) === 'known' ? 'on' : '') + '"></i>';
+        }).join('') + '</div></div>';
+
+      objs.forEach(function (o) {
+        var open = ui.openObjective === o.id;
+        var known = objectiveState(o.id) === 'known';
+        html += '<div class="obj"><button class="obj-btn" data-obj="' + o.id + '" aria-expanded="' + open + '">' +
+          '<span class="obj-num">' + m.num + '.' + o.num + '</span>' +
+          '<span class="obj-title">' + esc(o.text) + '</span>' +
+          '<span class="obj-meta">' +
+          (o.highYield ? '<span class="chip hy">High yield</span>' : '') +
+          (known ? '<span class="chip known">Known</span>' : '') +
+          '</span></button>';
+        if (open) html += '<div class="obj-body">' + objectiveBodyHtml(o) + '</div>';
+        html += '</div>';
+      });
+      html += '</section>';
+    });
+
+    main.innerHTML = html + '</div>';
+  }
+
+  /* ------------------------------------------------------------- flashcards */
+
+  function cardPool(scope) {
+    if (scope === 'hy') {
+      return CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].highYield; });
+    }
+    if (scope === 'due') return dueCards(CARDS);
+    if (scope && scope.indexOf('m') === 0) {
+      return CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].module === scope; });
+    }
+    return CARDS.slice();
+  }
+
+  function startDeck(scope) {
+    var pool = cardPool(scope);
+    /* Weakest first: low Leitner box, then longest un-reviewed. */
+    pool.sort(function (a, b) {
+      var ra = progress.cards[a.id] || { box: 0, due: 0 };
+      var rb = progress.cards[b.id] || { box: 0, due: 0 };
+      return (ra.box || 0) - (rb.box || 0) || (ra.due || 0) - (rb.due || 0);
+    });
+    ui.cards = { scope: scope, queue: pool, at: 0, flipped: false, done: 0 };
+    render();
+  }
+
+  var BOX_DAYS = [0, 0.007, 1, 3, 7, 21];
+
+  function rateCard(card, rating) {
+    var rec = progress.cards[card.id] || { box: 1, due: 0, seen: 0, right: 0 };
+    rec.seen++;
+    if (rating === 'again') rec.box = 1;
+    else if (rating === 'hard') rec.box = Math.max(1, rec.box);
+    else { rec.box = Math.min(5, rec.box + 1); rec.right++; }
+    rec.due = Date.now() + BOX_DAYS[rec.box] * 86400000;
+    progress.cards[card.id] = rec;
+
+    var deck = ui.cards;
+    if (rating === 'again') deck.queue.push(card);
+    deck.at++;
+    deck.done++;
+    deck.flipped = false;
+    save();
+    render();
+  }
+
+  function renderCards(main) {
+    var scopeBar = '<div class="scope"><label for="deck-scope">Deck</label>' +
+      '<select id="deck-scope">' +
+      '<option value="all">Everything (' + CARDS.length + ' cards)</option>' +
+      '<option value="hy">High-yield only</option>' +
+      '<option value="due">Due for review (' + dueCards(CARDS).length + ')</option>' +
+      MODULES.map(function (m) {
+        return '<option value="' + m.id + '">Module ' + m.num + ' — ' + esc(m.short) + '</option>';
+      }).join('') +
+      '</select><button class="btn small" id="deck-start">Start deck</button></div>';
+
+    var deck = ui.cards;
+    var html = '<div class="wrap"><div class="view-head"><h2>Flashcards</h2>' +
+      '<p>Answer before you flip. Cards you mark <em>Again</em> come back before the session ends, ' +
+      'and weaker cards lead the next deck.</p></div>' + scopeBar;
+
+    if (!deck) {
+      main.innerHTML = html + '<p class="empty">Pick a deck and start.</p></div>';
+      wireDeckScope();
+      return;
+    }
+    if (deck.at >= deck.queue.length) {
+      main.innerHTML = html + '<div class="card" style="padding:26px"><div class="score">' + deck.done + '</div>' +
+        '<p class="label" style="margin-top:6px">cards reviewed</p>' +
+        '<p style="margin-top:14px">Deck finished.</p>' +
+        '<button class="btn primary" id="deck-again" style="margin-top:6px">Go again</button></div></div>';
+      wireDeckScope();
+      var again = document.getElementById('deck-again');
+      if (again) again.onclick = function () { startDeck(deck.scope); };
+      return;
+    }
+
+    var card = deck.queue[deck.at];
+    var objective = OBJ_BY_ID[card.lo];
+    var module = MOD_BY_ID[objective.module];
+    var pct = Math.round((deck.at / deck.queue.length) * 100);
+
+    html += '<div class="deck">' +
+      '<div class="deck-meta"><span>' + esc(module.short) + ' · objective ' + module.num + '.' + objective.num + '</span>' +
+      '<span>' + (deck.at + 1) + ' of ' + deck.queue.length + '</span></div>' +
+      '<div class="bar"><span style="width:' + pct + '%"></span></div>' +
+      '<div class="flash" id="flash">' +
+      '<div class="front">' + esc(card.f) + '</div>' +
+      (deck.flipped
+        ? '<div class="back">' + esc(card.b) + '</div>'
+        : '<div class="hint">Tap to reveal</div>') +
+      '</div>';
+
+    if (deck.flipped) {
+      html += '<div class="rate">' +
+        '<button class="btn" data-rate="again">Again</button>' +
+        '<button class="btn" data-rate="hard">Hard</button>' +
+        '<button class="btn primary" data-rate="good">Good</button></div>';
+    }
+    main.innerHTML = html + '</div></div>';
+    wireDeckScope();
+
+    document.getElementById('flash').onclick = function () {
+      if (!deck.flipped) { deck.flipped = true; render(); }
+    };
+    Array.prototype.forEach.call(main.querySelectorAll('[data-rate]'), function (btn) {
+      btn.onclick = function () { rateCard(card, btn.getAttribute('data-rate')); };
+    });
+  }
+
+  function wireDeckScope() {
+    var start = document.getElementById('deck-start');
+    var select = document.getElementById('deck-scope');
+    if (!start || !select) return;
+    if (ui.cards) select.value = ui.cards.scope;
+    start.onclick = function () { startDeck(select.value); };
+  }
+
+  /* ------------------------------------------------------------------- quiz */
+
+  function questionPool(scope) {
+    if (scope === 'hy') return QUESTIONS.filter(function (q) { return OBJ_BY_ID[q.lo].highYield; });
+    if (scope === 'weak') return weakQuestions();
+    if (scope === 'guide') return QUESTIONS.filter(function (q) { return q.src === 'guide'; });
+    if (scope && scope.indexOf('m') === 0) {
+      return QUESTIONS.filter(function (q) { return OBJ_BY_ID[q.lo].module === scope; });
+    }
+    return QUESTIONS.slice();
+  }
+
+  function startQuiz(scope, size, exam) {
+    var pool = shuffled(questionPool(scope));
+    if (size > 0) pool = pool.slice(0, size);
+    ui.quiz = { scope: scope, exam: exam, queue: pool, at: 0, picked: null, answers: [] };
+    render();
+  }
+
+  function answerQuiz(index) {
+    var quiz = ui.quiz;
+    var question = quiz.queue[quiz.at];
+    var right = index === question.a;
+    var rec = progress.questions[question.id] || { seen: 0, right: 0, lastWrong: false };
+    rec.seen++;
+    if (right) rec.right++;
+    rec.lastWrong = !right;
+    progress.questions[question.id] = rec;
+    quiz.answers.push({ q: question, picked: index, right: right });
+    quiz.picked = index;
+    save();
+    if (quiz.exam) nextQuestion();
+    else render();
+  }
+
+  function nextQuestion() {
+    var quiz = ui.quiz;
+    quiz.at++;
+    quiz.picked = null;
+    if (quiz.at >= quiz.queue.length) {
+      var right = quiz.answers.filter(function (a) { return a.right; }).length;
+      progress.sessions.unshift({
+        t: Date.now(), mode: 'quiz', scope: quiz.scope,
+        score: right, total: quiz.answers.length,
+      });
+      progress.sessions = progress.sessions.slice(0, 50);
+      save();
+    }
+    render();
+  }
+
+  function renderQuiz(main) {
+    var quiz = ui.quiz;
+    var weak = weakQuestions().length;
+
+    if (!quiz) {
+      main.innerHTML = '<div class="wrap"><div class="view-head"><h2>Quiz</h2>' +
+        '<p>' + QUESTIONS.length + ' questions across all 32 objectives, including the five from your ' +
+        'high-yield guide. Every answer traces back to a fact in the lectures or the guide.</p></div>' +
+        '<div class="scope">' +
+        '<label for="q-scope">Scope</label><select id="q-scope">' +
+        '<option value="all">Everything (' + QUESTIONS.length + ')</option>' +
+        '<option value="hy">High-yield objectives only</option>' +
+        '<option value="weak"' + (weak ? '' : ' disabled') + '>Weak spots (' + weak + ')</option>' +
+        '<option value="guide">The guide’s own 5 questions</option>' +
+        MODULES.map(function (m) {
+          return '<option value="' + m.id + '">Module ' + m.num + ' — ' + esc(m.short) + '</option>';
+        }).join('') + '</select>' +
+        '<label for="q-size">Length</label><select id="q-size">' +
+        '<option value="10">10 questions</option><option value="20">20 questions</option>' +
+        '<option value="0">All of them</option></select>' +
+        '<label><input type="checkbox" id="q-exam"> Exam mode</label>' +
+        '<button class="btn primary small" id="q-start">Start</button></div>' +
+        '<p class="empty">Exam mode holds every explanation back until the end, like the real thing.</p></div>';
+
+      document.getElementById('q-start').onclick = function () {
+        startQuiz(
+          document.getElementById('q-scope').value,
+          parseInt(document.getElementById('q-size').value, 10),
+          document.getElementById('q-exam').checked
+        );
+      };
+      return;
+    }
+
+    if (quiz.at >= quiz.queue.length) return renderQuizResults(main);
+
+    var question = quiz.queue[quiz.at];
+    var objective = OBJ_BY_ID[question.lo];
+    var module = MOD_BY_ID[objective.module];
+    var answered = quiz.picked !== null;
+
+    var html = '<div class="wrap"><div class="q-top">' +
+      '<span class="chip">' + esc(module.short) + ' · ' + module.num + '.' + objective.num + '</span>' +
+      '<span class="count">' + (quiz.at + 1) + ' / ' + quiz.queue.length + '</span></div>' +
+      '<div class="bar" style="margin-bottom:18px"><span style="width:' +
+      Math.round((quiz.at / quiz.queue.length) * 100) + '%"></span></div>' +
+      (question.src === 'guide' ? '<p><span class="chip hy">From your guide</span></p>' : '') +
+      '<h2 class="q-stem">' + esc(question.q) + '</h2><div class="choices">';
+
+    question.c.forEach(function (choice, i) {
+      var cls = 'choice';
+      if (answered && i === question.a) cls += ' right';
+      else if (answered && i === quiz.picked) cls += ' wrong';
+      html += '<button class="' + cls + '" data-pick="' + i + '"' + (answered ? ' disabled' : '') + '>' +
+        '<span class="k">' + 'ABCD'[i] + '</span><span>' + esc(choice) + '</span></button>';
+    });
+    html += '</div>';
+
+    if (answered) {
+      var right = quiz.picked === question.a;
+      html += '<div class="why ' + (right ? 'right' : 'wrong') + '">' +
+        '<span class="label">' + (right ? 'Correct' : 'Not quite') + '</span>' + esc(question.why) + '</div>' +
+        '<div class="obj-actions"><button class="btn primary" id="q-next">' +
+        (quiz.at + 1 >= quiz.queue.length ? 'See results' : 'Next question') + '</button>' +
+        '<button class="btn" data-open="' + objective.id + '">Read the objective</button></div>';
+    }
+
+    main.innerHTML = html + '</div>';
+    Array.prototype.forEach.call(main.querySelectorAll('[data-pick]'), function (btn) {
+      btn.onclick = function () { answerQuiz(parseInt(btn.getAttribute('data-pick'), 10)); };
+    });
+    var next = document.getElementById('q-next');
+    if (next) next.onclick = nextQuestion;
+  }
+
+  function renderQuizResults(main) {
+    var quiz = ui.quiz;
+    var right = quiz.answers.filter(function (a) { return a.right; }).length;
+    var missed = quiz.answers.filter(function (a) { return !a.right; });
+
+    var html = '<div class="wrap"><div class="view-head"><h2>Results</h2></div>' +
+      '<div class="card" style="padding:22px 24px;margin-bottom:24px">' +
+      '<div class="score">' + right + '<span style="color:var(--ink-3)">/' + quiz.answers.length + '</span></div>' +
+      '<p class="label" style="margin-top:6px">' +
+      Math.round((right / Math.max(1, quiz.answers.length)) * 100) + '% correct</p></div>';
+
+    if (missed.length) {
+      html += '<h3 style="margin-bottom:6px">What to go back to</h3>' +
+        '<p style="color:var(--ink-2);margin-bottom:10px">These are now in your weak spots.</p><div class="weak">';
+      missed.forEach(function (a) {
+        var objective = OBJ_BY_ID[a.q.lo];
+        var module = MOD_BY_ID[objective.module];
+        html += '<div class="miss"><strong>' + esc(a.q.q) + '</strong>' +
+          '<div class="line">You chose <span class="yours">' + esc(a.q.c[a.picked]) + '</span>' +
+          ' · Answer: <span class="theirs">' + esc(a.q.c[a.q.a]) + '</span></div>' +
+          '<div class="line" style="color:var(--ink-2)">' + esc(a.q.why) + '</div>' +
+          '<div style="margin-top:8px"><button class="btn small" data-open="' + objective.id + '">' +
+          esc(module.short) + ' · objective ' + module.num + '.' + objective.num + '</button></div></div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<p class="empty">Nothing missed. Try a wider scope or exam mode.</p>';
+    }
+
+    html += '<div class="obj-actions"><button class="btn primary" id="q-restart">Another quiz</button></div></div>';
+    main.innerHTML = html;
+    document.getElementById('q-restart').onclick = function () { ui.quiz = null; render(); };
+  }
+
+  /* ----------------------------------------------------------------- recall */
+
+  function renderRecall(main) {
+    var chosen = ui.recall.objective ? OBJ_BY_ID[ui.recall.objective] : null;
+
+    var html = '<div class="wrap"><div class="view-head"><h2>Recall</h2>' +
+      '<p>Say everything you can about one objective without looking, then have it marked against ' +
+      'the lecture facts. Harder than recognising an answer, and it sticks better.</p></div>' +
+      '<div class="scope"><label for="r-obj">Objective</label><select id="r-obj">' +
+      '<option value="">Choose an objective…</option>' +
+      MODULES.map(function (m) {
+        return '<optgroup label="Module ' + m.num + ' — ' + esc(m.short) + '">' +
+          objectivesIn(m.id).map(function (o) {
+            return '<option value="' + o.id + '"' + (chosen && chosen.id === o.id ? ' selected' : '') + '>' +
+              m.num + '.' + o.num + ' ' + esc(o.text) + (o.highYield ? ' ★' : '') + '</option>';
+          }).join('') + '</optgroup>';
+      }).join('') + '</select>' +
+      '<button class="btn small" id="r-random">Pick one for me</button></div>';
+
+    if (!chosen) {
+      main.innerHTML = html + '<p class="empty">Objectives marked ★ are the ones your high-yield guide covers.</p></div>';
+      wireRecall();
+      return;
+    }
+
+    html += '<div class="recall"><h3 style="margin-bottom:10px">' + esc(chosen.text) + '</h3>' +
+      '<textarea id="r-text" placeholder="Write what you remember — terms, order of events, the exceptions…"></textarea>' +
+      '<div class="obj-actions">' +
+      '<button class="btn primary" id="r-grade">Mark my answer</button>' +
+      '<button class="btn" id="r-reveal">Just show me the answer</button>' +
+      '<button class="btn" data-open="' + chosen.id + '">Read the objective</button></div>' +
+      '<div class="verdict" id="r-verdict" hidden></div></div></div>';
+
+    main.innerHTML = html;
+    wireRecall();
+
+    var verdict = document.getElementById('r-verdict');
+    document.getElementById('r-reveal').onclick = function () {
+      verdict.hidden = false;
+      verdict.innerHTML = '<span class="label">Model answer</span>' +
+        esc(chosen.mustRemember || '') + '\n\n' +
+        chosen.essentials.map(function (e) { return '• ' + (e.t ? e.t + ' — ' : '') + e.d; }).join('\n');
+    };
+    document.getElementById('r-grade').onclick = function () {
+      var written = document.getElementById('r-text').value.trim();
+      if (!written) { document.getElementById('r-text').focus(); return; }
+      ask(verdict,
+        'You are marking a medical student\'s free-recall answer for a course learning objective.\n\n' +
+        objectiveBrief(chosen) + '\n\nThe student wrote:\n"""\n' + written + '\n"""\n\n' +
+        'Reply in this shape:\nVerdict: Solid / Partial / Needs work\nGot right: ...\nMissed: ...\n\n' +
+        'Judge only against the course facts above and never introduce facts beyond them. ' +
+        'Be specific about what was missed. Under 150 words.');
+    };
+  }
+
+  function wireRecall() {
+    var select = document.getElementById('r-obj');
+    if (select) {
+      select.onchange = function () {
+        ui.recall.objective = select.value || null;
+        render();
+      };
+    }
+    var random = document.getElementById('r-random');
+    if (random) {
+      random.onclick = function () {
+        var pool = OBJECTIVES.filter(function (o) { return objectiveState(o.id) !== 'known'; });
+        if (!pool.length) pool = OBJECTIVES;
+        ui.recall.objective = pool[Math.floor(Math.random() * pool.length)].id;
+        render();
+      };
+    }
+  }
+
+  /* --------------------------------------------------------------- progress */
+
+  function renderProgress(main) {
+    var known = knownCount();
+    var answered = 0, correct = 0;
+    Object.keys(progress.questions).forEach(function (id) {
+      answered += progress.questions[id].seen;
+      correct += progress.questions[id].right;
+    });
+    var reviewed = Object.keys(progress.cards).length;
+    var accuracy = answered ? Math.round((correct / answered) * 100) + '%' : '—';
+
+    var html = '<div class="wrap wide"><div class="view-head"><h2>Progress</h2>' +
+      '<p>Mastery is tracked per objective. Objectives with a pink underline are the ones ' +
+      'your high-yield guide covers.</p></div>' +
+      '<div class="tiles">' +
+      '<div class="tile"><div class="n">' + known + '/' + OBJECTIVES.length + '</div><span class="label">Objectives known</span></div>' +
+      '<div class="tile"><div class="n">' + accuracy + '</div><span class="label">Quiz accuracy</span></div>' +
+      '<div class="tile"><div class="n">' + answered + '</div><span class="label">Questions answered</span></div>' +
+      '<div class="tile"><div class="n">' + reviewed + '/' + CARDS.length + '</div><span class="label">Cards seen</span></div>' +
+      '</div>';
+
+    html += '<h3 style="margin-bottom:12px">Mastery map</h3><div class="map">';
+    MODULES.forEach(function (m) {
+      html += '<div class="map-mod"><div class="name"><strong>Module ' + m.num + '</strong><br>' +
+        esc(m.short) + '</div><div class="map-cells">';
+      objectivesIn(m.id).forEach(function (o) {
+        var stats = questionStats(o.id);
+        var cls = 'map-cell';
+        if (objectiveState(o.id) === 'known') cls += ' known';
+        else if (stats.seen) cls += ' seen';
+        if (o.highYield) cls += ' hy';
+        html += '<button class="' + cls + '" data-open="' + o.id + '" title="' + esc(o.text) + '">' +
+          m.num + '.' + o.num + '</button>';
+      });
+      html += '</div></div>';
+    });
+    html += '</div>';
+
+    var weak = OBJECTIVES.map(function (o) {
+      var stats = questionStats(o.id);
+      return { o: o, stats: stats, pct: stats.seen ? stats.right / stats.seen : 1 };
+    }).filter(function (row) { return row.stats.seen >= 2 && row.pct < 0.8; })
+      .sort(function (a, b) { return a.pct - b.pct; });
+
+    html += '<h3 style="margin:28px 0 4px">Weak spots</h3>';
+    if (weak.length) {
+      html += '<p style="color:var(--ink-2);margin-bottom:10px">Objectives you are getting wrong most often.</p><div class="weak">';
+      weak.forEach(function (row) {
+        var m = MOD_BY_ID[row.o.module];
+        html += '<div class="weak-row"><button data-open="' + row.o.id + '">' +
+          '<span class="label">' + m.num + '.' + row.o.num + '</span> ' + esc(row.o.text) + '</button>' +
+          '<span class="pct">' + row.stats.right + '/' + row.stats.seen + '</span></div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<p class="empty">Answer a few quiz questions and the objectives you keep missing will collect here.</p>';
+    }
+
+    if (progress.sessions.length) {
+      html += '<h3 style="margin:28px 0 10px">Recent quizzes</h3><div class="weak">';
+      progress.sessions.slice(0, 8).forEach(function (s) {
+        var when = new Date(s.t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        html += '<div class="weak-row"><span>' + when + ' · ' + esc(scopeName(s.scope)) + '</span>' +
+          '<span class="pct" style="color:var(--ink-2)">' + s.score + '/' + s.total + '</span></div>';
+      });
+      html += '</div>';
+    }
+
+    html += '<div class="obj-actions" style="margin-top:30px">' +
+      '<button class="btn small" id="reset">Reset all progress</button></div></div>';
+    main.innerHTML = html;
+
+    document.getElementById('reset').onclick = function () {
+      if (!window.confirm('Clear every mark, card schedule and quiz result? This cannot be undone.')) return;
+      progress = JSON.parse(JSON.stringify(BLANK));
+      ui.cards = null;
+      ui.quiz = null;
+      save();
+      render();
+    };
+  }
+
+  function scopeName(scope) {
+    if (scope === 'all') return 'Everything';
+    if (scope === 'hy') return 'High-yield';
+    if (scope === 'weak') return 'Weak spots';
+    if (scope === 'guide') return 'Guide questions';
+    return MOD_BY_ID[scope] ? 'Module ' + MOD_BY_ID[scope].num : scope;
+  }
+
+  /* ---------------------------------------------------------------- events */
+
+  document.addEventListener('click', function (event) {
+    var target = event.target.closest('[data-go],[data-obj],[data-known],[data-explain],[data-newq],[data-drill],[data-open]');
+    if (!target) return;
+
+    var view = target.getAttribute('data-go');
+    if (view) return go(view);
+
+    var open = target.getAttribute('data-open');
+    if (open) {
+      ui.openObjective = open;
+      ui.view = 'learn';
+      render();
+      var el = document.querySelector('[data-obj="' + open + '"]');
+      if (el) el.scrollIntoView({ block: 'center' });
+      return;
+    }
+
+    var toggle = target.getAttribute('data-obj');
+    if (toggle) {
+      ui.openObjective = ui.openObjective === toggle ? null : toggle;
+      return render();
+    }
+
+    var known = target.getAttribute('data-known');
+    if (known) {
+      progress.objectives[known] = objectiveState(known) === 'known' ? 'learning' : 'known';
+      save();
+      return render();
+    }
+
+    var drill = target.getAttribute('data-drill');
+    if (drill) {
+      var forObjective = QUESTIONS.filter(function (q) { return q.lo === drill; });
+      ui.quiz = { scope: drill, exam: false, queue: shuffled(forObjective), at: 0, picked: null, answers: [] };
+      return go('quiz');
+    }
+
+    var explain = target.getAttribute('data-explain');
+    if (explain) {
+      var o1 = OBJ_BY_ID[explain];
+      return ask(document.getElementById('tutor-' + explain),
+        'Re-explain this learning objective for a student who finds it confusing. Plain language, ' +
+        'concrete, under 130 words. Stay strictly inside the course facts given — add nothing beyond them.\n\n' +
+        objectiveBrief(o1));
+    }
+
+    var newq = target.getAttribute('data-newq');
+    if (newq) {
+      var o2 = OBJ_BY_ID[newq];
+      return ask(document.getElementById('tutor-' + newq),
+        'Write one new multiple-choice practice question for this objective, using ONLY the course facts ' +
+        'given. Give the question, then options A to D on separate lines, then "Answer: X" and one ' +
+        'sentence of explanation.\n\n' + objectiveBrief(o2));
+    }
+  });
+
+  /* ------------------------------------------------------------------- boot */
+
+  document.getElementById('total-objectives').textContent = OBJECTIVES.length;
+  setSync(false);
+  render();
+  connectStore();
+})();
