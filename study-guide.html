@@ -467,6 +467,50 @@ kbd {
 .q-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 12px; }
 .q-top .count { font-family: var(--mono); font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
+/* Setup: two named ways to sit the quiz, rather than a checkbox nobody reads. */
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.modecard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color .12s, background .12s;
+}
+.modecard:hover { border-color: var(--hema); background: var(--hema-soft); }
+.modecard strong { font-family: var(--serif); font-size: 18px; font-weight: 600; }
+.modecard span { color: var(--ink-2); font-size: 13.5px; line-height: 1.45; }
+
+/* A chosen-but-not-yet-marked answer, which only a test can have. */
+.choice.picked { border-color: var(--hema); background: var(--hema-soft); }
+.choice.picked .k { color: var(--hema); }
+
+.qgrid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
+.qcell {
+  width: 32px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.qcell.done { background: var(--hema-soft); border-color: var(--hema); color: var(--hema); }
+.qcell.at { box-shadow: inset 0 -3px 0 var(--eosin); }
+
+.navrow.q-nav { justify-content: flex-start; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.navrow.q-nav .btn.primary { margin-left: auto; }
+@media (max-width: 640px) {
+  .navrow.q-nav .btn.primary { margin-left: 0; flex: 1; }
+}
+
 .score { font-family: var(--mono); font-size: 46px; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1; }
 .miss { padding: 14px 0; border-bottom: 1px solid var(--line); }
 .miss:last-child { border-bottom: 0; }
@@ -1929,153 +1973,258 @@ const CARDS = [
     return QUESTIONS.slice();
   }
 
-  function startQuiz(scope, size, exam) {
-    var pool = shuffled(questionPool(scope));
+  /* Two ways to sit it. Practice reveals the answer as you go and locks each
+   * question once you have seen it. Test lets you answer, change your mind and
+   * roam until you submit — nothing is scored or recorded until then. */
+  function startQuiz(scope, size, mode, only) {
+    var pool = shuffled(only || questionPool(scope));
     if (size > 0) pool = pool.slice(0, size);
-    ui.quiz = { scope: scope, exam: exam, queue: pool, at: 0, picked: null, answers: [] };
+    ui.quiz = {
+      scope: scope, size: size, mode: mode, queue: pool,
+      at: 0, picks: {}, locked: {}, graded: false,
+    };
     render();
   }
 
-  function answerQuiz(index) {
-    var quiz = ui.quiz;
-    var question = quiz.queue[quiz.at];
-    var right = index === question.a;
+  function commitAnswer(question, picked) {
     var rec = progress.questions[question.id] || { seen: 0, right: 0, lastWrong: false };
     rec.seen++;
-    if (right) rec.right++;
-    rec.lastWrong = !right;
+    if (picked === question.a) rec.right++;
+    rec.lastWrong = picked !== question.a;
     progress.questions[question.id] = rec;
-    quiz.answers.push({ q: question, picked: index, right: right });
-    quiz.picked = index;
-    save();
-    if (quiz.exam) nextQuestion();
-    else render();
   }
 
-  function nextQuestion() {
+  function pickAnswer(index) {
     var quiz = ui.quiz;
-    quiz.at++;
-    quiz.picked = null;
-    if (quiz.at >= quiz.queue.length) {
-      var right = quiz.answers.filter(function (a) { return a.right; }).length;
-      progress.sessions.unshift({
-        t: Date.now(), mode: 'quiz', scope: quiz.scope,
-        score: right, total: quiz.answers.length,
-      });
-      progress.sessions = progress.sessions.slice(0, 50);
+    if (!quiz || quiz.graded) return;
+    if (quiz.mode === 'practice' && quiz.locked[quiz.at]) return;
+
+    quiz.picks[quiz.at] = index;
+    if (quiz.mode === 'practice') {
+      quiz.locked[quiz.at] = true;
+      commitAnswer(quiz.queue[quiz.at], index);   // practice answers are final
       save();
     }
     render();
   }
 
-  function renderQuiz(main) {
+  function goQuestion(delta) {
     var quiz = ui.quiz;
+    if (!quiz) return;
+    var next = Math.max(0, Math.min(quiz.queue.length - 1, quiz.at + delta));
+    if (next === quiz.at) return;
+    quiz.at = next;
+    render();
+  }
+
+  function quizScore() {
+    var quiz = ui.quiz;
+    var right = 0, answered = 0;
+    quiz.queue.forEach(function (q, i) {
+      if (quiz.picks[i] === undefined) return;
+      answered++;
+      if (quiz.picks[i] === q.a) right++;
+    });
+    return { right: right, answered: answered };
+  }
+
+  function finishQuiz() {
+    var quiz = ui.quiz;
+    if (!quiz || quiz.graded) return;
+    /* Practice already recorded each answer as it was given; a test records
+     * everything now, so changing your mind mid-test costs nothing. */
+    if (quiz.mode === 'test') {
+      quiz.queue.forEach(function (q, i) {
+        if (quiz.picks[i] !== undefined) commitAnswer(q, quiz.picks[i]);
+      });
+    }
+    quiz.graded = true;
+    progress.sessions.unshift({
+      t: Date.now(), mode: 'quiz', scope: quiz.scope,
+      score: quizScore().right, total: quiz.queue.length,
+    });
+    progress.sessions = progress.sessions.slice(0, 50);
+    save();
+    render();
+  }
+
+  function renderQuizSetup(main) {
     var weak = weakQuestions().length;
+    main.innerHTML = '<div class="wrap"><div class="view-head"><h2>Quiz</h2>' +
+      '<p>' + QUESTIONS.length + ' questions across all 32 objectives, including the five from your ' +
+      'high-yield guide. Every answer traces back to a fact in the lectures or the guide.</p></div>' +
+      '<div class="scope">' +
+      '<label for="q-scope">Scope</label><select id="q-scope">' +
+      '<option value="all">Everything (' + QUESTIONS.length + ')</option>' +
+      '<option value="hy">High-yield objectives only</option>' +
+      '<option value="weak"' + (weak ? '' : ' disabled') + '>Weak spots (' + weak + ')</option>' +
+      '<option value="guide">The guide’s own 5 questions</option>' +
+      MODULES.map(function (m) {
+        return '<option value="' + m.id + '">Module ' + m.num + ' — ' + esc(m.short) + '</option>';
+      }).join('') + '</select>' +
+      '<label for="q-size">Length</label><select id="q-size">' +
+      '<option value="10">10 questions</option><option value="20">20 questions</option>' +
+      '<option value="0">All of them</option></select></div>' +
 
-    if (!quiz) {
-      main.innerHTML = '<div class="wrap"><div class="view-head"><h2>Quiz</h2>' +
-        '<p>' + QUESTIONS.length + ' questions across all 32 objectives, including the five from your ' +
-        'high-yield guide. Every answer traces back to a fact in the lectures or the guide.</p></div>' +
-        '<div class="scope">' +
-        '<label for="q-scope">Scope</label><select id="q-scope">' +
-        '<option value="all">Everything (' + QUESTIONS.length + ')</option>' +
-        '<option value="hy">High-yield objectives only</option>' +
-        '<option value="weak"' + (weak ? '' : ' disabled') + '>Weak spots (' + weak + ')</option>' +
-        '<option value="guide">The guide’s own 5 questions</option>' +
-        MODULES.map(function (m) {
-          return '<option value="' + m.id + '">Module ' + m.num + ' — ' + esc(m.short) + '</option>';
-        }).join('') + '</select>' +
-        '<label for="q-size">Length</label><select id="q-size">' +
-        '<option value="10">10 questions</option><option value="20">20 questions</option>' +
-        '<option value="0">All of them</option></select>' +
-        '<label><input type="checkbox" id="q-exam"> Exam mode</label>' +
-        '<button class="btn primary small" id="q-start">Start</button></div>' +
-        '<p class="empty">Exam mode holds every explanation back until the end, like the real thing.</p></div>';
+      '<div class="modes">' +
+      '<button class="modecard" data-mode="practice"><strong>Practice</strong>' +
+      '<span>See the answer and the explanation as soon as you pick. Good for learning it.</span></button>' +
+      '<button class="modecard" data-mode="test"><strong>Test</strong>' +
+      '<span>Answer everything first, change your mind freely, then submit and get marked. ' +
+      'Good for checking you are ready.</span></button></div></div>';
 
-      document.getElementById('q-start').onclick = function () {
+    Array.prototype.forEach.call(main.querySelectorAll('[data-mode]'), function (btn) {
+      btn.onclick = function () {
         startQuiz(
           document.getElementById('q-scope').value,
           parseInt(document.getElementById('q-size').value, 10),
-          document.getElementById('q-exam').checked
+          btn.getAttribute('data-mode')
         );
       };
-      return;
-    }
+    });
+  }
 
-    if (quiz.at >= quiz.queue.length) return renderQuizResults(main);
+  function renderQuiz(main) {
+    var quiz = ui.quiz;
+    if (!quiz) return renderQuizSetup(main);
+    if (quiz.graded) return renderQuizResults(main);
 
+    var total = quiz.queue.length;
     var question = quiz.queue[quiz.at];
     var objective = OBJ_BY_ID[question.lo];
     var module = MOD_BY_ID[objective.module];
-    var answered = quiz.picked !== null;
+    var picked = quiz.picks[quiz.at];
+    var reveal = quiz.mode === 'practice' && quiz.locked[quiz.at];
+    var score = quizScore();
 
     var html = '<div class="wrap"><div class="q-top">' +
       '<span class="chip">' + esc(module.short) + ' · ' + module.num + '.' + objective.num + '</span>' +
-      '<span class="count">' + (quiz.at + 1) + ' / ' + quiz.queue.length + '</span></div>' +
+      '<span class="count">' + (quiz.at + 1) + ' / ' + total +
+      (quiz.mode === 'test' ? ' · ' + score.answered + ' answered' : '') + '</span></div>' +
       '<div class="bar" style="margin-bottom:18px"><span style="width:' +
-      Math.round((quiz.at / quiz.queue.length) * 100) + '%"></span></div>' +
+      Math.round(((quiz.at + 1) / total) * 100) + '%"></span></div>' +
       (question.src === 'guide' ? '<p><span class="chip hy">From your guide</span></p>' : '') +
       '<h2 class="q-stem">' + esc(question.q) + '</h2><div class="choices">';
 
     question.c.forEach(function (choice, i) {
       var cls = 'choice';
-      if (answered && i === question.a) cls += ' right';
-      else if (answered && i === quiz.picked) cls += ' wrong';
-      html += '<button class="' + cls + '" data-pick="' + i + '"' + (answered ? ' disabled' : '') + '>' +
+      if (reveal && i === question.a) cls += ' right';
+      else if (reveal && i === picked) cls += ' wrong';
+      else if (!reveal && i === picked) cls += ' picked';
+      html += '<button class="' + cls + '" data-pick="' + i + '"' + (reveal ? ' disabled' : '') + '>' +
         '<span class="k">' + 'ABCD'[i] + '</span><span>' + esc(choice) + '</span></button>';
     });
     html += '</div>';
 
-    if (answered) {
-      var right = quiz.picked === question.a;
+    if (reveal) {
+      var right = picked === question.a;
       html += '<div class="why ' + (right ? 'right' : 'wrong') + '">' +
-        '<span class="label">' + (right ? 'Correct' : 'Not quite') + '</span>' + esc(question.why) + '</div>' +
-        '<div class="obj-actions"><button class="btn primary" id="q-next">' +
-        (quiz.at + 1 >= quiz.queue.length ? 'See results' : 'Next question') + '</button>' +
-        '<button class="btn" data-open="' + objective.id + '">Read the objective</button></div>';
+        '<span class="label">' + (right ? 'Correct' : 'Not quite') + '</span>' + esc(question.why) +
+        ' <button class="btn small" data-open="' + objective.id + '" style="margin-left:6px">' +
+        'Read the objective</button></div>';
     }
 
-    main.innerHTML = html + '</div>';
+    /* A test shows every question's state at a glance and lets you jump straight
+     * to the ones you skipped. */
+    if (quiz.mode === 'test') {
+      html += '<div class="qgrid">' + quiz.queue.map(function (q, i) {
+        var cls = 'qcell' + (quiz.picks[i] !== undefined ? ' done' : '') + (i === quiz.at ? ' at' : '');
+        return '<button class="' + cls + '" data-jump="' + i + '" aria-label="Question ' + (i + 1) + '">' +
+          (i + 1) + '</button>';
+      }).join('') + '</div>';
+    }
+
+    html += '<div class="navrow q-nav">' +
+      '<button class="btn nav" data-qnav="-1"' + (quiz.at === 0 ? ' disabled' : '') +
+      ' aria-label="Previous question">←</button>' +
+      '<button class="btn nav" data-qnav="1"' + (quiz.at === total - 1 ? ' disabled' : '') +
+      ' aria-label="Next question">→</button>' +
+      (quiz.mode === 'test'
+        ? '<button class="btn primary" id="q-submit">Submit' +
+          (score.answered < total ? ' (' + (total - score.answered) + ' unanswered)' : '') + '</button>'
+        : '<button class="btn primary" id="q-submit"' + (quiz.at === total - 1 ? '' : ' hidden') +
+          '>See results</button>') +
+      '<button class="btn" id="q-new">New quiz</button></div></div>';
+
+    main.innerHTML = html;
+
     Array.prototype.forEach.call(main.querySelectorAll('[data-pick]'), function (btn) {
-      btn.onclick = function () { answerQuiz(parseInt(btn.getAttribute('data-pick'), 10)); };
+      btn.onclick = function () { pickAnswer(parseInt(btn.getAttribute('data-pick'), 10)); };
     });
-    var next = document.getElementById('q-next');
-    if (next) next.onclick = nextQuestion;
+    Array.prototype.forEach.call(main.querySelectorAll('[data-qnav]'), function (btn) {
+      btn.onclick = function () { goQuestion(parseInt(btn.getAttribute('data-qnav'), 10)); };
+    });
+    Array.prototype.forEach.call(main.querySelectorAll('[data-jump]'), function (btn) {
+      btn.onclick = function () { quiz.at = parseInt(btn.getAttribute('data-jump'), 10); render(); };
+    });
+    document.getElementById('q-submit').onclick = finishQuiz;
+    document.getElementById('q-new').onclick = function () { ui.quiz = null; render(); };
   }
 
   function renderQuizResults(main) {
     var quiz = ui.quiz;
-    var right = quiz.answers.filter(function (a) { return a.right; }).length;
-    var missed = quiz.answers.filter(function (a) { return !a.right; });
+    var total = quiz.queue.length;
+    var score = quizScore();
+    var missed = quiz.queue.filter(function (q, i) { return quiz.picks[i] !== q.a; });
 
     var html = '<div class="wrap"><div class="view-head"><h2>Results</h2></div>' +
       '<div class="card" style="padding:22px 24px;margin-bottom:24px">' +
-      '<div class="score">' + right + '<span style="color:var(--ink-3)">/' + quiz.answers.length + '</span></div>' +
-      '<p class="label" style="margin-top:6px">' +
-      Math.round((right / Math.max(1, quiz.answers.length)) * 100) + '% correct</p></div>';
+      '<div class="score">' + score.right + '<span style="color:var(--ink-3)">/' + total + '</span></div>' +
+      '<p class="label" style="margin-top:6px">' + Math.round((score.right / total) * 100) + '% correct' +
+      (score.answered < total ? ' · ' + (total - score.answered) + ' left blank' : '') + '</p></div>';
 
-    if (missed.length) {
-      html += '<h3 style="margin-bottom:6px">What to go back to</h3>' +
-        '<p style="color:var(--ink-2);margin-bottom:10px">These are now in your weak spots.</p><div class="weak">';
-      missed.forEach(function (a) {
-        var objective = OBJ_BY_ID[a.q.lo];
-        var module = MOD_BY_ID[objective.module];
-        html += '<div class="miss"><strong>' + esc(a.q.q) + '</strong>' +
-          '<div class="line">You chose <span class="yours">' + esc(a.q.c[a.picked]) + '</span>' +
-          ' · Answer: <span class="theirs">' + esc(a.q.c[a.q.a]) + '</span></div>' +
-          '<div class="line" style="color:var(--ink-2)">' + esc(a.q.why) + '</div>' +
-          '<div style="margin-top:8px"><button class="btn small" data-open="' + objective.id + '">' +
-          esc(module.short) + ' · objective ' + module.num + '.' + objective.num + '</button></div></div>';
-      });
-      html += '</div>';
-    } else {
-      html += '<p class="empty">Nothing missed. Try a wider scope or exam mode.</p>';
-    }
+    html += '<h3 style="margin-bottom:10px">Every question</h3><div class="weak">';
+    quiz.queue.forEach(function (q, i) {
+      var picked = quiz.picks[i];
+      var right = picked === q.a;
+      var objective = OBJ_BY_ID[q.lo];
+      var module = MOD_BY_ID[objective.module];
+      html += '<div class="miss"><div style="display:flex;gap:9px;align-items:flex-start">' +
+        '<span class="chip ' + (right ? 'known' : 'hy') + '">' + (right ? '✓' : '✗') + '</span>' +
+        '<strong>' + esc(q.q) + '</strong></div>' +
+        '<div class="line">' + (picked === undefined
+          ? '<span class="yours">Left blank</span>'
+          : 'You chose <span class="' + (right ? 'theirs' : 'yours') + '">' + esc(q.c[picked]) + '</span>') +
+        (right ? '' : ' · Answer: <span class="theirs">' + esc(q.c[q.a]) + '</span>') + '</div>' +
+        (right ? '' : '<div class="line" style="color:var(--ink-2)">' + esc(q.why) + '</div>') +
+        '<div style="margin-top:8px"><button class="btn small" data-open="' + objective.id + '">' +
+        esc(module.short) + ' · objective ' + module.num + '.' + objective.num + '</button></div></div>';
+    });
+    html += '</div><div class="obj-actions" style="margin-top:22px">' +
+      (missed.length ? '<button class="btn primary" id="q-retry">Retake the ' + missed.length +
+        ' you missed</button>' : '') +
+      '<button class="btn" id="q-again">Same quiz again</button>' +
+      '<button class="btn" id="q-new">New quiz</button></div></div>';
 
-    html += '<div class="obj-actions"><button class="btn primary" id="q-restart">Another quiz</button></div></div>';
     main.innerHTML = html;
-    document.getElementById('q-restart').onclick = function () { ui.quiz = null; render(); };
+    var retry = document.getElementById('q-retry');
+    if (retry) retry.onclick = function () { startQuiz(quiz.scope, 0, quiz.mode, missed); };
+    document.getElementById('q-again').onclick = function () {
+      startQuiz(quiz.scope, quiz.size, quiz.mode);
+    };
+    document.getElementById('q-new').onclick = function () { ui.quiz = null; render(); };
   }
+
+  /* Same key scheme as the flashcards: arrows move, digits answer. */
+  document.addEventListener('keydown', function (event) {
+    if (ui.view !== 'quiz' || !ui.quiz || ui.quiz.graded) return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    var tag = (event.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+
+    if (event.key === 'ArrowRight') { event.preventDefault(); goQuestion(1); }
+    else if (event.key === 'ArrowLeft') { event.preventDefault(); goQuestion(-1); }
+    else if (event.key === 'Enter') {
+      event.preventDefault();
+      if (ui.quiz.at === ui.quiz.queue.length - 1) finishQuiz(); else goQuestion(1);
+    } else if ('1234'.indexOf(event.key) > -1) {
+      event.preventDefault();
+      pickAnswer(parseInt(event.key, 10) - 1);
+    } else if ('abcdABCD'.indexOf(event.key) > -1 && event.key.length === 1) {
+      event.preventDefault();
+      pickAnswer('abcd'.indexOf(event.key.toLowerCase()));
+    }
+  });
 
   /* ----------------------------------------------------------------- recall */
 
@@ -2239,7 +2388,10 @@ const CARDS = [
     if (scope === 'hy') return 'High-yield';
     if (scope === 'weak') return 'Weak spots';
     if (scope === 'guide') return 'Guide questions';
-    return MOD_BY_ID[scope] ? 'Module ' + MOD_BY_ID[scope].num : scope;
+    if (MOD_BY_ID[scope]) return 'Module ' + MOD_BY_ID[scope].num;
+    var objective = OBJ_BY_ID[scope];          // a single-objective drill
+    if (objective) return 'Objective ' + MOD_BY_ID[objective.module].num + '.' + objective.num;
+    return scope;
   }
 
   /* ---------------------------------------------------------------- events */
@@ -2276,9 +2428,11 @@ const CARDS = [
 
     var drill = target.getAttribute('data-drill');
     if (drill) {
-      var forObjective = QUESTIONS.filter(function (q) { return q.lo === drill; });
-      ui.quiz = { scope: drill, exam: false, queue: shuffled(forObjective), at: 0, picked: null, answers: [] };
-      return go('quiz');
+      ui.view = 'quiz';
+      window.scrollTo(0, 0);
+      return startQuiz(drill, 0, 'practice', QUESTIONS.filter(function (q) {
+        return q.lo === drill;
+      }));
     }
 
     var explain = target.getAttribute('data-explain');
