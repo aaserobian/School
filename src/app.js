@@ -355,110 +355,214 @@
     return CARDS.slice();
   }
 
-  function startDeck(scope) {
-    var pool = cardPool(scope);
-    /* Weakest first: low Leitner box, then longest un-reviewed. */
-    pool.sort(function (a, b) {
-      var ra = progress.cards[a.id] || { box: 0, due: 0 };
-      var rb = progress.cards[b.id] || { box: 0, due: 0 };
-      return (ra.box || 0) - (rb.box || 0) || (ra.due || 0) - (rb.due || 0);
-    });
-    ui.cards = { scope: scope, queue: pool, at: 0, flipped: false, done: 0 };
+  var BOX_DAYS = [0, 0.007, 1, 3, 7, 21];
+
+  /* The queue is fixed for the round. Nothing is appended mid-session, so paging
+   * back and forward is free and the counter never shifts under you. */
+  function buildDeck(scope, shuffle, only) {
+    var pool = only ? only.slice() : cardPool(scope);
+    if (shuffle) {
+      pool = shuffled(pool);
+    } else {
+      /* Weakest first: low Leitner box, then longest un-reviewed. */
+      pool = pool.slice().sort(function (a, b) {
+        var ra = progress.cards[a.id] || { box: 0, due: 0 };
+        var rb = progress.cards[b.id] || { box: 0, due: 0 };
+        return (ra.box || 0) - (rb.box || 0) || (ra.due || 0) - (rb.due || 0);
+      });
+    }
+    ui.cards = { scope: scope, queue: pool, at: 0, flipped: false, shuffle: !!shuffle, marks: {} };
+  }
+
+  function startDeck(scope, shuffle, only) {
+    buildDeck(scope, shuffle, only);
     render();
   }
 
-  var BOX_DAYS = [0, 0.007, 1, 3, 7, 21];
+  /* Index `queue.length` is the end-of-round summary, so you can page onto it and
+   * back off it like any other card. */
+  function goCard(delta) {
+    var deck = ui.cards;
+    if (!deck) return;
+    var next = Math.max(0, Math.min(deck.queue.length, deck.at + delta));
+    if (next === deck.at) return;
+    deck.at = next;
+    deck.flipped = false;
+    render();
+  }
 
-  function rateCard(card, rating) {
+  function markCard(rating) {
+    var deck = ui.cards;
+    if (!deck) return;
+    var card = deck.queue[deck.at];
+    if (!card) return;
+
     var rec = progress.cards[card.id] || { box: 1, due: 0, seen: 0, right: 0 };
-    rec.seen++;
-    if (rating === 'again') rec.box = 1;
-    else if (rating === 'hard') rec.box = Math.max(1, rec.box);
-    else { rec.box = Math.min(5, rec.box + 1); rec.right++; }
+    var already = deck.marks[card.id];
+    if (!already) rec.seen++;                       // re-marking on a second pass isn't a new view
+    if (rating === 'known') {
+      rec.box = Math.min(5, rec.box + 1);
+      if (already !== 'known') rec.right++;
+    } else {
+      rec.box = 1;
+      if (already === 'known') rec.right = Math.max(0, rec.right - 1);
+    }
     rec.due = Date.now() + BOX_DAYS[rec.box] * 86400000;
     progress.cards[card.id] = rec;
-
-    var deck = ui.cards;
-    if (rating === 'again') deck.queue.push(card);
-    deck.at++;
-    deck.done++;
-    deck.flipped = false;
+    deck.marks[card.id] = rating;
     save();
+
+    if (deck.at < deck.queue.length) { deck.at++; deck.flipped = false; }
     render();
+  }
+
+  function deckTally() {
+    var deck = ui.cards;
+    var known = 0, learning = 0;
+    Object.keys(deck.marks).forEach(function (id) {
+      if (deck.marks[id] === 'known') known++; else learning++;
+    });
+    return { known: known, learning: learning };
   }
 
   function renderCards(main) {
-    var scopeBar = '<div class="scope"><label for="deck-scope">Deck</label>' +
-      '<select id="deck-scope">' +
-      '<option value="all">Everything (' + CARDS.length + ' cards)</option>' +
-      '<option value="hy">High-yield only</option>' +
-      '<option value="due">Due for review (' + dueCards(CARDS).length + ')</option>' +
-      MODULES.map(function (m) {
-        return '<option value="' + m.id + '">Module ' + m.num + ' — ' + esc(m.short) + '</option>';
-      }).join('') +
-      '</select><button class="btn small" id="deck-start">Start deck</button></div>';
-
+    if (!ui.cards) buildDeck('all', false);        // never open on an empty screen
     var deck = ui.cards;
-    var html = '<div class="wrap"><div class="view-head"><h2>Flashcards</h2>' +
-      '<p>Answer before you flip. Cards you mark <em>Again</em> come back before the session ends, ' +
-      'and weaker cards lead the next deck.</p></div>' + scopeBar;
+    var total = deck.queue.length;
 
-    if (!deck) {
-      main.innerHTML = html + '<p class="empty">Pick a deck and start.</p></div>';
-      wireDeckScope();
-      return;
+    var picker = '<div class="scope"><label for="deck-scope">Deck</label><select id="deck-scope">' +
+      [{ v: 'all', t: 'Everything (' + CARDS.length + ' cards)' },
+       { v: 'hy', t: 'High-yield only' },
+       { v: 'due', t: 'Due for review (' + dueCards(CARDS).length + ')' }].concat(
+        MODULES.map(function (m) {
+          return { v: m.id, t: 'Module ' + m.num + ' — ' + m.short };
+        })).map(function (o) {
+          return '<option value="' + o.v + '"' + (deck.scope === o.v ? ' selected' : '') + '>' +
+            esc(o.t) + '</option>';
+        }).join('') + '</select>' +
+      '<button class="btn small" id="deck-shuffle" aria-pressed="' + deck.shuffle + '">Shuffle</button>' +
+      '<button class="btn small" id="deck-restart">Restart</button></div>';
+
+    var html = '<div class="wrap"><div class="view-head"><h2>Flashcards</h2>' +
+      '<p>Click the card or press <kbd>Space</kbd> to flip. <kbd>←</kbd> and <kbd>→</kbd> move ' +
+      'through the deck — marking a card is optional.</p></div>' + picker;
+
+    if (!total) {
+      main.innerHTML = html + '<p class="empty">Nothing due in this deck right now. ' +
+        'Pick another one above.</p></div>';
+      return wireDeck(main);
     }
-    if (deck.at >= deck.queue.length) {
-      main.innerHTML = html + '<div class="card" style="padding:26px"><div class="score">' + deck.done + '</div>' +
-        '<p class="label" style="margin-top:6px">cards reviewed</p>' +
-        '<p style="margin-top:14px">Deck finished.</p>' +
-        '<button class="btn primary" id="deck-again" style="margin-top:6px">Go again</button></div></div>';
-      wireDeckScope();
-      var again = document.getElementById('deck-again');
-      if (again) again.onclick = function () { startDeck(deck.scope); };
-      return;
+
+    if (deck.at >= total) {
+      var tally = deckTally();
+      html += '<div class="card" style="padding:26px 28px">' +
+        '<div class="score">' + tally.known + '<span style="color:var(--ink-3)">/' + total + '</span></div>' +
+        '<p class="label" style="margin-top:6px">marked as known</p>' +
+        (tally.learning
+          ? '<p style="margin-top:14px">' + tally.learning + ' still to nail down.</p>'
+          : '<p style="margin-top:14px">Deck finished.</p>') +
+        '<div class="obj-actions">' +
+        (tally.learning ? '<button class="btn primary" id="deck-hard">Study the ' + tally.learning +
+          ' you’re still learning</button>' : '') +
+        '<button class="btn" id="deck-restart2">Restart this deck</button>' +
+        '<button class="btn" data-nav="-1">← Back to the last card</button>' +
+        '</div></div></div>';
+      main.innerHTML = html;
+      return wireDeck(main);
     }
 
     var card = deck.queue[deck.at];
     var objective = OBJ_BY_ID[card.lo];
     var module = MOD_BY_ID[objective.module];
-    var pct = Math.round((deck.at / deck.queue.length) * 100);
+    var mark = deck.marks[card.id];
+    var badge = mark
+      ? '<span class="chip ' + (mark === 'known' ? 'known' : 'learning') + ' mark">' +
+        (mark === 'known' ? 'Known' : 'Still learning') + '</span>'
+      : '';
 
     html += '<div class="deck">' +
-      '<div class="deck-meta"><span>' + esc(module.short) + ' · objective ' + module.num + '.' + objective.num + '</span>' +
-      '<span>' + (deck.at + 1) + ' of ' + deck.queue.length + '</span></div>' +
-      '<div class="bar"><span style="width:' + pct + '%"></span></div>' +
-      '<div class="flash" id="flash">' +
-      '<div class="front">' + esc(card.f) + '</div>' +
-      (deck.flipped
-        ? '<div class="back">' + esc(card.b) + '</div>'
-        : '<div class="hint">Tap to reveal</div>') +
-      '</div>';
+      '<div class="deck-meta"><span>' + esc(module.short) + ' · objective ' +
+      module.num + '.' + objective.num + '</span>' +
+      '<span>' + Object.keys(deck.marks).length + ' of ' + total + ' marked</span></div>' +
+      '<div class="bar"><span style="width:' + Math.round((deck.at / total) * 100) + '%"></span></div>' +
 
-    if (deck.flipped) {
-      html += '<div class="rate">' +
-        '<button class="btn" data-rate="again">Again</button>' +
-        '<button class="btn" data-rate="hard">Hard</button>' +
-        '<button class="btn primary" data-rate="good">Good</button></div>';
+      '<div class="flash' + (deck.flipped ? ' flipped' : '') + '" id="flash" tabindex="0" ' +
+      'role="button" aria-label="Flip card"><div class="flash-inner">' +
+      '<div class="face front">' + badge +
+      '<div class="text">' + esc(card.f) + '</div>' +
+      '<span class="hint">Click or press Space</span></div>' +
+      '<div class="face back">' + badge +
+      '<div class="text">' + esc(card.b) + '</div>' +
+      '<span class="hint">' + esc(module.short) + '</span></div>' +
+      '</div></div>' +
+
+      '<div class="rate">' +
+      '<button class="btn" data-mark="learning">Still learning</button>' +
+      '<button class="btn primary" data-mark="known">Know it</button></div>' +
+
+      '<div class="navrow">' +
+      '<button class="btn nav" data-nav="-1"' + (deck.at === 0 ? ' disabled' : '') +
+      ' aria-label="Previous card">←</button>' +
+      '<span class="count">' + (deck.at + 1) + ' / ' + total + '</span>' +
+      '<button class="btn nav" data-nav="1" aria-label="Next card">→</button>' +
+      '</div></div></div>';
+
+    main.innerHTML = html;
+    wireDeck(main);
+
+    var flash = document.getElementById('flash');
+    flash.onclick = function () { deck.flipped = !deck.flipped; render(); };
+  }
+
+  function wireDeck(main) {
+    var deck = ui.cards;
+    var select = document.getElementById('deck-scope');
+    if (select) select.onchange = function () { startDeck(select.value, deck.shuffle); };
+
+    var shuffle = document.getElementById('deck-shuffle');
+    if (shuffle) shuffle.onclick = function () { startDeck(deck.scope, !deck.shuffle); };
+
+    ['deck-restart', 'deck-restart2'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.onclick = function () { startDeck(deck.scope, deck.shuffle); };
+    });
+
+    var hard = document.getElementById('deck-hard');
+    if (hard) {
+      hard.onclick = function () {
+        startDeck(deck.scope, deck.shuffle, deck.queue.filter(function (c) {
+          return deck.marks[c.id] === 'learning';
+        }));
+      };
     }
-    main.innerHTML = html + '</div></div>';
-    wireDeckScope();
 
-    document.getElementById('flash').onclick = function () {
-      if (!deck.flipped) { deck.flipped = true; render(); }
-    };
-    Array.prototype.forEach.call(main.querySelectorAll('[data-rate]'), function (btn) {
-      btn.onclick = function () { rateCard(card, btn.getAttribute('data-rate')); };
+    Array.prototype.forEach.call(main.querySelectorAll('[data-nav]'), function (btn) {
+      btn.onclick = function () { goCard(parseInt(btn.getAttribute('data-nav'), 10)); };
+    });
+    Array.prototype.forEach.call(main.querySelectorAll('[data-mark]'), function (btn) {
+      btn.onclick = function () { markCard(btn.getAttribute('data-mark')); };
     });
   }
 
-  function wireDeckScope() {
-    var start = document.getElementById('deck-start');
-    var select = document.getElementById('deck-scope');
-    if (!start || !select) return;
-    if (ui.cards) select.value = ui.cards.scope;
-    start.onclick = function () { startDeck(select.value); };
-  }
+  /* Quizlet-style keys, live only while a deck is on screen. */
+  document.addEventListener('keydown', function (event) {
+    if (ui.view !== 'cards' || !ui.cards) return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    var tag = (event.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+
+    var deck = ui.cards;
+    var onCard = deck.at < deck.queue.length;
+
+    if (event.key === 'ArrowRight') { event.preventDefault(); goCard(1); }
+    else if (event.key === 'ArrowLeft') { event.preventDefault(); goCard(-1); }
+    else if (onCard && (event.key === ' ' || event.key === 'Enter')) {
+      event.preventDefault();
+      deck.flipped = !deck.flipped;
+      render();
+    } else if (onCard && event.key === '1') { event.preventDefault(); markCard('learning'); }
+    else if (onCard && event.key === '2') { event.preventDefault(); markCard('known'); }
+  });
 
   /* ------------------------------------------------------------------- quiz */
 
