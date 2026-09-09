@@ -188,8 +188,7 @@ const OBJECTIVES = [
     essentials: [
       { t: 'Cytotrophoblast', d: 'The inner layer of mononucleated cells — supplies new cells by mitosis' },
       { t: 'Syncytiotrophoblast', d: 'The outer multinucleated zone without distinct cell boundaries — invasive' },
-      { t: 'It secretes', d: 'TNF (tumour necrosis factor), EPF (early pregnancy factor) and hCG (human chorionic gonadotropin)' },
-      { t: 'hCG', d: 'The hormone a pregnancy test detects' },
+      { t: 'It secretes', d: 'TNF (tumour necrosis factor), EPF (early pregnancy factor) and hCG (human chorionic gonadotropin) — hCG being what a pregnancy test detects' },
     ],
     pitfall: 'Syncytiotrophoblast is invasive and produces hCG. Cytotrophoblast supplies new cells by mitosis.',
     mustRemember: 'Inner = Cytotrophoblast (cellular). Outer = Syncytiotrophoblast (multinucleated, produces hCG).',
@@ -213,8 +212,6 @@ const OBJECTIVES = [
       { t: 'Amnioblasts', d: 'Epiblast cells give rise to the amnioblasts that line the amniotic cavity' },
       { t: 'Primitive yolk sac', d: 'Derived from the hypoblast, bounded by the exocoelomic (Heuser’s) membrane' },
       { t: 'Secondary yolk sac', d: 'Formed when the primitive yolk sac pinches off' },
-      { t: 'Day 13', d: 'The chorionic cavity forms' },
-      { t: 'End of week 2', d: 'The blastocyst is completely embedded and the surface defect in the mucosa has healed' },
     ],
     mustRemember: 'The amniotic cavity forms in the epiblast; the secondary yolk sac forms when the primitive yolk sac pinches off.',
   },
@@ -228,7 +225,6 @@ const OBJECTIVES = [
       { t: 'Primary villi', d: 'Cytotrophoblast columns penetrating into and surrounded by the syncytium' },
       { t: 'Secondary villi', d: 'Extraembryonic mesoderm of the chorion invades the cytotrophoblastic core' },
       { t: 'Tertiary villi', d: 'The core mesoderm organizes into capillaries contacting the connecting stalk and chorion' },
-      { t: 'Decidual reaction', d: 'Endometrial connective tissue cells swell with glycogen and lipid' },
     ],
     mustRemember: 'Lacunae in the syncytiotrophoblast + eroded maternal sinusoids = primitive uteroplacental circulation by the end of week 2.',
   },
@@ -337,8 +333,6 @@ const OBJECTIVES = [
     essentials: [
       { t: 'From week 4', d: 'Each somite differentiates into a ventromedial sclerotome and a dorsolateral dermomyotome' },
       { t: 'Dermomyotome', d: 'Differentiates further into dermatome and myotome' },
-      { t: 'Sclerotome ("sclero" = hard)', d: 'Bones, cartilage and ligaments of the vertebral column and parts of the base of the skull' },
-      { t: 'Dermatome ("derma" = skin)', d: 'Dermis and hypodermis' },
       { t: 'Myotome ("myo" = muscle)', d: 'Skeletal muscles' },
     ],
     mustRemember: 'Somite → ventromedial sclerotome + dorsolateral dermomyotome; the dermomyotome then splits into dermatome and myotome.',
@@ -406,7 +400,6 @@ const OBJECTIVES = [
     essentials: [
       { t: 'Teratogen', d: 'Any agent that can produce a congenital anomaly, or raise the incidence of an anomaly in the population' },
       { t: 'Teratology', d: 'The study of birth defects and their causes' },
-      { t: 'Categories', d: 'Chromosomal/genetic factors, infectious agents, hyperthermia, radiation, chemical agents and drugs, hormones, maternal disease, hypoxia, environmental chemicals' },
     ],
     mustRemember: 'A teratogen is any agent that produces a congenital anomaly or raises its incidence in the population.',
   },
@@ -414,6 +407,7 @@ const OBJECTIVES = [
     id: 'm5-3', module: 'm5', num: 3, highYield: true,
     text: 'Give examples of teratogens of different types and the abnormalities they cause',
     essentials: [
+      { t: 'The types', d: 'Chromosomal/genetic factors, infectious agents, hyperthermia, radiation, chemical agents and drugs, hormones, maternal disease, hypoxia, environmental chemicals' },
       { t: 'Alcohol', d: 'Fetal alcohol syndrome — thought to be the most common cause of intellectual impairment. Indistinct philtrum, thin upper lip, depressed nasal bridge, short nose, flat midface. Binge drinking can cause fetal alcohol effects (FAE): behavioural and learning disabilities' },
       { t: 'Thalidomide', d: 'Amelia, meromelia and phocomelia' },
       { t: 'Nicotine and smoking', d: 'Orofacial clefts and cardiac defects' },
@@ -549,14 +543,13 @@ const QUESTIONS = [
 
   /* --- m3-3 */
   { lo: 'm3-3', q: 'Amnioblasts, which line the amniotic cavity, arise from the:', c: ['Hypoblast', 'Epiblast', 'Trophoblast', 'Extraembryonic mesoderm'], a: 1, why: 'Epiblast cells give rise to the amnioblasts that line the amniotic cavity superior to the epiblast layer.' },
+  { lo: 'm3-3', q: 'The primitive yolk sac is bounded by which membrane?', c: ['The oropharyngeal membrane', 'The exocoelomic (Heuser\u2019s) membrane', 'The cloacal membrane', 'The buccopharyngeal membrane'], a: 1, why: 'The primitive yolk sac is derived from the hypoblast and bounded by the exocoelomic, or Heuser\u2019s, membrane.' },
   { lo: 'm3-3', q: 'The secondary (definitive) yolk sac forms when:', c: ['The amniotic cavity expands into the hypoblast', 'The primitive yolk sac pinches off', 'The chorionic cavity collapses', 'Lacunae fuse within the syncytiotrophoblast'], a: 1, why: 'The secondary yolk sac forms from the hypoblast pinching off the primitive yolk sac.' },
-  { lo: 'm3-3', q: 'On which day does the chorionic cavity form?', c: ['Day 6', 'Day 13', 'Day 16', 'Day 20'], a: 1, why: 'The deck states the chorionic cavity forms on day 13.' },
 
   /* --- m3-4 */
   { lo: 'm3-4', q: 'Lacunae, which fill with maternal blood, develop within the:', c: ['Cytotrophoblast', 'Syncytiotrophoblast', 'Hypoblast', 'Extraembryonic mesoderm'], a: 1, why: 'Lacunae develop in the syncytiotrophoblast, which then erodes maternal sinusoids so maternal blood enters the lacunar network.' },
   { lo: 'm3-4', q: 'Primary villi consist of:', c: ['Cytotrophoblast columns penetrating the syncytium', 'Mesodermal capillaries', 'Maternal sinusoids', 'Amnioblasts'], a: 0, why: 'Primary villi are cytotrophoblast cellular columns penetrating into and surrounded by the syncytium. Mesoderm invading them gives secondary villi, and capillaries within those give tertiary villi.' },
   { lo: 'm3-4', q: 'The primitive uteroplacental circulation is established by the end of:', c: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], a: 1, why: 'Maternal blood enters the lacunar network and by the end of the second week a primitive uteroplacental circulation begins.' },
-  { lo: 'm3-4', q: 'The decidual reaction refers to:', c: ['Erosion of maternal sinusoids', 'Endometrial connective tissue cells swelling with glycogen and lipid', 'Bleeding at the implantation site', 'Fusion of the neural folds'], a: 1, why: 'The decidual reaction is the swelling of endometrial connective tissue cells due to accumulation of glycogen and lipid.' },
 
   /* --- m3-5 */
   { lo: 'm3-5', q: 'A newborn infant is found to have a large sacrococcygeal teratoma. This tumor is derived from remnants of which embryonic structure?', c: ['Notochord', 'Neural crest', 'Primitive streak', 'Hypoblast'], a: 2, src: 'guide', why: 'Pluripotent cells of the primitive streak normally degenerate. If remnants persist, they form sacrococcygeal teratomas containing tissues from all 3 germ layers.' },
@@ -604,9 +597,10 @@ const QUESTIONS = [
   { lo: 'm4-1', q: 'Skeletal muscle originates from:', c: ['The myotomes of the somites (paraxial mesoderm)', 'Splanchnic mesoderm', 'Intermediate mesoderm', 'Surface ectoderm'], a: 0, why: 'Skeletal muscle comes from paraxial mesoderm, specifically the myotomes of the somites.' },
 
   /* --- m4-2 */
+  { lo: 'm4-2', q: 'The dermomyotome differentiates further into:', c: ['Sclerotome and myotome', 'Dermatome and myotome', 'Epimere and hypomere', 'Nephrotome and myotome'], a: 1, why: 'The somite splits into a ventromedial sclerotome and a dorsolateral dermomyotome; the dermomyotome then gives the dermatome and the myotome, and the myotome gives skeletal muscle.' },
   { lo: 'm4-2', q: 'Each somite differentiates into a:', c: ['Ventromedial sclerotome and a dorsolateral dermomyotome', 'Dorsal epimere and a ventral hypomere', 'Somatic and a splanchnic layer', 'Nephrotome and a nephrogenic cord'], a: 0, why: 'Beginning in week 4 each somite differentiates into a ventromedial sclerotome and a dorsolateral dermomyotome; the latter then gives dermatome and myotome.' },
   { lo: 'm4-2', q: 'Somite differentiation into sclerotome and dermomyotome begins in which week?', c: ['Week 2', 'Week 3', 'Week 4', 'Week 7'], a: 2, why: 'The deck states this begins in the fourth week.' },
-  { lo: 'm4-2', q: 'The dermatome gives rise to the:', c: ['Vertebral column', 'Dermis and hypodermis', 'Skeletal muscle', 'Kidneys'], a: 1, why: 'Dermatome ("derma" = skin) gives dermis and hypodermis.' },
+  { lo: 'm3-10', q: 'The dermatome gives rise to the:', c: ['Vertebral column', 'Dermis and hypodermis', 'Skeletal muscle', 'Kidneys'], a: 1, why: 'Dermatome ("derma" = skin) gives dermis and hypodermis.' },
 
   /* --- m4-3 */
   { lo: 'm4-3', q: 'Deep extensor muscles of the back (such as the erector spinae) develop from which division of the myotome and are innervated by which nerve branch?', c: ['Hypomere; Ventral primary ramus', 'Epimere; Dorsal primary ramus', 'Hypomere; Dorsal primary ramus', 'Epimere; Ventral primary ramus'], a: 1, src: 'guide', why: 'Epimere forms deep back extensor muscles innervated by dorsal primary rami. Hypomere forms body wall and limb muscles innervated by ventral primary rami.' },
@@ -710,7 +704,6 @@ const CARDS = [
   { lo: 'm3-2', f: 'Epiblast', b: 'Source of ALL 3 germ layers — it forms the entire embryo' },
   { lo: 'm3-3', f: 'Amniotic cavity', b: 'Forms within the epiblast; lined by amnioblasts derived from epiblast cells' },
   { lo: 'm3-3', f: 'Secondary yolk sac', b: 'Formed when the primitive yolk sac pinches off' },
-  { lo: 'm3-3', f: 'Day 13', b: 'The chorionic cavity forms' },
   { lo: 'm3-4', f: 'Uteroplacental circulation', b: 'Lacunae in the syncytiotrophoblast + eroded maternal sinusoids → primitive circulation by the end of week 2' },
   { lo: 'm3-4', f: 'Primary → secondary → tertiary villi', b: 'Cytotrophoblast columns → extraembryonic mesoderm invades → mesoderm organizes into capillaries' },
   { lo: 'm3-5', f: 'Gastrulation', b: 'Week 3; the epiblast forms all three germ layers via primitive streak invagination' },
