@@ -4,7 +4,7 @@ Fall 2026. Written 12 September 2026. All times Pacific.
 
 **Open it on your phone:** <https://claude.ai/code/artifact/28150f24-22e1-4d5f-b06b-ea83e5c82ddb>
 
-You have 25 hours a week of class and a business that is eleven days old. Both can move
+You have 32 hours a week of class and a business that is eleven days old. Both can move
 forward at once, but only if the week has a fixed shape, the heavy days stay light in the
 evening, and rest is scheduled like everything else. This is that shape.
 
@@ -14,18 +14,18 @@ evening, and rest is scheduled like everything else. This is that shape.
 |---|---|---|
 | Monday | 8am–4pm | Zoom |
 | Tuesday | 8am–3pm | In person |
-| Wednesday | none | Business day |
-| Thursday | 1–3pm | |
+| Wednesday | 8am–3pm | Treated like Tuesday |
+| Thursday | 1–3pm | Business day around it |
 | Friday | 8am–4pm | Zoom |
-| Saturday | none | |
+| Saturday | none | Business morning |
 | Sunday | none | Protected rest from noon |
 
 Assumptions baked in, all easy to change:
 
 - Sleep is 8 hours, in bed by 11pm on school nights.
-- Tuesday's commute is 30 to 45 minutes each way. Thursday is treated as in person; if it is
-  Zoom you gain about an hour that day.
-- Study outside class is about 11 hours in a normal week and about 18 in an exam week.
+- Tuesday's and Wednesday's commutes are 30 to 45 minutes each way. If Wednesday is on Zoom
+  you are home at 3pm and the evening simply starts earlier. Thursday is treated as in person.
+- Study outside class is about 10 hours in a normal week and about 15 in an exam week.
 - School and the business are the only two jobs.
 
 ## How much business actually fits
@@ -35,22 +35,22 @@ Start from 168 hours and take out what is not negotiable.
 | Bucket | Hours a week |
 |---|---|
 | Sleep (8 × 7) | 56 |
-| Class | 25 |
+| Class | 32 |
 | Meals, hygiene, chores, commute, errands (about 3 h a day) | 21 |
-| Study outside class | 11 |
-| **Business, core blocks** | **11.5** (12.5 with the optional Tuesday hour) |
+| Study outside class | 10 |
+| **Business, core blocks** | **8** (9 with one optional evening hour) |
 | Exercise (4 sessions) | 4 |
 | Weekly review | 0.5 |
-| **Left for rest, people and slack** | **about 39, or 5.5 h a day** |
+| **Left for rest, people and slack** | **about 36, or 5 h a day** |
 
-So the business gets **about 12 focused hours a week**: three deep-work blocks (Wednesday,
-Thursday morning, Saturday morning) plus a little admin. For a launch-phase solo business that
-is real progress: an offer page, a round of outreach every week, one piece of content, and
-client work when it arrives. Growth will be slower than if you did it full time. That is the
-trade, and it is the right one while you are in school.
+So the business gets **about 8 focused hours a week**: Thursday, split around the short class,
+and Saturday morning, plus at most one evening hour. For a launch-phase solo business that is
+still real progress, just slower: one build push and one outreach push a week, one piece of
+content, and client work when it arrives. With 32 class hours the trade is sharper than it
+would be with a free weekday, and it is still the right one while you are in school.
 
-Past about 13 hours the extra time comes out of sleep or the rest blocks. That is how burnout
-starts, so 13 is the cap, not a target.
+Past about 10 hours the extra time comes out of sleep or the rest blocks. That is how burnout
+starts, so 10 is the cap, not a target.
 
 ## The week
 
@@ -70,31 +70,32 @@ starts, so 13 is the cap, not a target.
 - 4–5pm exercise or rest.
 - 5–6pm dinner.
 - 6–7pm **study**: same-day review.
+- 7–8pm *optional* **business**: one focused hour. Use this or Wednesday's, not both, in a
+  normal week.
+- Bed 11pm.
+
+### Wednesday, class 8–3. Same shape as Tuesday.
+
+- 6:30am up, leave about 7:15am (7am up if it is on Zoom).
+- 8am–3pm class. Home about 3:45pm.
+- 4–5pm exercise or rest.
+- 5–6pm dinner.
+- 6–7pm **study**: same-day review.
 - 7–8pm *optional* **business**: one focused hour, only if the energy is there.
 - Bed 11pm.
 
-### Wednesday, no class. Business day.
-
-- 7:30am up.
-- 8:30am–12pm **business block 1**: the week's number-one priority. Build work: the offer
-  page, intake forms, pricing, a portfolio piece.
-- 12–1pm lunch and a walk.
-- 1–3:30pm **business block 2**: outreach and marketing. Messages, content, a blog post.
-- 3:30–4pm break.
-- 4–6pm **study**: consolidation, part 1. Monday and Tuesday material, quiz mode,
-  weak spots.
-- Free evening. Bed 11pm.
-
-### Thursday, class 1–3.
+### Thursday, class 1–3. Business day.
 
 - 7am up.
-- 8–10:30am **business block 3**: admin, follow-ups, bookings setup, client work if there
-  is any.
-- 11am–12:15pm **study**: pre-read for Thursday and Friday.
+- 8–11am **business block 1**: the week's number-one priority. Build work: the offer page,
+  intake forms, pricing, a portfolio piece.
+- 11:15am–12:15pm **study**: pre-read for Thursday and Friday.
 - 12:15pm lunch and travel.
 - 1–3pm class.
 - 3–4pm **study**: same-day review.
-- Exercise, dinner, free evening. Bed 11pm.
+- 4:30–6pm **business block 2**: outreach and marketing, then admin, follow-ups, bookings,
+  and client work if there is any.
+- Dinner, free evening. Bed 11pm.
 
 ### Friday, Zoom 8–4. Heavy day, then the week is over.
 
@@ -102,12 +103,12 @@ starts, so 13 is the cap, not a target.
 - 6–6:45pm **study**: same-day review.
 - Friday evening is fully off. No business, no study. People, rest, whatever recharges you.
 
-### Saturday.
+### Saturday. Business morning.
 
-- 9am–12pm **business block 4**: the second push of the week, or client delivery.
-- 12–1pm lunch.
-- 1–3pm **study**: consolidation, part 2. The week's full quiz, recall mode, weak spots.
-- 3pm onward free.
+- 9am–12:30pm **business block 3**: the second push of the week, or client delivery.
+- 12:30–1:30pm lunch.
+- 1:30–4pm **study**: consolidation. The week's full quiz, recall mode, weak spots.
+- 4pm onward free.
 
 ### Sunday. Protected rest.
 
@@ -121,33 +122,33 @@ starts, so 13 is the cap, not a target.
 
 | | Hours a week |
 |---|---|
-| Class | 25 |
-| Study | about 11 |
-| Business | 11.5 core, 12.5 with the optional Tuesday hour |
+| Class | 32 |
+| Study | about 10 |
+| Business | 8 core, 9 with one optional evening hour |
 | Exercise | about 4 |
 
 ## Time-management rules
 
 These are what make the grid work. The grid is the easy part.
 
-1. **Batch by day, not by hour.** Wednesday is business. Class days are school. Saturday
-   morning is business. Switching between the two is what makes 12 hours feel like 30.
+1. **Batch by day, not by hour.** Thursday and Saturday morning are business. Class days are
+   school. Switching between the two is what makes 8 hours feel like 20.
 2. **Same-day review on every class day, 30 to 60 minutes.** The single highest-leverage
    study habit there is. The study guide in this repo has Flashcards, Quiz and Recall modes,
    so it takes zero setup.
 3. **Three priorities.** The Sunday review picks three business outcomes for the week.
-   Wednesday block 1 starts on the first one. Everything else is a bonus.
+   Thursday block 1 starts on the first one. Everything else is a bonus.
 4. **Time-box, don't to-do.** Every block has an end. When it ends, stop, even mid-task. The
    task will still be there at the next block.
 5. **Zoom-day protocol.** Camera breaks, stand every hour, lunch off-screen, a walk right
    after class. No business work on Monday or Friday evenings, ever.
 6. **Inbox twice a day** for the business, not continuously. Tell clients to expect a reply
-   within one business day, and mean it. On Zoom days that means the lunch break and ten
+   within one business day, and mean it. On class days that means the lunch break and ten
    minutes after dinner.
-7. **Make Wix Bookings match the plan.** Set the bookable hours to Wednesday 9am–3pm, Thursday
-   8–11am and Saturday 9am–12pm. Then no client can ever book during class. This one setting
-   protects the whole system.
-8. **Weekly caps.** Business at most 13 hours. Study flexes between 11 and 18. When a week
+7. **Make Wix Bookings match the plan.** Set the bookable hours to Thursday 8–11am and
+   4:30–6pm, and Saturday 9am–12:30pm. Then no client can ever book during class. This one
+   setting protects the whole system.
+8. **Weekly caps.** Business at most 10 hours. Study flexes between 10 and 15. When a week
    runs over, cut business first. Sleep is never the buffer.
 9. **Keep the empty blocks empty.** Friday evening and Sunday afternoon get filled "just this
    once" at most one week in four.
@@ -168,12 +169,12 @@ Check these at the Sunday review.
 
 - Slept under 7 hours on two or more nights.
 - Skipped the same-day review three or more times.
-- Dreading Wednesday.
+- Dreading Thursday morning.
 - Getting sick, short-tempered, or saying "I'll catch up on the weekend" two weeks running.
 
 ### Response ladder
 
-1. **One sign:** drop the optional blocks next week (Tuesday business, Sunday study).
+1. **One sign:** drop the optional blocks next week (the evening business hour, Sunday study).
 2. **Two signs:** business goes to maintenance mode for a week. Thursday morning only, inbox
    and bookings, about 3 hours.
 3. **Three signs, or you are ill:** take the whole weekend off, tell your program if work is
@@ -183,9 +184,9 @@ Check these at the Sunday review.
 
 Flip it at the Sunday review before an exam.
 
-- Wednesday and Saturday business blocks become study.
+- Thursday's second block and the Saturday business block become study.
 - Business keeps only Thursday morning, for inbox and bookings.
-- Study rises to about 18 hours with no extra hours added to the week.
+- Study rises to about 15 hours with no extra hours added to the week.
 - Put an auto-reply on the business inbox if you need to.
 
 ### Light week
