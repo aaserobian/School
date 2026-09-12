@@ -88,4 +88,5 @@ src/app.js           the app
 src/figures.json     extracted figures, generated
 tools/               the extraction and build scripts
 study-guide.html     the built single-file app, generated
+planning/            the weekly school + business plan and burnout rules
 ```
