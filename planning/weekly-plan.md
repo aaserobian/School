@@ -10,17 +10,17 @@ evening, and rest is scheduled like everything else. This is that shape.
 
 | Day | Class | Notes |
 |---|---|---|
-| Monday | 8:00–16:00 | Zoom |
-| Tuesday | 8:00–15:00 | In person |
+| Monday | 8am–4pm | Zoom |
+| Tuesday | 8am–3pm | In person |
 | Wednesday | none | Business day |
-| Thursday | 13:00–15:00 | |
-| Friday | 8:00–16:00 | Zoom |
+| Thursday | 1–3pm | |
+| Friday | 8am–4pm | Zoom |
 | Saturday | none | |
 | Sunday | none | Protected rest from noon |
 
 Assumptions baked in, all easy to change:
 
-- Sleep is 8 hours, in bed by 23:00 on school nights.
+- Sleep is 8 hours, in bed by 11pm on school nights.
 - Tuesday's commute is 30 to 45 minutes each way. Thursday is treated as in person; if it is
   Zoom you gain about an hour that day.
 - Study outside class is about 11 hours in a normal week and about 18 in an exam week.
@@ -54,65 +54,65 @@ starts, so 13 is the cap, not a target.
 
 ### Monday, Zoom 8–4. Heavy day, light evening.
 
-- 07:00 up.
-- 08:00–16:00 class. Stand up every hour. Eat lunch away from the screen.
-- 16:00–17:00 walk or workout, no screens. This is the recovery from eight hours of Zoom.
-- 17:00–18:00 dinner.
-- 18:00–18:45 **study**: same-day review of today's lectures, add flashcards.
-- Free evening. Wind down from 21:30. Bed 23:00.
+- 7am up.
+- 8am–4pm class. Stand up every hour. Eat lunch away from the screen.
+- 4–5pm walk or workout, no screens. This is the recovery from eight hours of Zoom.
+- 5–6pm dinner.
+- 6–6:45pm **study**: same-day review of today's lectures, add flashcards.
+- Free evening. Wind down from 9:30pm. Bed 11pm.
 
 ### Tuesday, in person 8–3.
 
-- 06:30 up, leave about 07:15.
-- 08:00–15:00 class. Home about 15:45.
-- 16:00–17:00 exercise or rest.
-- 17:00–18:00 dinner.
-- 18:00–19:00 **study**: same-day review.
-- 19:00–20:00 *optional* **business**: one focused hour, only if the energy is there.
-- Bed 23:00.
+- 6:30am up, leave about 7:15am.
+- 8am–3pm class. Home about 3:45pm.
+- 4–5pm exercise or rest.
+- 5–6pm dinner.
+- 6–7pm **study**: same-day review.
+- 7–8pm *optional* **business**: one focused hour, only if the energy is there.
+- Bed 11pm.
 
 ### Wednesday, no class. Business day.
 
-- 07:30 up.
-- 08:30–12:00 **business block 1**: the week's number-one priority. Build work: the offer
+- 7:30am up.
+- 8:30am–12pm **business block 1**: the week's number-one priority. Build work: the offer
   page, intake forms, pricing, a portfolio piece.
-- 12:00–13:00 lunch and a walk.
-- 13:00–15:30 **business block 2**: outreach and marketing. Messages, content, a blog post.
-- 15:30–16:00 break.
-- 16:00–18:00 **study**: consolidation, part 1. Monday and Tuesday material, quiz mode,
+- 12–1pm lunch and a walk.
+- 1–3:30pm **business block 2**: outreach and marketing. Messages, content, a blog post.
+- 3:30–4pm break.
+- 4–6pm **study**: consolidation, part 1. Monday and Tuesday material, quiz mode,
   weak spots.
-- Free evening. Bed 23:00.
+- Free evening. Bed 11pm.
 
 ### Thursday, class 1–3.
 
-- 07:00 up.
-- 08:00–10:30 **business block 3**: admin, follow-ups, bookings setup, client work if there
+- 7am up.
+- 8–10:30am **business block 3**: admin, follow-ups, bookings setup, client work if there
   is any.
-- 11:00–12:15 **study**: pre-read for Thursday and Friday.
-- 12:15 lunch and travel.
-- 13:00–15:00 class.
-- 15:00–16:00 **study**: same-day review.
-- Exercise, dinner, free evening. Bed 23:00.
+- 11am–12:15pm **study**: pre-read for Thursday and Friday.
+- 12:15pm lunch and travel.
+- 1–3pm class.
+- 3–4pm **study**: same-day review.
+- Exercise, dinner, free evening. Bed 11pm.
 
 ### Friday, Zoom 8–4. Heavy day, then the week is over.
 
 - Same shape as Monday: class, a walk, dinner.
-- 18:00–18:45 **study**: same-day review.
+- 6–6:45pm **study**: same-day review.
 - Friday evening is fully off. No business, no study. People, rest, whatever recharges you.
 
 ### Saturday.
 
-- 09:00–12:00 **business block 4**: the second push of the week, or client delivery.
-- 12:00–13:00 lunch.
-- 13:00–15:00 **study**: consolidation, part 2. The week's full quiz, recall mode, weak spots.
-- 15:00 onward free.
+- 9am–12pm **business block 4**: the second push of the week, or client delivery.
+- 12–1pm lunch.
+- 1–3pm **study**: consolidation, part 2. The week's full quiz, recall mode, weak spots.
+- 3pm onward free.
 
 ### Sunday. Protected rest.
 
 - Slow morning. Exercise if you feel like it.
-- 09:30–11:30 **study**: pre-read next week, flashcard catch-up. Drop this when you are tired.
-- 11:30–12:00 **weekly review** (checklist below).
-- **12:00 onward: no school, no business.** Bed 22:30, because Monday is an eight-hour
+- 9:30–11:30am **study**: pre-read next week, flashcard catch-up. Drop this when you are tired.
+- 11:30am–12pm **weekly review** (checklist below).
+- **12pm onward: no school, no business.** Bed 10:30pm, because Monday is an eight-hour
   Zoom day.
 
 ### Totals
@@ -142,8 +142,8 @@ These are what make the grid work. The grid is the easy part.
 6. **Inbox twice a day** for the business, not continuously. Tell clients to expect a reply
    within one business day, and mean it. On Zoom days that means the lunch break and ten
    minutes after dinner.
-7. **Make Wix Bookings match the plan.** Set the bookable hours to Wednesday 9–3, Thursday
-   8–11 and Saturday 9–12. Then no client can ever book during class. This one setting
+7. **Make Wix Bookings match the plan.** Set the bookable hours to Wednesday 9am–3pm, Thursday
+   8–11am and Saturday 9am–12pm. Then no client can ever book during class. This one setting
    protects the whole system.
 8. **Weekly caps.** Business at most 13 hours. Study flexes between 11 and 18. When a week
    runs over, cut business first. Sleep is never the buffer.
@@ -190,7 +190,7 @@ Flip it at the Sunday review before an exam.
 
 Once a month, skip the Saturday business block and the Sunday study block.
 
-## Weekly review, Sunday 11:30–12:00
+## Weekly review, Sunday 11:30am–12pm
 
 1. Grade the week: which blocks happened, which did not, and why.
 2. Check the warning signs above.
