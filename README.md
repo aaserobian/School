@@ -89,3 +89,15 @@ src/figures.json     extracted figures, generated
 tools/               the extraction and build scripts
 study-guide.html     the built single-file app, generated
 ```
+
+## Working on this repo with Claude Code
+
+`.mcp.json` gives Claude Code two extra tools whenever it opens this repo:
+
+- **Playwright** — a headless browser, so Claude can open `study-guide.html` or
+  `objectives.html`, click through them and take screenshots. It is started by
+  `tools/playwright-mcp.sh`, which uses the Chromium pre-installed in Claude Code on the
+  web when present and your own Google Chrome otherwise.
+- **21st.dev** — the 21st component and UI MCP. It needs an API key from
+  <https://21st.dev/mcp> in the `API_KEY_21ST` environment variable; without one the
+  server just shows as unavailable.
