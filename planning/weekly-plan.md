@@ -2,6 +2,8 @@
 
 Fall 2026. Written 12 September 2026. All times Pacific.
 
+**Open it on your phone:** <https://claude.ai/code/artifact/28150f24-22e1-4d5f-b06b-ea83e5c82ddb>
+
 You have 25 hours a week of class and a business that is eleven days old. Both can move
 forward at once, but only if the week has a fixed shape, the heavy days stay light in the
 evening, and rest is scheduled like everything else. This is that shape.
