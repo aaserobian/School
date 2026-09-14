@@ -1,0 +1,18 @@
+Clinical principle of cell theory	Disease is cellular dysfunction made visible
+A missing enzyme leads to	A storage disease
+A failed junction leads to	A leaky epithelium
+Which drug targets microtubules?	Colchicine
+Which pathogen targets tight junctions?	Clostridium perfringens enterotoxin, giving a leaky epithelium and watery diarrhea
+Which disease targets desmosomes?	Pemphigus vulgaris, giving an intraepidermal blister
+Which disease targets hemidesmosomes?	Bullous pemphigoid, giving a subepidermal, deeper blister
+A defect in type I collagen causes	Osteogenesis imperfecta
+Vitamin C deficiency causes	Scurvy
+A fibrillin-1 defect causes	Marfan syndrome
+Osteogenesis imperfecta	A type I collagen defect: brittle bones and blue sclerae
+Marfan syndrome	A fibrillin-1 defect: aortic root dilation and tall stature
+Scurvy	Vitamin C deficiency, which blocks collagen cross-linking
+Tay-Sachs disease	A lysosomal storage disorder, GM2 gangliosidosis, from hexosaminidase A deficiency
+Which enzyme is deficient in Tay-Sachs?	Hexosaminidase A
+Classic eye finding in Tay-Sachs	A cherry-red macular spot
+Mitochondrial myopathies	Impaired oxidative phosphorylation causing exercise intolerance, muscle weakness and raised blood lactate
+Why do mitochondrial diseases come only from the mother?	Mitochondrial DNA is maternally inherited

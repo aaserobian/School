@@ -1,0 +1,130 @@
+The cell	The basic structural and functional unit of life
+Cell theory	All organisms consist of one or more cells, and all cells arise from pre-existing cells
+Where does function come from?	Molecular and organelle structure
+At what level is homeostasis maintained?	The cellular level
+Clinical principle of cell theory	Disease is cellular dysfunction made visible
+A missing enzyme leads to	A storage disease
+A failed junction leads to	A leaky epithelium
+The three major cell compartments	Plasma membrane, cytoplasm, nucleus
+Plasma membrane	A selectively permeable fluid-mosaic lipid bilayer with embedded proteins
+What does the plasma membrane control?	Transport, cell signaling and cell adhesion
+Cytoplasm	Cytosol, organelles, cytoskeleton and inclusions
+Inclusions	Stored cytoplasmic material such as glycogen or lipid droplets
+Nucleus	Enclosed by a nuclear envelope; holds the genome and nucleolus, and is the site of DNA and RNA synthesis
+The human genome	22 autosomes plus XX or XY
+Cytosol	Site of metabolic pathways and of protein synthesis on free ribosomes
+Free ribosomes	Translate mRNA into cytosolic proteins
+Rough endoplasmic reticulum (RER)	Studded with ribosomes; translates mRNA into membrane-bound and secreted proteins
+Smooth endoplasmic reticulum (SER)	Synthesizes lipids and steroids, detoxifies substances, and stores calcium
+Golgi apparatus	Modifies, sorts and packages proteins and lipids for delivery
+Mannose-6-phosphate	The Golgi tag that routes acid hydrolases to the lysosomes
+Mitochondria	Generate ATP by oxidative phosphorylation and store calcium
+Mitochondrial DNA	Circular, and inherited from the mother only
+Lysosomes	Membrane-bound sacs of acid hydrolases for intracellular degradation
+Internal pH of a lysosome	About 5
+Autophagy	Lysosomal degradation of worn-out organelles
+What reaches lysosomes by endocytosis or phagocytosis?	Engulfed extracellular material
+Endosomes	Uptake and sorting of material internalized from the cell surface
+Peroxisomes	Detoxification and beta-oxidation of very-long-chain fatty acids
+Proteasome	Degrades intracellular proteins tagged with ubiquitin, for proteome quality control
+Ubiquitin	The tag that marks cytosolic proteins for destruction by the proteasome
+Which two organelles store calcium?	The smooth ER and the mitochondria
+Microfilaments	About 7 nm across, made of actin
+What do microfilaments do?	Cell shape, contraction, motility, and anchoring junctions
+Intermediate filaments	About 10 nm across; provide mechanical strength
+Intermediate filament tissue markers	Keratin in epithelia, desmin in muscle, GFAP in glia, neurofilaments in neurons
+Keratin	The intermediate filament of epithelia
+Desmin	The intermediate filament of muscle
+GFAP	The intermediate filament of glia
+Neurofilaments	The intermediate filaments of neurons
+Microtubules	About 25 nm across, made of tubulin
+What do microtubules do?	Tracks for organelle transport, the cores of cilia and flagella, and the mitotic spindle
+Which drug targets microtubules?	Colchicine
+Diameters of the three cytoskeletal elements	Microfilaments about 7 nm, intermediate filaments about 10 nm, microtubules about 25 nm
+The secretory pathway, in order	DNA transcribed to mRNA in the nucleus, translated on RER ribosomes, carried by vesicle to the Golgi for modification and packaging, then by vesicle to the plasma membrane or the lysosomes
+Step 1 of the secretory pathway	DNA is transcribed to mRNA in the nucleus
+Where are secreted proteins translated?	On the ribosomes of the rough ER
+What does the Golgi contribute to the secretory pathway?	Modification, sorting and packaging, then dispatch by vesicle
+The two destinations of Golgi vesicles	The plasma membrane, for secretion by exocytosis, or the lysosomes
+RER-rich cells	Plasma cells and pancreatic acinar cells, built for heavy protein secretion
+SER-rich cells	Adrenal cortex, gonads and liver cells, built for lipid and steroid synthesis and detoxification
+Which cells are packed with SER, and why?	Adrenal cortex, gonads and liver, because they make steroids and lipids and detoxify
+The six functional roles of membrane proteins	Transport, enzymatic activity, signal transduction, cell-cell recognition, intercellular joining, and attachment or anchoring
+Mnemonic for membrane protein functions	GET a CHILLED
+Channels	Water-filled passive pores, such as aquaporins and ion channels
+Carriers (transporters)	Bind solutes and undergo conformational changes; passive or active, such as the GLUT transporters
+Pumps (ATPases)	Consume ATP directly to move solutes against a concentration gradient
+Channel vs. carrier vs. pump	Channel: a passive pore. Carrier: binds and changes shape. Pump: spends ATP to go against the gradient.
+Aquaporins	Channel proteins for water
+GLUT transporters	Carrier proteins for glucose
+Tight (occluding) junction	The apical seal that prevents paracellular leakage and maintains polarity
+Tight junction link proteins	Occludins, claudins and ZO proteins
+Tight junction cytoskeletal anchor	Actin
+Which pathogen targets tight junctions?	Clostridium perfringens enterotoxin, giving a leaky epithelium and watery diarrhea
+Adherens junction	A continuous belt below the tight junctions that stabilizes sheets and initiates cell contact
+Adherens junction link proteins	Cadherins, which are calcium-dependent
+Adherens junction cytoskeletal anchor	Actin
+Desmosome	A spot-weld rivet that resists mechanical shear
+Desmosome link proteins	Cadherins
+Desmosome cytoskeletal anchor	Keratin intermediate filaments
+Which disease targets desmosomes?	Pemphigus vulgaris, giving an intraepidermal blister
+Gap junction	Direct cell-to-cell ionic and metabolic communication
+Gap junction link proteins	Connexons, built from connexins
+Which junction has no cytoskeletal anchor?	The gap junction, because it is pore-forming
+Hemidesmosome	Anchors the basal cell surface to the basement membrane
+Hemidesmosome link proteins	Integrins
+Hemidesmosome cytoskeletal anchor	Keratin intermediate filaments
+Which disease targets hemidesmosomes?	Bullous pemphigoid, giving a subepidermal, deeper blister
+PemphiGUS vs. Pemphigoid	PemphiGUS hits desmosomes, an intraepidermal blister. PemphigoiD hits hemiDesmosomes, a Deeper subepidermal blister.
+Which junctions anchor to actin?	Tight junctions and adherens junctions
+Which junctions anchor to keratin?	Desmosomes and hemidesmosomes
+Cardiac intercalated discs	Gap junctions for the electrical syncytium, fasciae adherens to transmit contractile force, and desmosomes for mechanical anchoring
+Which junction makes the heart an electrical syncytium?	The gap junction
+Simple epithelium	One layer, for absorption and secretion
+Stratified epithelium	Multiple layers, for protection
+Pseudostratified epithelium	A single layer that looks stratified; every cell touches the basement membrane
+Transitional epithelium	Stretches to accommodate volume
+The three epithelial cell shapes	Squamous (flat), cuboidal (cube), columnar (tall)
+Squamous	Flat
+Cuboidal	Cube-shaped
+Columnar	Tall
+Which epithelium lines the urinary bladder?	Transitional
+Which epithelium lines the airway?	Pseudostratified ciliated, with goblet cells
+Merocrine secretion	Secretion by exocytosis, with the cell left completely intact, as in eccrine sweat glands
+Apocrine secretion	The apical portion of cytoplasm is pinched off with the product, as in milk fat secretion
+Holocrine secretion	The entire cell ruptures and disintegrates to release its product, as in sebaceous glands
+Mnemonic for the secretion modes	MEROcrine is Mere exocytosis. APOcrine is APex pinched off. HOLOcrine is HOLe cell lost.
+Which glands secrete by holocrine?	Sebaceous glands
+Which glands secrete by merocrine?	Eccrine sweat glands
+The four primary tissue types	Epithelial, connective, muscle, nervous
+Epithelial tissue	Covers and lines body surfaces and forms glands; minimal extracellular matrix; rests on a basement membrane
+Connective tissue	Supports and connects tissues; sparse cells suspended in abundant extracellular matrix
+Muscle tissue	Generates force and movement; skeletal, cardiac and smooth
+Nervous tissue	Senses stimuli and transmits electrical signals; neurons and glia
+Which tissue has the most extracellular matrix?	Connective tissue
+Which tissue has minimal extracellular matrix?	Epithelial tissue
+Loose (areolar) connective tissue	Few fibers and abundant ground substance; the packing tissue beneath epithelia
+Dense irregular connective tissue	Interwoven collagen bundles; the dermis and organ capsules
+Dense regular connective tissue	Parallel, densely packed collagen bundles; tendons and ligaments
+Reticular connective tissue	A mesh of type III reticular fibers scaffolding lymphoid organs and bone marrow
+Which connective tissue is in tendons and ligaments?	Dense regular
+Which connective tissue is in the dermis?	Dense irregular
+Collagen type I	Bone, skin, tendons and ligaments
+Collagen type II	Cartilage
+Collagen type III	Reticulin, the reticular fibers of soft organs
+Collagen type IV	Basement membrane and basal lamina
+Collagen type mnemonic	I is bONE. II is carTWOlage. III is reTHREEculin. IV is under the FLOOR.
+A defect in type I collagen causes	Osteogenesis imperfecta
+What is vitamin C needed for?	Cross-linking of collagen fibers
+Vitamin C deficiency causes	Scurvy
+A fibrillin-1 defect causes	Marfan syndrome
+Osteogenesis imperfecta	A type I collagen defect: brittle bones and blue sclerae
+Marfan syndrome	A fibrillin-1 defect: aortic root dilation and tall stature
+Scurvy	Vitamin C deficiency, which blocks collagen cross-linking
+How does brown adipose make heat?	UCP-1 dissipates the proton gradient as heat
+UCP-1 (thermogenin)	The uncoupling protein of brown adipose tissue that releases the proton gradient as heat
+Tay-Sachs disease	A lysosomal storage disorder, GM2 gangliosidosis, from hexosaminidase A deficiency
+Which enzyme is deficient in Tay-Sachs?	Hexosaminidase A
+Classic eye finding in Tay-Sachs	A cherry-red macular spot
+Mitochondrial myopathies	Impaired oxidative phosphorylation causing exercise intolerance, muscle weakness and raised blood lactate
+Why do mitochondrial diseases come only from the mother?	Mitochondrial DNA is maternally inherited

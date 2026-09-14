@@ -1,0 +1,659 @@
+<title>Cell &amp; Tissue Deck</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600&family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#f0f3f1; --surface:#fff; --ink:#15241f; --ink-2:#3c5249; --ink-3:#6a7f76;
+  --line:#d4dfd9; --line-2:#b6c7bf; --matrix:#1f6b5a; --matrix-soft:#e0efea;
+  --stain:#a63446; --stain-soft:#fbe9ec; --gold:#8a6520; --gold-soft:#f6eede;
+  --btn-bg:#1f6b5a; --btn-ink:#fff; --btn-hover:#15241f;
+  --sans:"Public Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --serif:"Bitter",ui-serif,Georgia,serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0f1714; --surface:#17211e; --ink:#e4ede9; --ink-2:#a6b8b1; --ink-3:#7a8d86;
+  --line:#26332e; --line-2:#354440; --matrix:#6ec5a9; --matrix-soft:#14302a;
+  --stain:#e58a97; --stain-soft:#331c21; --gold:#d6b26a; --gold-soft:#2e2718;
+  --btn-bg:#6ec5a9; --btn-ink:#0f1714; --btn-hover:#96dcc4;
+}}
+:root[data-theme="dark"]{
+  --paper:#0f1714; --surface:#17211e; --ink:#e4ede9; --ink-2:#a6b8b1; --ink-3:#7a8d86;
+  --line:#26332e; --line-2:#354440; --matrix:#6ec5a9; --matrix-soft:#14302a;
+  --stain:#e58a97; --stain-soft:#331c21; --gold:#d6b26a; --gold-soft:#2e2718;
+  --btn-bg:#6ec5a9; --btn-ink:#0f1714; --btn-hover:#96dcc4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:780px;margin:0 auto;padding-block:38px 72px;padding-left:20px;padding-right:20px}
+:focus-visible{outline:2px solid var(--stain);outline-offset:2px;border-radius:3px}
+
+.eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--matrix);margin:0 0 10px}
+h1{font-family:var(--serif);font-size:clamp(29px,5.6vw,39px);font-weight:600;line-height:1.1;
+  margin:0;letter-spacing:-.02em;text-wrap:balance}
+.lede{color:var(--ink-2);margin:12px 0 0;max-width:58ch}
+
+.hero{margin-top:26px;background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:22px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.hero-text{flex:1 1 230px;min-width:0}
+.hero-text strong{display:block;font-size:16px;font-weight:600}
+.hero-text span{color:var(--ink-3);font-size:13.5px}
+
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;
+  border-radius:8px;padding:10px 16px;border:1px solid transparent;
+  background:var(--btn-bg);color:var(--btn-ink);transition:background .12s,border-color .12s,color .12s}
+.btn:hover{background:var(--btn-hover)}
+.btn-quiet{background:transparent;color:var(--matrix);border-color:var(--line-2);
+  padding:7px 13px;font-size:13px;white-space:nowrap}
+.btn-quiet:hover{background:var(--matrix-soft);border-color:var(--matrix)}
+.btn-clin{background:transparent;color:var(--stain);border-color:var(--stain)}
+.btn-clin:hover{background:var(--stain-soft)}
+.btn.ok,.btn-quiet.ok,.btn-clin.ok{background:var(--matrix-soft);color:var(--matrix);
+  border-color:var(--matrix)}
+
+h2{font-family:var(--serif);font-size:23px;font-weight:600;margin:46px 0 4px;letter-spacing:-.015em}
+.sub{color:var(--ink-3);font-size:13.5px;margin:0 0 18px}
+
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:12px}
+.steps li{counter-increment:s;position:relative;padding-left:38px;color:var(--ink-2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+  width:25px;height:25px;border-radius:50%;background:var(--matrix-soft);color:var(--matrix);
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  display:flex;align-items:center;justify-content:center}
+.steps b{color:var(--ink);font-weight:600}
+kbd{font-family:var(--mono);font-size:12.5px;background:var(--stain-soft);color:var(--stain);
+  border-radius:4px;padding:2px 6px;font-weight:500}
+.note{margin:18px 0 0;padding:13px 15px;border-left:3px solid var(--stain);
+  background:var(--stain-soft);color:var(--ink-2);font-size:13.5px;border-radius:0 7px 7px 0}
+.note b{color:var(--ink)}
+
+.part{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin-bottom:14px}
+.part-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:13px 16px;background:var(--matrix-soft);border-bottom:1px solid var(--line)}
+.part-head h3{flex:1 1 200px;margin:0;font-family:var(--sans);font-size:14.5px;font-weight:600;
+  display:flex;align-items:baseline;gap:10px;min-width:0}
+.part-num{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--matrix);flex:none}
+.objs{list-style:none;margin:0;padding:0}
+.obj-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line)}
+.obj-row:first-child{border-top:0}
+.obj-num{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--matrix);
+  font-variant-numeric:tabular-nums;flex:none}
+.obj-name{flex:1 1 auto;min-width:0;font-size:14px}
+.obj-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;flex:none}
+
+.deck-obj{margin-top:28px}
+.deck-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding-bottom:9px;border-bottom:1px solid var(--line-2)}
+.deck-head h4{flex:1 1 210px;margin:0;font-family:var(--sans);font-size:15px;font-weight:600;
+  display:flex;align-items:baseline;gap:9px;min-width:0}
+.clin-count{font-family:var(--mono);font-size:11px;color:var(--stain);
+  background:var(--stain-soft);border-radius:4px;padding:3px 7px;flex:none}
+.cards{list-style:none;margin:0;padding:0}
+.cards li{display:grid;grid-template-columns:minmax(0,11fr) minmax(0,15fr);gap:18px;
+  padding:9px 2px 9px 10px;border-bottom:1px solid var(--line);border-left:2px solid transparent}
+.cards li.is-clinical{border-left-color:var(--stain);
+  background:linear-gradient(90deg,var(--stain-soft),transparent 55%)}
+.cards li.is-mnemonic{border-left-color:var(--gold);
+  background:linear-gradient(90deg,var(--gold-soft),transparent 55%)}
+.term{font-weight:500;color:var(--ink);overflow-wrap:anywhere}
+.flag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--stain);border:1px solid var(--stain);border-radius:3px;padding:0 4px;
+  margin-left:7px;vertical-align:2px;white-space:nowrap}
+.flag-m{color:var(--gold);border-color:var(--gold)}
+.def{color:var(--ink-2);font-size:14px;overflow-wrap:anywhere}
+
+#fallback{margin-top:16px;background:var(--surface);border:1px solid var(--stain);
+  border-radius:10px;padding:15px}
+#fallback p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2)}
+#fallback textarea{width:100%;height:150px;font-family:var(--mono);font-size:12px;
+  line-height:1.5;color:var(--ink);background:var(--paper);border:1px solid var(--line-2);
+  border-radius:7px;padding:10px;resize:vertical}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--ink-3);font-size:13px}
+code{font-family:var(--mono);font-size:12.5px;color:var(--matrix)}
+@media (max-width:460px){
+  .cards li{grid-template-columns:1fr;gap:3px}
+  .hero{padding:18px}
+  .hero .btn{width:100%}
+  .obj-name{font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">130 cards &middot; 4 blocks &middot; 18 clinical</p>
+    <h1>Cell &amp; Tissue Deck</h1>
+    <p class="lede">Module 1 on cell theory, organelles, junctions and connective tissue,
+      formatted for Quizlet. Copy a block, paste it into Quizlet's import box, and the cards
+      split themselves into terms and definitions.</p>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <strong>Everything in one set</strong>
+      <span>All 130 cards, Blocks 1 to 4</span>
+    </div>
+    <button class="btn" type="button" data-copy="all" id="copy-all">Copy all 130 cards</button>
+  </div>
+
+  <div id="fallback" hidden>
+    <p><b>Clipboard blocked by the browser.</b> The text is selected below:
+      press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy it.</p>
+    <textarea id="fallback-text" readonly aria-label="Card text to copy"></textarea>
+  </div>
+
+  <h2>Importing it</h2>
+  <p class="sub">Quizlet only imports on the web. Paste there and the set syncs to the app.</p>
+  <ol class="steps">
+    <li>On quizlet.com, click <b>+</b>, then <b>Study set</b>.</li>
+    <li>Click <b>Import</b>, under the title box.</li>
+    <li>Paste the copied text into the big box.</li>
+    <li>Set <b>Between term and definition</b> to <kbd>Tab</kbd></li>
+    <li>Set <b>Between cards</b> to <kbd>New line</kbd></li>
+    <li>Check the preview splits into two columns, then click <b>Import</b>.</li>
+  </ol>
+  <p class="note"><b>If every card lands in one column,</b> the separator is wrong. It is a
+    real tab character between term and definition, not spaces or a comma.</p>
+
+  <h2>One topic at a time</h2>
+  <p class="sub">Smaller sets are easier to drill than one long one.</p>
+  
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Block 1</span>Cell Theory &amp; Organelle Functions</h3>
+          <button class="btn btn-quiet" type="button" data-copy="b1"
+                  id="copy-block-1">Copy all 43</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">1.1</span>
+          <span class="obj-name">Cell theory foundations</span>
+          <span class="obj-count">7</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.1"
+                  id="copy-grp-1-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.2</span>
+          <span class="obj-name">The three cell compartments</span>
+          <span class="obj-count">7</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.2"
+                  id="copy-grp-1-2">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.3</span>
+          <span class="obj-name">Organelle functions</span>
+          <span class="obj-count">17</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.3"
+                  id="copy-grp-1-3">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.4</span>
+          <span class="obj-name">The cytoskeleton</span>
+          <span class="obj-count">12</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.4"
+                  id="copy-grp-1-4">Copy</button>
+        </li>
+        </ul>
+      </section>
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Block 2</span>The Secretory Pathway &amp; Membrane Structure</h3>
+          <button class="btn btn-quiet" type="button" data-copy="b2"
+                  id="copy-block-2">Copy all 16</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">2.1</span>
+          <span class="obj-name">The endomembrane pathway</span>
+          <span class="obj-count">8</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.1"
+                  id="copy-grp-2-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">2.2</span>
+          <span class="obj-name">Membrane proteins and transport</span>
+          <span class="obj-count">8</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.2"
+                  id="copy-grp-2-2">Copy</button>
+        </li>
+        </ul>
+      </section>
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Block 3</span>Cell Junctions, Epithelia &amp; Glands</h3>
+          <button class="btn btn-quiet" type="button" data-copy="b3"
+                  id="copy-block-3">Copy all 39</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">3.1</span>
+          <span class="obj-name">Cell junctions</span>
+          <span class="obj-count">23</span>
+          <button class="btn btn-quiet" type="button" data-copy="3.1"
+                  id="copy-grp-3-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">3.2</span>
+          <span class="obj-name">Epithelial classification</span>
+          <span class="obj-count">10</span>
+          <button class="btn btn-quiet" type="button" data-copy="3.2"
+                  id="copy-grp-3-2">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">3.3</span>
+          <span class="obj-name">Modes of exocrine secretion</span>
+          <span class="obj-count">6</span>
+          <button class="btn btn-quiet" type="button" data-copy="3.3"
+                  id="copy-grp-3-3">Copy</button>
+        </li>
+        </ul>
+      </section>
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Block 4</span>Connective Tissue, Matrix &amp; Clinical Pathology</h3>
+          <button class="btn btn-quiet" type="button" data-copy="b4"
+                  id="copy-block-4">Copy all 32</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">4.1</span>
+          <span class="obj-name">The four primary tissue types</span>
+          <span class="obj-count">7</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.1"
+                  id="copy-grp-4-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">4.2</span>
+          <span class="obj-name">Connective tissue classification</span>
+          <span class="obj-count">6</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.2"
+                  id="copy-grp-4-2">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">4.3</span>
+          <span class="obj-name">Collagen types and matrix proteins</span>
+          <span class="obj-count">9</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.3"
+                  id="copy-grp-4-3">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">4.4</span>
+          <span class="obj-name">Clinical pathology</span>
+          <span class="obj-count">10</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.4"
+                  id="copy-grp-4-4">Copy</button>
+        </li>
+        </ul>
+      </section>
+
+  <div class="hero">
+    <div class="hero-text">
+      <strong>Just the clinical correlations</strong>
+      <span>The 18 cards that carry a disease or drug link, across all four blocks</span>
+    </div>
+    <button class="btn btn-clin" type="button" data-copy="clinical"
+            id="copy-clinical">Copy 18 clinical</button>
+  </div>
+
+  <h2>The cards</h2>
+  <p class="sub">Term on the left, definition on the right, exactly as they will import.
+    A red rule marks a clinical correlation and a gold rule marks a mnemonic.</p>
+  
+      <section class="deck-obj" aria-labelledby="h-1-1">
+        <div class="deck-head">
+          <h4 id="h-1-1"><span class="obj-num">1.1</span>Cell theory foundations</h4>
+          <span class="clin-count">3 clinical</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.1"
+                  id="copy-deck-1-1">Copy 7</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The cell</span><span class="def">The basic structural and functional unit of life</span></li>
+          <li><span class="term">Cell theory</span><span class="def">All organisms consist of one or more cells, and all cells arise from pre-existing cells</span></li>
+          <li><span class="term">Where does function come from?</span><span class="def">Molecular and organelle structure</span></li>
+          <li><span class="term">At what level is homeostasis maintained?</span><span class="def">The cellular level</span></li>
+          <li class="is-clinical"><span class="term">Clinical principle of cell theory<span class="flag">clinical</span></span><span class="def">Disease is cellular dysfunction made visible</span></li>
+          <li class="is-clinical"><span class="term">A missing enzyme leads to<span class="flag">clinical</span></span><span class="def">A storage disease</span></li>
+          <li class="is-clinical"><span class="term">A failed junction leads to<span class="flag">clinical</span></span><span class="def">A leaky epithelium</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-2">
+        <div class="deck-head">
+          <h4 id="h-1-2"><span class="obj-num">1.2</span>The three cell compartments</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="1.2"
+                  id="copy-deck-1-2">Copy 7</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The three major cell compartments</span><span class="def">Plasma membrane, cytoplasm, nucleus</span></li>
+          <li><span class="term">Plasma membrane</span><span class="def">A selectively permeable fluid-mosaic lipid bilayer with embedded proteins</span></li>
+          <li><span class="term">What does the plasma membrane control?</span><span class="def">Transport, cell signaling and cell adhesion</span></li>
+          <li><span class="term">Cytoplasm</span><span class="def">Cytosol, organelles, cytoskeleton and inclusions</span></li>
+          <li><span class="term">Inclusions</span><span class="def">Stored cytoplasmic material such as glycogen or lipid droplets</span></li>
+          <li><span class="term">Nucleus</span><span class="def">Enclosed by a nuclear envelope; holds the genome and nucleolus, and is the site of DNA and RNA synthesis</span></li>
+          <li><span class="term">The human genome</span><span class="def">22 autosomes plus XX or XY</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-3">
+        <div class="deck-head">
+          <h4 id="h-1-3"><span class="obj-num">1.3</span>Organelle functions</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="1.3"
+                  id="copy-deck-1-3">Copy 17</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Cytosol</span><span class="def">Site of metabolic pathways and of protein synthesis on free ribosomes</span></li>
+          <li><span class="term">Free ribosomes</span><span class="def">Translate mRNA into cytosolic proteins</span></li>
+          <li><span class="term">Rough endoplasmic reticulum (RER)</span><span class="def">Studded with ribosomes; translates mRNA into membrane-bound and secreted proteins</span></li>
+          <li><span class="term">Smooth endoplasmic reticulum (SER)</span><span class="def">Synthesizes lipids and steroids, detoxifies substances, and stores calcium</span></li>
+          <li><span class="term">Golgi apparatus</span><span class="def">Modifies, sorts and packages proteins and lipids for delivery</span></li>
+          <li class="is-mnemonic"><span class="term">Mannose-6-phosphate<span class="flag flag-m">mnemonic</span></span><span class="def">The Golgi tag that routes acid hydrolases to the lysosomes</span></li>
+          <li><span class="term">Mitochondria</span><span class="def">Generate ATP by oxidative phosphorylation and store calcium</span></li>
+          <li><span class="term">Mitochondrial DNA</span><span class="def">Circular, and inherited from the mother only</span></li>
+          <li><span class="term">Lysosomes</span><span class="def">Membrane-bound sacs of acid hydrolases for intracellular degradation</span></li>
+          <li><span class="term">Internal pH of a lysosome</span><span class="def">About 5</span></li>
+          <li><span class="term">Autophagy</span><span class="def">Lysosomal degradation of worn-out organelles</span></li>
+          <li><span class="term">What reaches lysosomes by endocytosis or phagocytosis?</span><span class="def">Engulfed extracellular material</span></li>
+          <li><span class="term">Endosomes</span><span class="def">Uptake and sorting of material internalized from the cell surface</span></li>
+          <li><span class="term">Peroxisomes</span><span class="def">Detoxification and beta-oxidation of very-long-chain fatty acids</span></li>
+          <li><span class="term">Proteasome</span><span class="def">Degrades intracellular proteins tagged with ubiquitin, for proteome quality control</span></li>
+          <li class="is-mnemonic"><span class="term">Ubiquitin<span class="flag flag-m">mnemonic</span></span><span class="def">The tag that marks cytosolic proteins for destruction by the proteasome</span></li>
+          <li><span class="term">Which two organelles store calcium?</span><span class="def">The smooth ER and the mitochondria</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-4">
+        <div class="deck-head">
+          <h4 id="h-1-4"><span class="obj-num">1.4</span>The cytoskeleton</h4>
+          <span class="clin-count">1 clinical</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.4"
+                  id="copy-deck-1-4">Copy 12</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Microfilaments</span><span class="def">About 7 nm across, made of actin</span></li>
+          <li><span class="term">What do microfilaments do?</span><span class="def">Cell shape, contraction, motility, and anchoring junctions</span></li>
+          <li><span class="term">Intermediate filaments</span><span class="def">About 10 nm across; provide mechanical strength</span></li>
+          <li><span class="term">Intermediate filament tissue markers</span><span class="def">Keratin in epithelia, desmin in muscle, GFAP in glia, neurofilaments in neurons</span></li>
+          <li><span class="term">Keratin</span><span class="def">The intermediate filament of epithelia</span></li>
+          <li><span class="term">Desmin</span><span class="def">The intermediate filament of muscle</span></li>
+          <li><span class="term">GFAP</span><span class="def">The intermediate filament of glia</span></li>
+          <li><span class="term">Neurofilaments</span><span class="def">The intermediate filaments of neurons</span></li>
+          <li><span class="term">Microtubules</span><span class="def">About 25 nm across, made of tubulin</span></li>
+          <li><span class="term">What do microtubules do?</span><span class="def">Tracks for organelle transport, the cores of cilia and flagella, and the mitotic spindle</span></li>
+          <li class="is-clinical"><span class="term">Which drug targets microtubules?<span class="flag">clinical</span></span><span class="def">Colchicine</span></li>
+          <li><span class="term">Diameters of the three cytoskeletal elements</span><span class="def">Microfilaments about 7 nm, intermediate filaments about 10 nm, microtubules about 25 nm</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-1">
+        <div class="deck-head">
+          <h4 id="h-2-1"><span class="obj-num">2.1</span>The endomembrane pathway</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="2.1"
+                  id="copy-deck-2-1">Copy 8</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The secretory pathway, in order</span><span class="def">DNA transcribed to mRNA in the nucleus, translated on RER ribosomes, carried by vesicle to the Golgi for modification and packaging, then by vesicle to the plasma membrane or the lysosomes</span></li>
+          <li><span class="term">Step 1 of the secretory pathway</span><span class="def">DNA is transcribed to mRNA in the nucleus</span></li>
+          <li><span class="term">Where are secreted proteins translated?</span><span class="def">On the ribosomes of the rough ER</span></li>
+          <li><span class="term">What does the Golgi contribute to the secretory pathway?</span><span class="def">Modification, sorting and packaging, then dispatch by vesicle</span></li>
+          <li><span class="term">The two destinations of Golgi vesicles</span><span class="def">The plasma membrane, for secretion by exocytosis, or the lysosomes</span></li>
+          <li><span class="term">RER-rich cells</span><span class="def">Plasma cells and pancreatic acinar cells, built for heavy protein secretion</span></li>
+          <li><span class="term">SER-rich cells</span><span class="def">Adrenal cortex, gonads and liver cells, built for lipid and steroid synthesis and detoxification</span></li>
+          <li><span class="term">Which cells are packed with SER, and why?</span><span class="def">Adrenal cortex, gonads and liver, because they make steroids and lipids and detoxify</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-2">
+        <div class="deck-head">
+          <h4 id="h-2-2"><span class="obj-num">2.2</span>Membrane proteins and transport</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="2.2"
+                  id="copy-deck-2-2">Copy 8</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The six functional roles of membrane proteins</span><span class="def">Transport, enzymatic activity, signal transduction, cell-cell recognition, intercellular joining, and attachment or anchoring</span></li>
+          <li class="is-mnemonic"><span class="term">Mnemonic for membrane protein functions<span class="flag flag-m">mnemonic</span></span><span class="def">GET a CHILLED</span></li>
+          <li><span class="term">Channels</span><span class="def">Water-filled passive pores, such as aquaporins and ion channels</span></li>
+          <li><span class="term">Carriers (transporters)</span><span class="def">Bind solutes and undergo conformational changes; passive or active, such as the GLUT transporters</span></li>
+          <li><span class="term">Pumps (ATPases)</span><span class="def">Consume ATP directly to move solutes against a concentration gradient</span></li>
+          <li><span class="term">Channel vs. carrier vs. pump</span><span class="def">Channel: a passive pore. Carrier: binds and changes shape. Pump: spends ATP to go against the gradient.</span></li>
+          <li><span class="term">Aquaporins</span><span class="def">Channel proteins for water</span></li>
+          <li><span class="term">GLUT transporters</span><span class="def">Carrier proteins for glucose</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-3-1">
+        <div class="deck-head">
+          <h4 id="h-3-1"><span class="obj-num">3.1</span>Cell junctions</h4>
+          <span class="clin-count">3 clinical</span>
+          <button class="btn btn-quiet" type="button" data-copy="3.1"
+                  id="copy-deck-3-1">Copy 23</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Tight (occluding) junction</span><span class="def">The apical seal that prevents paracellular leakage and maintains polarity</span></li>
+          <li><span class="term">Tight junction link proteins</span><span class="def">Occludins, claudins and ZO proteins</span></li>
+          <li><span class="term">Tight junction cytoskeletal anchor</span><span class="def">Actin</span></li>
+          <li class="is-clinical"><span class="term">Which pathogen targets tight junctions?<span class="flag">clinical</span></span><span class="def">Clostridium perfringens enterotoxin, giving a leaky epithelium and watery diarrhea</span></li>
+          <li><span class="term">Adherens junction</span><span class="def">A continuous belt below the tight junctions that stabilizes sheets and initiates cell contact</span></li>
+          <li><span class="term">Adherens junction link proteins</span><span class="def">Cadherins, which are calcium-dependent</span></li>
+          <li><span class="term">Adherens junction cytoskeletal anchor</span><span class="def">Actin</span></li>
+          <li><span class="term">Desmosome</span><span class="def">A spot-weld rivet that resists mechanical shear</span></li>
+          <li><span class="term">Desmosome link proteins</span><span class="def">Cadherins</span></li>
+          <li><span class="term">Desmosome cytoskeletal anchor</span><span class="def">Keratin intermediate filaments</span></li>
+          <li class="is-clinical"><span class="term">Which disease targets desmosomes?<span class="flag">clinical</span></span><span class="def">Pemphigus vulgaris, giving an intraepidermal blister</span></li>
+          <li><span class="term">Gap junction</span><span class="def">Direct cell-to-cell ionic and metabolic communication</span></li>
+          <li><span class="term">Gap junction link proteins</span><span class="def">Connexons, built from connexins</span></li>
+          <li><span class="term">Which junction has no cytoskeletal anchor?</span><span class="def">The gap junction, because it is pore-forming</span></li>
+          <li><span class="term">Hemidesmosome</span><span class="def">Anchors the basal cell surface to the basement membrane</span></li>
+          <li><span class="term">Hemidesmosome link proteins</span><span class="def">Integrins</span></li>
+          <li><span class="term">Hemidesmosome cytoskeletal anchor</span><span class="def">Keratin intermediate filaments</span></li>
+          <li class="is-clinical"><span class="term">Which disease targets hemidesmosomes?<span class="flag">clinical</span></span><span class="def">Bullous pemphigoid, giving a subepidermal, deeper blister</span></li>
+          <li class="is-mnemonic"><span class="term">PemphiGUS vs. Pemphigoid<span class="flag flag-m">mnemonic</span></span><span class="def">PemphiGUS hits desmosomes, an intraepidermal blister. PemphigoiD hits hemiDesmosomes, a Deeper subepidermal blister.</span></li>
+          <li><span class="term">Which junctions anchor to actin?</span><span class="def">Tight junctions and adherens junctions</span></li>
+          <li><span class="term">Which junctions anchor to keratin?</span><span class="def">Desmosomes and hemidesmosomes</span></li>
+          <li><span class="term">Cardiac intercalated discs</span><span class="def">Gap junctions for the electrical syncytium, fasciae adherens to transmit contractile force, and desmosomes for mechanical anchoring</span></li>
+          <li><span class="term">Which junction makes the heart an electrical syncytium?</span><span class="def">The gap junction</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-3-2">
+        <div class="deck-head">
+          <h4 id="h-3-2"><span class="obj-num">3.2</span>Epithelial classification</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="3.2"
+                  id="copy-deck-3-2">Copy 10</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Simple epithelium</span><span class="def">One layer, for absorption and secretion</span></li>
+          <li><span class="term">Stratified epithelium</span><span class="def">Multiple layers, for protection</span></li>
+          <li><span class="term">Pseudostratified epithelium</span><span class="def">A single layer that looks stratified; every cell touches the basement membrane</span></li>
+          <li><span class="term">Transitional epithelium</span><span class="def">Stretches to accommodate volume</span></li>
+          <li><span class="term">The three epithelial cell shapes</span><span class="def">Squamous (flat), cuboidal (cube), columnar (tall)</span></li>
+          <li><span class="term">Squamous</span><span class="def">Flat</span></li>
+          <li><span class="term">Cuboidal</span><span class="def">Cube-shaped</span></li>
+          <li><span class="term">Columnar</span><span class="def">Tall</span></li>
+          <li><span class="term">Which epithelium lines the urinary bladder?</span><span class="def">Transitional</span></li>
+          <li><span class="term">Which epithelium lines the airway?</span><span class="def">Pseudostratified ciliated, with goblet cells</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-3-3">
+        <div class="deck-head">
+          <h4 id="h-3-3"><span class="obj-num">3.3</span>Modes of exocrine secretion</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="3.3"
+                  id="copy-deck-3-3">Copy 6</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Merocrine secretion</span><span class="def">Secretion by exocytosis, with the cell left completely intact, as in eccrine sweat glands</span></li>
+          <li><span class="term">Apocrine secretion</span><span class="def">The apical portion of cytoplasm is pinched off with the product, as in milk fat secretion</span></li>
+          <li><span class="term">Holocrine secretion</span><span class="def">The entire cell ruptures and disintegrates to release its product, as in sebaceous glands</span></li>
+          <li class="is-mnemonic"><span class="term">Mnemonic for the secretion modes<span class="flag flag-m">mnemonic</span></span><span class="def">MEROcrine is Mere exocytosis. APOcrine is APex pinched off. HOLOcrine is HOLe cell lost.</span></li>
+          <li><span class="term">Which glands secrete by holocrine?</span><span class="def">Sebaceous glands</span></li>
+          <li><span class="term">Which glands secrete by merocrine?</span><span class="def">Eccrine sweat glands</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-4-1">
+        <div class="deck-head">
+          <h4 id="h-4-1"><span class="obj-num">4.1</span>The four primary tissue types</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="4.1"
+                  id="copy-deck-4-1">Copy 7</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The four primary tissue types</span><span class="def">Epithelial, connective, muscle, nervous</span></li>
+          <li><span class="term">Epithelial tissue</span><span class="def">Covers and lines body surfaces and forms glands; minimal extracellular matrix; rests on a basement membrane</span></li>
+          <li><span class="term">Connective tissue</span><span class="def">Supports and connects tissues; sparse cells suspended in abundant extracellular matrix</span></li>
+          <li><span class="term">Muscle tissue</span><span class="def">Generates force and movement; skeletal, cardiac and smooth</span></li>
+          <li><span class="term">Nervous tissue</span><span class="def">Senses stimuli and transmits electrical signals; neurons and glia</span></li>
+          <li><span class="term">Which tissue has the most extracellular matrix?</span><span class="def">Connective tissue</span></li>
+          <li><span class="term">Which tissue has minimal extracellular matrix?</span><span class="def">Epithelial tissue</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-4-2">
+        <div class="deck-head">
+          <h4 id="h-4-2"><span class="obj-num">4.2</span>Connective tissue classification</h4>
+          
+          <button class="btn btn-quiet" type="button" data-copy="4.2"
+                  id="copy-deck-4-2">Copy 6</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Loose (areolar) connective tissue</span><span class="def">Few fibers and abundant ground substance; the packing tissue beneath epithelia</span></li>
+          <li><span class="term">Dense irregular connective tissue</span><span class="def">Interwoven collagen bundles; the dermis and organ capsules</span></li>
+          <li><span class="term">Dense regular connective tissue</span><span class="def">Parallel, densely packed collagen bundles; tendons and ligaments</span></li>
+          <li><span class="term">Reticular connective tissue</span><span class="def">A mesh of type III reticular fibers scaffolding lymphoid organs and bone marrow</span></li>
+          <li><span class="term">Which connective tissue is in tendons and ligaments?</span><span class="def">Dense regular</span></li>
+          <li><span class="term">Which connective tissue is in the dermis?</span><span class="def">Dense irregular</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-4-3">
+        <div class="deck-head">
+          <h4 id="h-4-3"><span class="obj-num">4.3</span>Collagen types and matrix proteins</h4>
+          <span class="clin-count">3 clinical</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.3"
+                  id="copy-deck-4-3">Copy 9</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Collagen type I</span><span class="def">Bone, skin, tendons and ligaments</span></li>
+          <li><span class="term">Collagen type II</span><span class="def">Cartilage</span></li>
+          <li><span class="term">Collagen type III</span><span class="def">Reticulin, the reticular fibers of soft organs</span></li>
+          <li><span class="term">Collagen type IV</span><span class="def">Basement membrane and basal lamina</span></li>
+          <li class="is-mnemonic"><span class="term">Collagen type mnemonic<span class="flag flag-m">mnemonic</span></span><span class="def">I is bONE. II is carTWOlage. III is reTHREEculin. IV is under the FLOOR.</span></li>
+          <li class="is-clinical"><span class="term">A defect in type I collagen causes<span class="flag">clinical</span></span><span class="def">Osteogenesis imperfecta</span></li>
+          <li><span class="term">What is vitamin C needed for?</span><span class="def">Cross-linking of collagen fibers</span></li>
+          <li class="is-clinical"><span class="term">Vitamin C deficiency causes<span class="flag">clinical</span></span><span class="def">Scurvy</span></li>
+          <li class="is-clinical"><span class="term">A fibrillin-1 defect causes<span class="flag">clinical</span></span><span class="def">Marfan syndrome</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-4-4">
+        <div class="deck-head">
+          <h4 id="h-4-4"><span class="obj-num">4.4</span>Clinical pathology</h4>
+          <span class="clin-count">8 clinical</span>
+          <button class="btn btn-quiet" type="button" data-copy="4.4"
+                  id="copy-deck-4-4">Copy 10</button>
+        </div>
+        <ol class="cards">
+          <li class="is-clinical"><span class="term">Osteogenesis imperfecta<span class="flag">clinical</span></span><span class="def">A type I collagen defect: brittle bones and blue sclerae</span></li>
+          <li class="is-clinical"><span class="term">Marfan syndrome<span class="flag">clinical</span></span><span class="def">A fibrillin-1 defect: aortic root dilation and tall stature</span></li>
+          <li class="is-clinical"><span class="term">Scurvy<span class="flag">clinical</span></span><span class="def">Vitamin C deficiency, which blocks collagen cross-linking</span></li>
+          <li><span class="term">How does brown adipose make heat?</span><span class="def">UCP-1 dissipates the proton gradient as heat</span></li>
+          <li><span class="term">UCP-1 (thermogenin)</span><span class="def">The uncoupling protein of brown adipose tissue that releases the proton gradient as heat</span></li>
+          <li class="is-clinical"><span class="term">Tay-Sachs disease<span class="flag">clinical</span></span><span class="def">A lysosomal storage disorder, GM2 gangliosidosis, from hexosaminidase A deficiency</span></li>
+          <li class="is-clinical"><span class="term">Which enzyme is deficient in Tay-Sachs?<span class="flag">clinical</span></span><span class="def">Hexosaminidase A</span></li>
+          <li class="is-clinical"><span class="term">Classic eye finding in Tay-Sachs<span class="flag">clinical</span></span><span class="def">A cherry-red macular spot</span></li>
+          <li class="is-clinical"><span class="term">Mitochondrial myopathies<span class="flag">clinical</span></span><span class="def">Impaired oxidative phosphorylation causing exercise intolerance, muscle weakness and raised blood lactate</span></li>
+          <li class="is-clinical"><span class="term">Why do mitochondrial diseases come only from the mother?<span class="flag">clinical</span></span><span class="def">Mitochondrial DNA is maternally inherited</span></li>
+        </ol>
+      </section>
+
+  <footer>
+    Built from the Module 1 master study guide on cell theory and organelles, the secretory
+    pathway and membranes, junctions and epithelia, and connective tissue and pathology. The
+    same cards are committed to your repo as tab-separated files under
+    <code>quizlet/cell-biology/</code>. The trunk anatomy and nervous system cards are
+    separate decks.
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var GROUPS = {"1.1": [{"t": "The cell", "d": "The basic structural and functional unit of life", "c": false}, {"t": "Cell theory", "d": "All organisms consist of one or more cells, and all cells arise from pre-existing cells", "c": false}, {"t": "Where does function come from?", "d": "Molecular and organelle structure", "c": false}, {"t": "At what level is homeostasis maintained?", "d": "The cellular level", "c": false}, {"t": "Clinical principle of cell theory", "d": "Disease is cellular dysfunction made visible", "c": true}, {"t": "A missing enzyme leads to", "d": "A storage disease", "c": true}, {"t": "A failed junction leads to", "d": "A leaky epithelium", "c": true}], "1.2": [{"t": "The three major cell compartments", "d": "Plasma membrane, cytoplasm, nucleus", "c": false}, {"t": "Plasma membrane", "d": "A selectively permeable fluid-mosaic lipid bilayer with embedded proteins", "c": false}, {"t": "What does the plasma membrane control?", "d": "Transport, cell signaling and cell adhesion", "c": false}, {"t": "Cytoplasm", "d": "Cytosol, organelles, cytoskeleton and inclusions", "c": false}, {"t": "Inclusions", "d": "Stored cytoplasmic material such as glycogen or lipid droplets", "c": false}, {"t": "Nucleus", "d": "Enclosed by a nuclear envelope; holds the genome and nucleolus, and is the site of DNA and RNA synthesis", "c": false}, {"t": "The human genome", "d": "22 autosomes plus XX or XY", "c": false}], "1.3": [{"t": "Cytosol", "d": "Site of metabolic pathways and of protein synthesis on free ribosomes", "c": false}, {"t": "Free ribosomes", "d": "Translate mRNA into cytosolic proteins", "c": false}, {"t": "Rough endoplasmic reticulum (RER)", "d": "Studded with ribosomes; translates mRNA into membrane-bound and secreted proteins", "c": false}, {"t": "Smooth endoplasmic reticulum (SER)", "d": "Synthesizes lipids and steroids, detoxifies substances, and stores calcium", "c": false}, {"t": "Golgi apparatus", "d": "Modifies, sorts and packages proteins and lipids for delivery", "c": false}, {"t": "Mannose-6-phosphate", "d": "The Golgi tag that routes acid hydrolases to the lysosomes", "c": false}, {"t": "Mitochondria", "d": "Generate ATP by oxidative phosphorylation and store calcium", "c": false}, {"t": "Mitochondrial DNA", "d": "Circular, and inherited from the mother only", "c": false}, {"t": "Lysosomes", "d": "Membrane-bound sacs of acid hydrolases for intracellular degradation", "c": false}, {"t": "Internal pH of a lysosome", "d": "About 5", "c": false}, {"t": "Autophagy", "d": "Lysosomal degradation of worn-out organelles", "c": false}, {"t": "What reaches lysosomes by endocytosis or phagocytosis?", "d": "Engulfed extracellular material", "c": false}, {"t": "Endosomes", "d": "Uptake and sorting of material internalized from the cell surface", "c": false}, {"t": "Peroxisomes", "d": "Detoxification and beta-oxidation of very-long-chain fatty acids", "c": false}, {"t": "Proteasome", "d": "Degrades intracellular proteins tagged with ubiquitin, for proteome quality control", "c": false}, {"t": "Ubiquitin", "d": "The tag that marks cytosolic proteins for destruction by the proteasome", "c": false}, {"t": "Which two organelles store calcium?", "d": "The smooth ER and the mitochondria", "c": false}], "1.4": [{"t": "Microfilaments", "d": "About 7 nm across, made of actin", "c": false}, {"t": "What do microfilaments do?", "d": "Cell shape, contraction, motility, and anchoring junctions", "c": false}, {"t": "Intermediate filaments", "d": "About 10 nm across; provide mechanical strength", "c": false}, {"t": "Intermediate filament tissue markers", "d": "Keratin in epithelia, desmin in muscle, GFAP in glia, neurofilaments in neurons", "c": false}, {"t": "Keratin", "d": "The intermediate filament of epithelia", "c": false}, {"t": "Desmin", "d": "The intermediate filament of muscle", "c": false}, {"t": "GFAP", "d": "The intermediate filament of glia", "c": false}, {"t": "Neurofilaments", "d": "The intermediate filaments of neurons", "c": false}, {"t": "Microtubules", "d": "About 25 nm across, made of tubulin", "c": false}, {"t": "What do microtubules do?", "d": "Tracks for organelle transport, the cores of cilia and flagella, and the mitotic spindle", "c": false}, {"t": "Which drug targets microtubules?", "d": "Colchicine", "c": true}, {"t": "Diameters of the three cytoskeletal elements", "d": "Microfilaments about 7 nm, intermediate filaments about 10 nm, microtubules about 25 nm", "c": false}], "2.1": [{"t": "The secretory pathway, in order", "d": "DNA transcribed to mRNA in the nucleus, translated on RER ribosomes, carried by vesicle to the Golgi for modification and packaging, then by vesicle to the plasma membrane or the lysosomes", "c": false}, {"t": "Step 1 of the secretory pathway", "d": "DNA is transcribed to mRNA in the nucleus", "c": false}, {"t": "Where are secreted proteins translated?", "d": "On the ribosomes of the rough ER", "c": false}, {"t": "What does the Golgi contribute to the secretory pathway?", "d": "Modification, sorting and packaging, then dispatch by vesicle", "c": false}, {"t": "The two destinations of Golgi vesicles", "d": "The plasma membrane, for secretion by exocytosis, or the lysosomes", "c": false}, {"t": "RER-rich cells", "d": "Plasma cells and pancreatic acinar cells, built for heavy protein secretion", "c": false}, {"t": "SER-rich cells", "d": "Adrenal cortex, gonads and liver cells, built for lipid and steroid synthesis and detoxification", "c": false}, {"t": "Which cells are packed with SER, and why?", "d": "Adrenal cortex, gonads and liver, because they make steroids and lipids and detoxify", "c": false}], "2.2": [{"t": "The six functional roles of membrane proteins", "d": "Transport, enzymatic activity, signal transduction, cell-cell recognition, intercellular joining, and attachment or anchoring", "c": false}, {"t": "Mnemonic for membrane protein functions", "d": "GET a CHILLED", "c": false}, {"t": "Channels", "d": "Water-filled passive pores, such as aquaporins and ion channels", "c": false}, {"t": "Carriers (transporters)", "d": "Bind solutes and undergo conformational changes; passive or active, such as the GLUT transporters", "c": false}, {"t": "Pumps (ATPases)", "d": "Consume ATP directly to move solutes against a concentration gradient", "c": false}, {"t": "Channel vs. carrier vs. pump", "d": "Channel: a passive pore. Carrier: binds and changes shape. Pump: spends ATP to go against the gradient.", "c": false}, {"t": "Aquaporins", "d": "Channel proteins for water", "c": false}, {"t": "GLUT transporters", "d": "Carrier proteins for glucose", "c": false}], "3.1": [{"t": "Tight (occluding) junction", "d": "The apical seal that prevents paracellular leakage and maintains polarity", "c": false}, {"t": "Tight junction link proteins", "d": "Occludins, claudins and ZO proteins", "c": false}, {"t": "Tight junction cytoskeletal anchor", "d": "Actin", "c": false}, {"t": "Which pathogen targets tight junctions?", "d": "Clostridium perfringens enterotoxin, giving a leaky epithelium and watery diarrhea", "c": true}, {"t": "Adherens junction", "d": "A continuous belt below the tight junctions that stabilizes sheets and initiates cell contact", "c": false}, {"t": "Adherens junction link proteins", "d": "Cadherins, which are calcium-dependent", "c": false}, {"t": "Adherens junction cytoskeletal anchor", "d": "Actin", "c": false}, {"t": "Desmosome", "d": "A spot-weld rivet that resists mechanical shear", "c": false}, {"t": "Desmosome link proteins", "d": "Cadherins", "c": false}, {"t": "Desmosome cytoskeletal anchor", "d": "Keratin intermediate filaments", "c": false}, {"t": "Which disease targets desmosomes?", "d": "Pemphigus vulgaris, giving an intraepidermal blister", "c": true}, {"t": "Gap junction", "d": "Direct cell-to-cell ionic and metabolic communication", "c": false}, {"t": "Gap junction link proteins", "d": "Connexons, built from connexins", "c": false}, {"t": "Which junction has no cytoskeletal anchor?", "d": "The gap junction, because it is pore-forming", "c": false}, {"t": "Hemidesmosome", "d": "Anchors the basal cell surface to the basement membrane", "c": false}, {"t": "Hemidesmosome link proteins", "d": "Integrins", "c": false}, {"t": "Hemidesmosome cytoskeletal anchor", "d": "Keratin intermediate filaments", "c": false}, {"t": "Which disease targets hemidesmosomes?", "d": "Bullous pemphigoid, giving a subepidermal, deeper blister", "c": true}, {"t": "PemphiGUS vs. Pemphigoid", "d": "PemphiGUS hits desmosomes, an intraepidermal blister. PemphigoiD hits hemiDesmosomes, a Deeper subepidermal blister.", "c": false}, {"t": "Which junctions anchor to actin?", "d": "Tight junctions and adherens junctions", "c": false}, {"t": "Which junctions anchor to keratin?", "d": "Desmosomes and hemidesmosomes", "c": false}, {"t": "Cardiac intercalated discs", "d": "Gap junctions for the electrical syncytium, fasciae adherens to transmit contractile force, and desmosomes for mechanical anchoring", "c": false}, {"t": "Which junction makes the heart an electrical syncytium?", "d": "The gap junction", "c": false}], "3.2": [{"t": "Simple epithelium", "d": "One layer, for absorption and secretion", "c": false}, {"t": "Stratified epithelium", "d": "Multiple layers, for protection", "c": false}, {"t": "Pseudostratified epithelium", "d": "A single layer that looks stratified; every cell touches the basement membrane", "c": false}, {"t": "Transitional epithelium", "d": "Stretches to accommodate volume", "c": false}, {"t": "The three epithelial cell shapes", "d": "Squamous (flat), cuboidal (cube), columnar (tall)", "c": false}, {"t": "Squamous", "d": "Flat", "c": false}, {"t": "Cuboidal", "d": "Cube-shaped", "c": false}, {"t": "Columnar", "d": "Tall", "c": false}, {"t": "Which epithelium lines the urinary bladder?", "d": "Transitional", "c": false}, {"t": "Which epithelium lines the airway?", "d": "Pseudostratified ciliated, with goblet cells", "c": false}], "3.3": [{"t": "Merocrine secretion", "d": "Secretion by exocytosis, with the cell left completely intact, as in eccrine sweat glands", "c": false}, {"t": "Apocrine secretion", "d": "The apical portion of cytoplasm is pinched off with the product, as in milk fat secretion", "c": false}, {"t": "Holocrine secretion", "d": "The entire cell ruptures and disintegrates to release its product, as in sebaceous glands", "c": false}, {"t": "Mnemonic for the secretion modes", "d": "MEROcrine is Mere exocytosis. APOcrine is APex pinched off. HOLOcrine is HOLe cell lost.", "c": false}, {"t": "Which glands secrete by holocrine?", "d": "Sebaceous glands", "c": false}, {"t": "Which glands secrete by merocrine?", "d": "Eccrine sweat glands", "c": false}], "4.1": [{"t": "The four primary tissue types", "d": "Epithelial, connective, muscle, nervous", "c": false}, {"t": "Epithelial tissue", "d": "Covers and lines body surfaces and forms glands; minimal extracellular matrix; rests on a basement membrane", "c": false}, {"t": "Connective tissue", "d": "Supports and connects tissues; sparse cells suspended in abundant extracellular matrix", "c": false}, {"t": "Muscle tissue", "d": "Generates force and movement; skeletal, cardiac and smooth", "c": false}, {"t": "Nervous tissue", "d": "Senses stimuli and transmits electrical signals; neurons and glia", "c": false}, {"t": "Which tissue has the most extracellular matrix?", "d": "Connective tissue", "c": false}, {"t": "Which tissue has minimal extracellular matrix?", "d": "Epithelial tissue", "c": false}], "4.2": [{"t": "Loose (areolar) connective tissue", "d": "Few fibers and abundant ground substance; the packing tissue beneath epithelia", "c": false}, {"t": "Dense irregular connective tissue", "d": "Interwoven collagen bundles; the dermis and organ capsules", "c": false}, {"t": "Dense regular connective tissue", "d": "Parallel, densely packed collagen bundles; tendons and ligaments", "c": false}, {"t": "Reticular connective tissue", "d": "A mesh of type III reticular fibers scaffolding lymphoid organs and bone marrow", "c": false}, {"t": "Which connective tissue is in tendons and ligaments?", "d": "Dense regular", "c": false}, {"t": "Which connective tissue is in the dermis?", "d": "Dense irregular", "c": false}], "4.3": [{"t": "Collagen type I", "d": "Bone, skin, tendons and ligaments", "c": false}, {"t": "Collagen type II", "d": "Cartilage", "c": false}, {"t": "Collagen type III", "d": "Reticulin, the reticular fibers of soft organs", "c": false}, {"t": "Collagen type IV", "d": "Basement membrane and basal lamina", "c": false}, {"t": "Collagen type mnemonic", "d": "I is bONE. II is carTWOlage. III is reTHREEculin. IV is under the FLOOR.", "c": false}, {"t": "A defect in type I collagen causes", "d": "Osteogenesis imperfecta", "c": true}, {"t": "What is vitamin C needed for?", "d": "Cross-linking of collagen fibers", "c": false}, {"t": "Vitamin C deficiency causes", "d": "Scurvy", "c": true}, {"t": "A fibrillin-1 defect causes", "d": "Marfan syndrome", "c": true}], "4.4": [{"t": "Osteogenesis imperfecta", "d": "A type I collagen defect: brittle bones and blue sclerae", "c": true}, {"t": "Marfan syndrome", "d": "A fibrillin-1 defect: aortic root dilation and tall stature", "c": true}, {"t": "Scurvy", "d": "Vitamin C deficiency, which blocks collagen cross-linking", "c": true}, {"t": "How does brown adipose make heat?", "d": "UCP-1 dissipates the proton gradient as heat", "c": false}, {"t": "UCP-1 (thermogenin)", "d": "The uncoupling protein of brown adipose tissue that releases the proton gradient as heat", "c": false}, {"t": "Tay-Sachs disease", "d": "A lysosomal storage disorder, GM2 gangliosidosis, from hexosaminidase A deficiency", "c": true}, {"t": "Which enzyme is deficient in Tay-Sachs?", "d": "Hexosaminidase A", "c": true}, {"t": "Classic eye finding in Tay-Sachs", "d": "A cherry-red macular spot", "c": true}, {"t": "Mitochondrial myopathies", "d": "Impaired oxidative phosphorylation causing exercise intolerance, muscle weakness and raised blood lactate", "c": true}, {"t": "Why do mitochondrial diseases come only from the mother?", "d": "Mitochondrial DNA is maternally inherited", "c": true}]};
+  var BLOCKS = {"1": ["1.1", "1.2", "1.3", "1.4"], "2": ["2.1", "2.2"], "3": ["3.1", "3.2", "3.3"], "4": ["4.1", "4.2", "4.3", "4.4"]};
+  var KEYS = Object.keys(GROUPS);
+
+  function cardsFor(key) {
+    if (key === 'all') return KEYS.reduce(function (a, k) { return a.concat(GROUPS[k]); }, []);
+    if (key === 'clinical') return KEYS.reduce(function (a, k) {
+      return a.concat(GROUPS[k].filter(function (c) { return c.c; }));
+    }, []);
+    if (key.charAt(0) === 'b' && BLOCKS[key.slice(1)]) {
+      return BLOCKS[key.slice(1)].reduce(function (a, k) { return a.concat(GROUPS[k]); }, []);
+    }
+    return GROUPS[key] || [];
+  }
+
+  function textFor(key) {
+    return cardsFor(key).map(function (c) { return c.t + '\t' + c.d; }).join('\n') + '\n';
+  }
+
+  var fallback = document.getElementById('fallback');
+  var fallbackText = document.getElementById('fallback-text');
+
+  function flash(btn, label) {
+    var original = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', original);
+    btn.textContent = label;
+    btn.classList.add('ok');
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove('ok');
+    }, 2000);
+  }
+
+  function offerManual(text) {
+    fallbackText.value = text;
+    fallback.hidden = false;
+    fallback.scrollIntoView({ block: 'nearest' });
+    fallbackText.focus();
+    fallbackText.select();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function copy(btn) {
+    var key = btn.getAttribute('data-copy');
+    var text = textFor(key);
+    var count = cardsFor(key).length;
+    var done = function () {
+      fallback.hidden = true;
+      flash(btn, 'Copied ' + count);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {
+        if (legacyCopy(text)) done(); else offerManual(text);
+      });
+    } else if (legacyCopy(text)) {
+      done();
+    } else {
+      offerManual(text);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (btn) {
+    btn.addEventListener('click', function () { copy(btn); });
+  });
+})();
+</script>

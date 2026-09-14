@@ -1,0 +1,39 @@
+Tight (occluding) junction	The apical seal that prevents paracellular leakage and maintains polarity
+Tight junction link proteins	Occludins, claudins and ZO proteins
+Tight junction cytoskeletal anchor	Actin
+Which pathogen targets tight junctions?	Clostridium perfringens enterotoxin, giving a leaky epithelium and watery diarrhea
+Adherens junction	A continuous belt below the tight junctions that stabilizes sheets and initiates cell contact
+Adherens junction link proteins	Cadherins, which are calcium-dependent
+Adherens junction cytoskeletal anchor	Actin
+Desmosome	A spot-weld rivet that resists mechanical shear
+Desmosome link proteins	Cadherins
+Desmosome cytoskeletal anchor	Keratin intermediate filaments
+Which disease targets desmosomes?	Pemphigus vulgaris, giving an intraepidermal blister
+Gap junction	Direct cell-to-cell ionic and metabolic communication
+Gap junction link proteins	Connexons, built from connexins
+Which junction has no cytoskeletal anchor?	The gap junction, because it is pore-forming
+Hemidesmosome	Anchors the basal cell surface to the basement membrane
+Hemidesmosome link proteins	Integrins
+Hemidesmosome cytoskeletal anchor	Keratin intermediate filaments
+Which disease targets hemidesmosomes?	Bullous pemphigoid, giving a subepidermal, deeper blister
+PemphiGUS vs. Pemphigoid	PemphiGUS hits desmosomes, an intraepidermal blister. PemphigoiD hits hemiDesmosomes, a Deeper subepidermal blister.
+Which junctions anchor to actin?	Tight junctions and adherens junctions
+Which junctions anchor to keratin?	Desmosomes and hemidesmosomes
+Cardiac intercalated discs	Gap junctions for the electrical syncytium, fasciae adherens to transmit contractile force, and desmosomes for mechanical anchoring
+Which junction makes the heart an electrical syncytium?	The gap junction
+Simple epithelium	One layer, for absorption and secretion
+Stratified epithelium	Multiple layers, for protection
+Pseudostratified epithelium	A single layer that looks stratified; every cell touches the basement membrane
+Transitional epithelium	Stretches to accommodate volume
+The three epithelial cell shapes	Squamous (flat), cuboidal (cube), columnar (tall)
+Squamous	Flat
+Cuboidal	Cube-shaped
+Columnar	Tall
+Which epithelium lines the urinary bladder?	Transitional
+Which epithelium lines the airway?	Pseudostratified ciliated, with goblet cells
+Merocrine secretion	Secretion by exocytosis, with the cell left completely intact, as in eccrine sweat glands
+Apocrine secretion	The apical portion of cytoplasm is pinched off with the product, as in milk fat secretion
+Holocrine secretion	The entire cell ruptures and disintegrates to release its product, as in sebaceous glands
+Mnemonic for the secretion modes	MEROcrine is Mere exocytosis. APOcrine is APex pinched off. HOLOcrine is HOLe cell lost.
+Which glands secrete by holocrine?	Sebaceous glands
+Which glands secrete by merocrine?	Eccrine sweat glands

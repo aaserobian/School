@@ -1,0 +1,32 @@
+The four primary tissue types	Epithelial, connective, muscle, nervous
+Epithelial tissue	Covers and lines body surfaces and forms glands; minimal extracellular matrix; rests on a basement membrane
+Connective tissue	Supports and connects tissues; sparse cells suspended in abundant extracellular matrix
+Muscle tissue	Generates force and movement; skeletal, cardiac and smooth
+Nervous tissue	Senses stimuli and transmits electrical signals; neurons and glia
+Which tissue has the most extracellular matrix?	Connective tissue
+Which tissue has minimal extracellular matrix?	Epithelial tissue
+Loose (areolar) connective tissue	Few fibers and abundant ground substance; the packing tissue beneath epithelia
+Dense irregular connective tissue	Interwoven collagen bundles; the dermis and organ capsules
+Dense regular connective tissue	Parallel, densely packed collagen bundles; tendons and ligaments
+Reticular connective tissue	A mesh of type III reticular fibers scaffolding lymphoid organs and bone marrow
+Which connective tissue is in tendons and ligaments?	Dense regular
+Which connective tissue is in the dermis?	Dense irregular
+Collagen type I	Bone, skin, tendons and ligaments
+Collagen type II	Cartilage
+Collagen type III	Reticulin, the reticular fibers of soft organs
+Collagen type IV	Basement membrane and basal lamina
+Collagen type mnemonic	I is bONE. II is carTWOlage. III is reTHREEculin. IV is under the FLOOR.
+A defect in type I collagen causes	Osteogenesis imperfecta
+What is vitamin C needed for?	Cross-linking of collagen fibers
+Vitamin C deficiency causes	Scurvy
+A fibrillin-1 defect causes	Marfan syndrome
+Osteogenesis imperfecta	A type I collagen defect: brittle bones and blue sclerae
+Marfan syndrome	A fibrillin-1 defect: aortic root dilation and tall stature
+Scurvy	Vitamin C deficiency, which blocks collagen cross-linking
+How does brown adipose make heat?	UCP-1 dissipates the proton gradient as heat
+UCP-1 (thermogenin)	The uncoupling protein of brown adipose tissue that releases the proton gradient as heat
+Tay-Sachs disease	A lysosomal storage disorder, GM2 gangliosidosis, from hexosaminidase A deficiency
+Which enzyme is deficient in Tay-Sachs?	Hexosaminidase A
+Classic eye finding in Tay-Sachs	A cherry-red macular spot
+Mitochondrial myopathies	Impaired oxidative phosphorylation causing exercise intolerance, muscle weakness and raised blood lactate
+Why do mitochondrial diseases come only from the mother?	Mitochondrial DNA is maternally inherited
