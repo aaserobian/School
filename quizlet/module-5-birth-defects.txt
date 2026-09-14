@@ -1,0 +1,22 @@
+Teratogen	An environmental agent that causes congenital anomalies
+Weeks 1 to 2 (pre-embryonic period)	The all-or-none period: death or total repair
+Weeks 3 to 8 (embryonic period)	PEAK SENSITIVITY: organogenesis occurs here, so exposure leads to major structural malformations
+Weeks 9 to 38 (fetal period)	Exposure causes functional deficits or minor growth changes
+When is the peak teratogen period?	Weeks 3 to 8, the embryonic period
+Alcohol	Fetal alcohol syndrome: the number one preventable cause of intellectual disability
+Fetal alcohol syndrome features	Microcephaly, flat philtrum, thin upper lip
+Number one preventable cause of intellectual disability	Fetal alcohol syndrome
+Thalidomide	Severe limb defects: amelia, or phocomelia and meromelia
+Amelia	Missing limbs
+Phocomelia / meromelia	Seal-like, shortened limbs
+Rubella virus	Classic triad of bilateral cataracts, sensorineural deafness and cardiac defects
+Nicotine and smoking	Low birth weight and orofacial clefts (cleft lip and palate)
+What causes numerical chromosomal anomalies?	Meiotic nondisjunction
+Down syndrome	Trisomy 21
+Turner syndrome	45,X: the only viable monosomy in humans. Females with short stature, webbed neck and broad chest
+Only viable monosomy in humans	Turner syndrome (45,X)
+Klinefelter syndrome	47,XXY: male with tall stature, gynecomastia and testicular atrophy
+Cri-du-chat syndrome	Terminal deletion of chromosome 5p: cat-like cry and microcephaly
+Achondroplasia	Autosomal dominant mutation in FGFR3 causing short-limb dwarfism
+Which gene is mutated in achondroplasia?	FGFR3
+Structural chromosomal anomaly example	Cri-du-chat syndrome: a terminal deletion of chromosome 5p

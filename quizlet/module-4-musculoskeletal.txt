@@ -1,0 +1,13 @@
+Skeletal muscle origin	Paraxial mesoderm (somite myotomes) and the pharyngeal arches
+Cardiac muscle origin	Splanchnic mesoderm
+Smooth muscle origin	Splanchnic mesoderm (viscera) and local mesenchyme (blood vessels)
+HIGH-YIELD EXCEPTION: which muscles are NOT derived from mesoderm?	Smooth muscle of the iris (sphincter and dilator pupillae) and the sweat and mammary glands: these come from ECTODERM
+Origin of the iris sphincter and dilator pupillae	Ectoderm, not mesoderm
+When do the epimere and hypomere divide?	Week 5
+Epimere (dorsal division)	Forms the deep extensor muscles of the back, such as erector spinae; innervated by dorsal primary rami
+Hypomere (ventral division)	Forms anterior and lateral body wall muscles (intercostals, obliques, rectus abdominis) and the limb muscles; innervated by ventral primary rami
+Which muscles do the dorsal primary rami supply?	Epimere derivatives: the deep extensor muscles of the back
+Which muscles do the ventral primary rami supply?	Hypomere derivatives: body wall and limb muscles
+Tongue muscles are derived from	Occipital myotomes
+Extraocular eye muscles are derived from	Preoptic myotomes
+Muscles of mastication, facial expression, pharynx and larynx are derived from	Pharyngeal arch mesenchyme

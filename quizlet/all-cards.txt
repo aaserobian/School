@@ -1,0 +1,114 @@
+Trunk	The torso: the central axis of the body
+Boundaries of the trunk	Inferior to the neck, superior to the lower limbs, and between the upper limbs
+The 5 major subdivisions of the trunk	Thorax, Abdomen, Pelvis, Perineum, Back (dorsal trunk)
+Thorax	The chest cavity: ribs, sternum, heart, lungs
+Abdomen	The region between thorax and pelvis: the digestive tract
+Pelvis	Inferior region within the pelvic girdle: bladder, rectum, reproductive organs
+Perineum	Diamond-shaped region on the inferior pelvic floor: external genitalia and anus
+Back (dorsal trunk)	Posterior region housing the vertebral column and spinal muscles
+Anterior surface landmarks of the trunk	Sternal, pectoral, mammary, umbilical, inguinal
+Posterior surface landmarks of the trunk	Vertebral, scapular, lumbar, sacral, gluteal
+Sternal	Breastbone (anterior)
+Pectoral	Chest (anterior)
+Mammary	Breast (anterior)
+Umbilical	Navel (anterior)
+Inguinal	Groin (anterior)
+Vertebral	Spine (posterior)
+Scapular	Shoulder blade (posterior)
+Lumbar	Lower back (posterior)
+Sacral	Between the hips (posterior)
+Gluteal	Buttock (posterior)
+Superior vs. Inferior	Superior = towards the head; Inferior = towards the feet
+Anterior (ventral) vs. Posterior (dorsal)	Anterior = front; Posterior = back
+Medial vs. Lateral	Medial = closer to the midline; Lateral = further from the midline
+Ipsilateral vs. Contralateral	Ipsilateral = same side of the body; Contralateral = opposite sides
+Superficial vs. Deep	Superficial = closer to the skin surface; Deep = further inward
+Parietal vs. Visceral	Parietal = lining the wall of a body cavity; Visceral = directly covering an internal organ
+Median (midsagittal) plane	Vertical plane dividing the trunk into equal right and left halves
+Sagittal plane	Vertical plane parallel to the median, dividing into unequal right and left parts
+Coronal (frontal) plane	Vertical plane dividing into anterior and posterior parts
+Transverse (axial) plane	Horizontal plane dividing into superior and inferior parts
+What does the diaphragm separate?	The thoracic cavity from the abdominopelvic cavity
+What does the thoracic cavity contain?	The pleural and pericardial cavities
+Day 1 of development	Fertilization, in the ampullary region of the uterine tube
+Where does fertilization occur?	The ampulla of the uterine tube: the widest part, near the ovary
+Days 1 to 3 of development	Cleavage: mitotic divisions converting the single zygote into smaller cells
+Blastomeres	The progressively smaller cells produced by cleavage of the zygote
+Day 3 of development	Morula: a solid ball of 16 compacted cells, which enters the uterus
+Morula	A solid ball of 16 compacted cells, formed on Day 3
+Days 4 to 5 of development	Blastocyst: fluid enters to form a central cavity
+Embryoblast (inner cell mass)	Located at one pole of the blastocyst; forms the embryo proper
+Trophoblast (outer cell mass)	The outer epithelial wall of the blastocyst; forms the placenta
+Day 6 of development	Implantation: the blastocyst attaches and embeds into the endometrium
+Where does implantation occur?	The endometrium of the anterior or posterior uterine wall
+Order of first-week events	Fertilization (D1), cleavage (D1 to 3), morula (D3), blastocyst (D4 to 5), implantation (D6)
+Capacitation	A 7-hour conditioning period in the female reproductive tract that removes the glycoprotein coat and seminal plasma proteins from the acrosome
+How long does capacitation take?	7 hours
+Acrosomal reaction	After the sperm binds the zona pellucida, enzymes are released to penetrate the egg's coat
+Cortical reaction	Triggered by sperm entry; prevents polyspermy
+What prevents polyspermy?	The cortical reaction, triggered by sperm entry
+Three events triggered by sperm entry	The cortical reaction (prevents polyspermy), completion of meiosis II, and restoration of the diploid chromosome count
+Diploid chromosome number restored at fertilization	46
+The two layers of the trophoblast	Cytotrophoblast (inner) and syncytiotrophoblast (outer)
+Cytotrophoblast	Inner layer of mononucleated cells
+Syncytiotrophoblast	Outer multinucleated zone without distinct cell boundaries; erodes maternal tissue and sinusoids, and secretes hCG
+Which layer secretes hCG?	The syncytiotrophoblast
+Which layer establishes primitive uteroplacental circulation?	The syncytiotrophoblast, by eroding maternal tissue and sinusoids
+Bilaminar disc	Epiblast plus hypoblast, formed from the embryoblast in week 2
+Epiblast	High columnar cells adjacent to the amniotic cavity; gives rise to ALL three primary germ layers
+Hypoblast	Small cuboidal cells adjacent to the blastocyst cavity and yolk sac
+Which layer gives rise to all 3 germ layers?	The epiblast
+Gastrulation	Week 3: establishes all three germ layers by invagination through the primitive streak on the epiblast
+The three germ layers	Ectoderm, mesoderm, endoderm
+EXAM TRAP: failure of the primitive streak to degenerate	Sacrococcygeal teratoma
+Sacrococcygeal teratoma is caused by	Failure of the primitive streak to degenerate
+Notochord	Midline cellular rod that provides structural support and induces the overlying ectoderm to undergo neurulation
+Neurulation sequence	Neural plate, then neural groove, then neural tube
+What does the neural tube form?	The central nervous system: brain and spinal cord
+Neural crest cells	Detach during neural fold closure and migrate to form the PNS (sensory and autonomic ganglia), melanocytes, Schwann cells and the adrenal medulla
+Ectoderm derivatives	Nervous system (CNS and PNS), epidermis of skin, hair, nails, sweat glands, adrenal medulla
+Mesoderm derivatives	Bones, cartilage, connective tissue, muscle (skeletal, cardiac, smooth), cardiovascular system, kidneys, gonads
+Endoderm derivatives	Epithelial lining of the GI tract, respiratory tract (trachea, lungs), liver, pancreas, urinary bladder
+Paraxial mesoderm	Segments into somites: about 3 pairs per day, 42 to 44 pairs in total
+How many somite pairs form?	42 to 44 pairs, at about 3 pairs per day
+The three parts of a somite	Sclerotome, myotome, dermatome
+Sclerotome	Bones and cartilage of the vertebral column
+Myotome	Skeletal muscle
+Dermatome	Dermis of the skin
+Intermediate mesoderm	Forms the urogenital system: kidneys and gonads
+Lateral plate mesoderm	Splits into a splanchnic (visceral) layer and a somatic (parietal) layer
+Skeletal muscle origin	Paraxial mesoderm (somite myotomes) and the pharyngeal arches
+Cardiac muscle origin	Splanchnic mesoderm
+Smooth muscle origin	Splanchnic mesoderm (viscera) and local mesenchyme (blood vessels)
+HIGH-YIELD EXCEPTION: which muscles are NOT derived from mesoderm?	Smooth muscle of the iris (sphincter and dilator pupillae) and the sweat and mammary glands: these come from ECTODERM
+Origin of the iris sphincter and dilator pupillae	Ectoderm, not mesoderm
+When do the epimere and hypomere divide?	Week 5
+Epimere (dorsal division)	Forms the deep extensor muscles of the back, such as erector spinae; innervated by dorsal primary rami
+Hypomere (ventral division)	Forms anterior and lateral body wall muscles (intercostals, obliques, rectus abdominis) and the limb muscles; innervated by ventral primary rami
+Which muscles do the dorsal primary rami supply?	Epimere derivatives: the deep extensor muscles of the back
+Which muscles do the ventral primary rami supply?	Hypomere derivatives: body wall and limb muscles
+Tongue muscles are derived from	Occipital myotomes
+Extraocular eye muscles are derived from	Preoptic myotomes
+Muscles of mastication, facial expression, pharynx and larynx are derived from	Pharyngeal arch mesenchyme
+Teratogen	An environmental agent that causes congenital anomalies
+Weeks 1 to 2 (pre-embryonic period)	The all-or-none period: death or total repair
+Weeks 3 to 8 (embryonic period)	PEAK SENSITIVITY: organogenesis occurs here, so exposure leads to major structural malformations
+Weeks 9 to 38 (fetal period)	Exposure causes functional deficits or minor growth changes
+When is the peak teratogen period?	Weeks 3 to 8, the embryonic period
+Alcohol	Fetal alcohol syndrome: the number one preventable cause of intellectual disability
+Fetal alcohol syndrome features	Microcephaly, flat philtrum, thin upper lip
+Number one preventable cause of intellectual disability	Fetal alcohol syndrome
+Thalidomide	Severe limb defects: amelia, or phocomelia and meromelia
+Amelia	Missing limbs
+Phocomelia / meromelia	Seal-like, shortened limbs
+Rubella virus	Classic triad of bilateral cataracts, sensorineural deafness and cardiac defects
+Nicotine and smoking	Low birth weight and orofacial clefts (cleft lip and palate)
+What causes numerical chromosomal anomalies?	Meiotic nondisjunction
+Down syndrome	Trisomy 21
+Turner syndrome	45,X: the only viable monosomy in humans. Females with short stature, webbed neck and broad chest
+Only viable monosomy in humans	Turner syndrome (45,X)
+Klinefelter syndrome	47,XXY: male with tall stature, gynecomastia and testicular atrophy
+Cri-du-chat syndrome	Terminal deletion of chromosome 5p: cat-like cry and microcephaly
+Achondroplasia	Autosomal dominant mutation in FGFR3 causing short-limb dwarfism
+Which gene is mutated in achondroplasia?	FGFR3
+Structural chromosomal anomaly example	Cri-du-chat syndrome: a terminal deletion of chromosome 5p

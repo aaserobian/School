@@ -1,0 +1,32 @@
+Trunk	The torso: the central axis of the body
+Boundaries of the trunk	Inferior to the neck, superior to the lower limbs, and between the upper limbs
+The 5 major subdivisions of the trunk	Thorax, Abdomen, Pelvis, Perineum, Back (dorsal trunk)
+Thorax	The chest cavity: ribs, sternum, heart, lungs
+Abdomen	The region between thorax and pelvis: the digestive tract
+Pelvis	Inferior region within the pelvic girdle: bladder, rectum, reproductive organs
+Perineum	Diamond-shaped region on the inferior pelvic floor: external genitalia and anus
+Back (dorsal trunk)	Posterior region housing the vertebral column and spinal muscles
+Anterior surface landmarks of the trunk	Sternal, pectoral, mammary, umbilical, inguinal
+Posterior surface landmarks of the trunk	Vertebral, scapular, lumbar, sacral, gluteal
+Sternal	Breastbone (anterior)
+Pectoral	Chest (anterior)
+Mammary	Breast (anterior)
+Umbilical	Navel (anterior)
+Inguinal	Groin (anterior)
+Vertebral	Spine (posterior)
+Scapular	Shoulder blade (posterior)
+Lumbar	Lower back (posterior)
+Sacral	Between the hips (posterior)
+Gluteal	Buttock (posterior)
+Superior vs. Inferior	Superior = towards the head; Inferior = towards the feet
+Anterior (ventral) vs. Posterior (dorsal)	Anterior = front; Posterior = back
+Medial vs. Lateral	Medial = closer to the midline; Lateral = further from the midline
+Ipsilateral vs. Contralateral	Ipsilateral = same side of the body; Contralateral = opposite sides
+Superficial vs. Deep	Superficial = closer to the skin surface; Deep = further inward
+Parietal vs. Visceral	Parietal = lining the wall of a body cavity; Visceral = directly covering an internal organ
+Median (midsagittal) plane	Vertical plane dividing the trunk into equal right and left halves
+Sagittal plane	Vertical plane parallel to the median, dividing into unequal right and left parts
+Coronal (frontal) plane	Vertical plane dividing into anterior and posterior parts
+Transverse (axial) plane	Horizontal plane dividing into superior and inferior parts
+What does the diaphragm separate?	The thoracic cavity from the abdominopelvic cavity
+What does the thoracic cavity contain?	The pleural and pericardial cavities

@@ -1,0 +1,19 @@
+Day 1 of development	Fertilization, in the ampullary region of the uterine tube
+Where does fertilization occur?	The ampulla of the uterine tube: the widest part, near the ovary
+Days 1 to 3 of development	Cleavage: mitotic divisions converting the single zygote into smaller cells
+Blastomeres	The progressively smaller cells produced by cleavage of the zygote
+Day 3 of development	Morula: a solid ball of 16 compacted cells, which enters the uterus
+Morula	A solid ball of 16 compacted cells, formed on Day 3
+Days 4 to 5 of development	Blastocyst: fluid enters to form a central cavity
+Embryoblast (inner cell mass)	Located at one pole of the blastocyst; forms the embryo proper
+Trophoblast (outer cell mass)	The outer epithelial wall of the blastocyst; forms the placenta
+Day 6 of development	Implantation: the blastocyst attaches and embeds into the endometrium
+Where does implantation occur?	The endometrium of the anterior or posterior uterine wall
+Order of first-week events	Fertilization (D1), cleavage (D1 to 3), morula (D3), blastocyst (D4 to 5), implantation (D6)
+Capacitation	A 7-hour conditioning period in the female reproductive tract that removes the glycoprotein coat and seminal plasma proteins from the acrosome
+How long does capacitation take?	7 hours
+Acrosomal reaction	After the sperm binds the zona pellucida, enzymes are released to penetrate the egg's coat
+Cortical reaction	Triggered by sperm entry; prevents polyspermy
+What prevents polyspermy?	The cortical reaction, triggered by sperm entry
+Three events triggered by sperm entry	The cortical reaction (prevents polyspermy), completion of meiosis II, and restoration of the diploid chromosome count
+Diploid chromosome number restored at fertilization	46
