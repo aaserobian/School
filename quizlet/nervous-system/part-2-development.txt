@@ -1,0 +1,45 @@
+Which germ layer forms the nervous system?	Ectoderm: the entire nervous system
+Developmental sequence of the nervous system	Gastrulation, neural induction, neurulation, proliferation and migration, axonal outgrowth, synaptogenesis, refinement, myelination
+Which parts of development are hardwired and which are experiential?	Early formation follows hardwired genetic programs; synapse refinement and pruning are experience-dependent
+The 3 primary brain vesicles (weeks 3 to 4)	Prosencephalon (forebrain), mesencephalon (midbrain), rhombencephalon (hindbrain)
+When do the 5 secondary vesicles appear?	About week 5
+Which secondary vesicles come from the prosencephalon?	Telencephalon and diencephalon
+Which secondary vesicles come from the rhombencephalon?	Metencephalon and myelencephalon
+Telencephalon derivatives	Cerebral cortex, basal ganglia, hippocampus, olfactory bulbs, amygdala
+Telencephalon lumen	The lateral ventricles
+Diencephalon derivatives	Thalamus, hypothalamus and the optic vesicles, which give the optic nerve and retina
+Diencephalon lumen	The third ventricle
+Mesencephalon derivatives	The midbrain: tectum and tegmentum
+Mesencephalon lumen	The cerebral aqueduct
+Which primary vesicle does NOT divide?	The mesencephalon
+Metencephalon derivatives	Pons and cerebellum
+Metencephalon lumen	The fourth ventricle, upper part
+Myelencephalon derivatives	The medulla oblongata
+Myelencephalon lumen	The fourth ventricle, lower part
+Caudal neural tube derivative	The spinal cord, whose lumen is the central canal
+Match each vesicle to its ventricle	Telencephalon: lateral ventricles. Diencephalon: third ventricle. Mesencephalon: cerebral aqueduct. Metencephalon and myelencephalon: fourth ventricle.
+Neural induction	The notochord secretes morphogens instructing the overlying ectoderm to become the neural plate
+When does neurulation begin?	About day 18
+When does the anterior neuropore close?	About day 24
+When does the posterior neuropore close?	About day 26
+Neural crest, the fourth germ layer	A migratory progenitor population excluded at neural tube closure
+Neural crest derivatives	Most of the PNS, including DRG sensory neurons, postganglionic autonomic neurons, Schwann cells and satellite cells, plus melanocytes and the adrenal medulla
+Neural tube vs. neural crest	Neural tube forms the CNS. Neural crest forms the PNS, melanocytes and the adrenal medulla.
+Sonic hedgehog (SHH)	Secreted by the notochord and floor plate; produces the ventral basal plate and its motor neurons
+BMPs in neural patterning	Secreted by the roof plate; produce the dorsal alar plate and its sensory neurons
+Basal plate	Ventral, motor, induced by SHH
+Alar plate	Dorsal, sensory, induced by BMPs
+Alar vs. basal plate	Alar: sensory, dorsal, BMP. Basal: motor, ventral, SHH.
+How many developing neurons die by apoptosis?	About one third to one half
+What do axons compete for?	Target-derived neurotrophic factors such as NGF and BDNF
+Is synapse formation activity-dependent?	No: synaptogenesis is activity-INDEPENDENT
+Is synapse refinement activity-dependent?	Yes: refinement and pruning are activity-DEPENDENT
+The synapse rule	Formation is activity-INDEPENDENT; refinement and pruning are activity-DEPENDENT
+Failed anterior neuropore closure	Anencephaly: absence of major brain structures, incompatible with sustained life
+Anencephaly	Failure of the anterior neuropore to close, leaving major brain structures absent
+Failed posterior neuropore closure	Spina bifida
+The spina bifida spectrum	Occulta, then meningocele, then myelomeningocele
+Neuropore defects	Anterior failure gives anencephaly; posterior failure gives spina bifida
+What protects against neural tube defects?	Periconceptional folic acid, or folate, supplementation
+Prenatal critical period for teratogens	About 2 to 18 weeks, when exposure causes severe structural malformations
+Fetal alcohol spectrum disorder (FASD)	The leading preventable cause of intellectual disability

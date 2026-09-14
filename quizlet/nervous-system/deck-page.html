@@ -1,0 +1,605 @@
+<title>Nervous System Deck</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Spectral:wght@600&display=swap">
+<style>
+:root{
+  --paper:#eef1f4; --surface:#fff; --ink:#16202b; --ink-2:#3f5061; --ink-3:#6b7c8d;
+  --line:#d6dde4; --line-2:#bbc6d0; --axon:#a8552f; --axon-soft:#f7ece5;
+  --soma:#2d4a7c; --soma-soft:#e6ecf7; --done:#2f7d5c; --done-soft:#e2f0e9;
+  --btn-bg:#2d4a7c; --btn-ink:#fff; --btn-hover:#16202b;
+  --sans:"Archivo",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --serif:"Spectral",ui-serif,Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#101820; --surface:#18222c; --ink:#e6edf4; --ink-2:#a9b8c6; --ink-3:#7d8d9c;
+  --line:#27333f; --line-2:#364452; --axon:#e0906a; --axon-soft:#33231a;
+  --soma:#92afdd; --soma-soft:#1b2740; --done:#5bb98c; --done-soft:#1d3329;
+  --btn-bg:#92afdd; --btn-ink:#101820; --btn-hover:#b3c8ea;
+}}
+:root[data-theme="dark"]{
+  --paper:#101820; --surface:#18222c; --ink:#e6edf4; --ink-2:#a9b8c6; --ink-3:#7d8d9c;
+  --line:#27333f; --line-2:#364452; --axon:#e0906a; --axon-soft:#33231a;
+  --soma:#92afdd; --soma-soft:#1b2740; --done:#5bb98c; --done-soft:#1d3329;
+  --btn-bg:#92afdd; --btn-ink:#101820; --btn-hover:#b3c8ea;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:780px;margin:0 auto;padding-block:38px 72px;padding-left:20px;padding-right:20px}
+:focus-visible{outline:2px solid var(--axon);outline-offset:2px;border-radius:3px}
+
+.eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--axon);margin:0 0 10px}
+h1{font-family:var(--serif);font-size:clamp(30px,6vw,41px);font-weight:600;line-height:1.08;
+  margin:0;letter-spacing:-.015em;text-wrap:balance}
+.lede{color:var(--ink-2);margin:12px 0 0;max-width:58ch}
+
+.hero{margin-top:26px;background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:22px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.hero-text{flex:1 1 230px;min-width:0}
+.hero-text strong{display:block;font-size:16px;font-weight:600}
+.hero-text span{color:var(--ink-3);font-size:13.5px}
+
+.btn{font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;
+  border-radius:8px;padding:10px 16px;border:1px solid transparent;
+  background:var(--btn-bg);color:var(--btn-ink);transition:background .12s,border-color .12s,color .12s}
+.btn:hover{background:var(--btn-hover)}
+.btn-quiet{background:transparent;color:var(--soma);border-color:var(--line-2);
+  padding:7px 13px;font-size:13px;white-space:nowrap}
+.btn-quiet:hover{background:var(--soma-soft);border-color:var(--soma)}
+.btn-alert{background:transparent;color:var(--axon);border-color:var(--axon)}
+.btn-alert:hover{background:var(--axon-soft)}
+.btn.ok,.btn-quiet.ok,.btn-alert.ok{background:var(--done-soft);color:var(--done);border-color:var(--done)}
+
+h2{font-family:var(--serif);font-size:24px;font-weight:600;margin:46px 0 4px;letter-spacing:-.01em}
+.sub{color:var(--ink-3);font-size:13.5px;margin:0 0 18px}
+
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:12px}
+.steps li{counter-increment:s;position:relative;padding-left:38px;color:var(--ink-2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+  width:25px;height:25px;border-radius:50%;background:var(--soma-soft);color:var(--soma);
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  display:flex;align-items:center;justify-content:center}
+.steps b{color:var(--ink);font-weight:600}
+kbd{font-family:var(--mono);font-size:12.5px;background:var(--axon-soft);color:var(--axon);
+  border-radius:4px;padding:2px 6px;font-weight:500}
+.note{margin:18px 0 0;padding:13px 15px;border-left:3px solid var(--axon);
+  background:var(--axon-soft);color:var(--ink-2);font-size:13.5px;border-radius:0 7px 7px 0}
+.note b{color:var(--ink)}
+
+.part{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin-bottom:14px}
+.part-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:13px 16px;background:var(--soma-soft);border-bottom:1px solid var(--line)}
+.part-head h3{flex:1 1 200px;margin:0;font-family:var(--sans);font-size:14.5px;font-weight:600;
+  display:flex;align-items:baseline;gap:10px;min-width:0}
+.part-num{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--soma);flex:none}
+.objs{list-style:none;margin:0;padding:0}
+.obj-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line)}
+.obj-row:first-child{border-top:0}
+.obj-num{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--soma);
+  font-variant-numeric:tabular-nums;flex:none}
+.obj-name{flex:1 1 auto;min-width:0;font-size:14px}
+.obj-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;flex:none}
+
+.deck-obj{margin-top:28px}
+.deck-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding-bottom:9px;border-bottom:1px solid var(--line-2)}
+.deck-head h4{flex:1 1 210px;margin:0;font-family:var(--sans);font-size:15px;font-weight:600;
+  display:flex;align-items:baseline;gap:9px;min-width:0}
+.alert-count{font-family:var(--mono);font-size:11px;color:var(--axon);
+  background:var(--axon-soft);border-radius:4px;padding:3px 7px;flex:none}
+.cards{list-style:none;margin:0;padding:0}
+.cards li{display:grid;grid-template-columns:minmax(0,11fr) minmax(0,15fr);gap:18px;
+  padding:9px 2px 9px 10px;border-bottom:1px solid var(--line);border-left:2px solid transparent}
+.cards li.is-alert{border-left-color:var(--axon);background:linear-gradient(90deg,var(--axon-soft),transparent 55%)}
+.term{font-weight:500;color:var(--ink);overflow-wrap:anywhere}
+.flag{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--axon);border:1px solid var(--axon);border-radius:3px;padding:0 4px;
+  margin-left:7px;vertical-align:2px;white-space:nowrap}
+.def{color:var(--ink-2);font-size:14px;overflow-wrap:anywhere}
+
+#fallback{margin-top:16px;background:var(--surface);border:1px solid var(--axon);
+  border-radius:10px;padding:15px}
+#fallback p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2)}
+#fallback textarea{width:100%;height:150px;font-family:var(--mono);font-size:12px;
+  line-height:1.5;color:var(--ink);background:var(--paper);border:1px solid var(--line-2);
+  border-radius:7px;padding:10px;resize:vertical}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--ink-3);font-size:13px}
+code{font-family:var(--mono);font-size:12.5px;color:var(--soma)}
+@media (max-width:460px){
+  .cards li{grid-template-columns:1fr;gap:3px}
+  .hero{padding:18px}
+  .hero .btn{width:100%}
+  .obj-name{font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">133 cards &middot; 11 objectives &middot; 29 exam alerts</p>
+    <h1>Nervous System Deck</h1>
+    <p class="lede">Module 1 and its development chapter, formatted for Quizlet. Copy a
+      block, paste it into Quizlet's import box, and the cards split themselves into terms
+      and definitions.</p>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <strong>Everything in one set</strong>
+      <span>All 133 cards, both parts</span>
+    </div>
+    <button class="btn" type="button" data-copy="all" id="copy-all">Copy all 133 cards</button>
+  </div>
+
+  <div id="fallback" hidden>
+    <p><b>Clipboard blocked by the browser.</b> The text is selected below:
+      press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>C</kbd> to copy it.</p>
+    <textarea id="fallback-text" readonly aria-label="Card text to copy"></textarea>
+  </div>
+
+  <h2>Importing it</h2>
+  <p class="sub">Quizlet only imports on the web. Paste there and the set syncs to the app.</p>
+  <ol class="steps">
+    <li>On quizlet.com, click <b>+</b>, then <b>Study set</b>.</li>
+    <li>Click <b>Import</b>, under the title box.</li>
+    <li>Paste the copied text into the big box.</li>
+    <li>Set <b>Between term and definition</b> to <kbd>Tab</kbd></li>
+    <li>Set <b>Between cards</b> to <kbd>New line</kbd></li>
+    <li>Check the preview splits into two columns, then click <b>Import</b>.</li>
+  </ol>
+  <p class="note"><b>If every card lands in one column,</b> the separator is wrong. It is a
+    real tab character between term and definition, not spaces or a comma.</p>
+
+  <h2>One objective at a time</h2>
+  <p class="sub">Smaller sets are easier to drill than one long one.</p>
+  
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Part 1</span>Organization &amp; Cellular Biology</h3>
+          <button class="btn btn-quiet" type="button" data-copy="p1"
+                  id="copy-part-1">Copy all 88</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">1.1</span>
+          <span class="obj-name">Anatomic components of the CNS and PNS</span>
+          <span class="obj-count">11</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.1"
+                  id="copy-obj-1-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.2</span>
+          <span class="obj-name">Functional areas of the brain and spinal cord</span>
+          <span class="obj-count">22</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.2"
+                  id="copy-obj-1-2">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.3</span>
+          <span class="obj-name">Nerves and ganglia in the PNS</span>
+          <span class="obj-count">16</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.3"
+                  id="copy-obj-1-3">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.4</span>
+          <span class="obj-name">Categories of neurons</span>
+          <span class="obj-count">9</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.4"
+                  id="copy-obj-1-4">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.5</span>
+          <span class="obj-name">Neuronal organelles, energetics and metabolism</span>
+          <span class="obj-count">6</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.5"
+                  id="copy-obj-1-5">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.6</span>
+          <span class="obj-name">Specialized processes and axonal transport</span>
+          <span class="obj-count">12</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.6"
+                  id="copy-obj-1-6">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">1.7</span>
+          <span class="obj-name">CNS and PNS glial cells</span>
+          <span class="obj-count">12</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.7"
+                  id="copy-obj-1-7">Copy</button>
+        </li>
+        </ul>
+      </section>
+      <section class="part">
+        <div class="part-head">
+          <h3><span class="part-num">Part 2</span>Development of the Nervous System</h3>
+          <button class="btn btn-quiet" type="button" data-copy="p2"
+                  id="copy-part-2">Copy all 45</button>
+        </div>
+        <ul class="objs">
+        <li class="obj-row">
+          <span class="obj-num">2.1</span>
+          <span class="obj-name">Stages, timeline and germ layers</span>
+          <span class="obj-count">3</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.1"
+                  id="copy-obj-2-1">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">2.2</span>
+          <span class="obj-name">Primary and secondary brain vesicles</span>
+          <span class="obj-count">17</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.2"
+                  id="copy-obj-2-2">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">2.3</span>
+          <span class="obj-name">Cellular mechanisms of neural development</span>
+          <span class="obj-count">17</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.3"
+                  id="copy-obj-2-3">Copy</button>
+        </li>
+        <li class="obj-row">
+          <span class="obj-num">2.4</span>
+          <span class="obj-name">Congenital birth defects and teratogens</span>
+          <span class="obj-count">8</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.4"
+                  id="copy-obj-2-4">Copy</button>
+        </li>
+        </ul>
+      </section>
+
+  <div class="hero">
+    <div class="hero-text">
+      <strong>Just the exam alerts</strong>
+      <span>The 29 cards from the guide's alert boxes, across both parts</span>
+    </div>
+    <button class="btn btn-alert" type="button" data-copy="alerts"
+            id="copy-alerts">Copy 29 alerts</button>
+  </div>
+
+  <h2>The cards</h2>
+  <p class="sub">Term on the left, definition on the right, exactly as they will import.
+    A copper rule marks a card that came from an EXAM ALERT box.</p>
+  
+      <section class="deck-obj" aria-labelledby="h-1-1">
+        <div class="deck-head">
+          <h4 id="h-1-1"><span class="obj-num">1.1</span>Anatomic components of the CNS and PNS</h4>
+          <span class="alert-count">3 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.1"
+                  id="copy-deck-1-1">Copy 11</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Central nervous system (CNS)</span><span class="def">The brain, housed in the cranial cavity, and the spinal cord, housed in the vertebral canal</span></li>
+          <li><span class="term">Peripheral nervous system (PNS)</span><span class="def">12 pairs of cranial nerves, 31 pairs of spinal nerves, and ganglia</span></li>
+          <li><span class="term">Ganglion</span><span class="def">A cluster of neuron cell bodies in the PNS</span></li>
+          <li><span class="term">The three functional subdivisions of the PNS</span><span class="def">Somatic, autonomic and enteric</span></li>
+          <li><span class="term">The three meninges, outermost to innermost</span><span class="def">Dura mater, arachnoid mater, pia mater</span></li>
+          <li class="is-alert"><span class="term">Mnemonic for the meninges<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">DAP: Dura, Arachnoid, Pia, from the outside in</span></li>
+          <li><span class="term">What does the subarachnoid space contain?</span><span class="def">Cerebrospinal fluid (CSF)</span></li>
+          <li class="is-alert"><span class="term">Cluster of neuron cell bodies: CNS vs. PNS<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Nucleus in the CNS; ganglion in the PNS</span></li>
+          <li class="is-alert"><span class="term">Bundle of axons: CNS vs. PNS<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Tract in the CNS; nerve in the PNS</span></li>
+          <li><span class="term">Where is the brain housed?</span><span class="def">The cranial cavity</span></li>
+          <li><span class="term">Where is the spinal cord housed?</span><span class="def">The vertebral canal</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-2">
+        <div class="deck-head">
+          <h4 id="h-1-2"><span class="obj-num">1.2</span>Functional areas of the brain and spinal cord</h4>
+          <span class="alert-count">5 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.2"
+                  id="copy-deck-1-2">Copy 22</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Forebrain</span><span class="def">The cerebrum (cortex, subcortical basal nuclei, white matter) and the diencephalon</span></li>
+          <li><span class="term">The two parts of the diencephalon</span><span class="def">Thalamus, for sensory and motor relay, and hypothalamus, for homeostasis</span></li>
+          <li><span class="term">Thalamus</span><span class="def">Sensory and motor relay</span></li>
+          <li><span class="term">Hypothalamus</span><span class="def">Homeostasis</span></li>
+          <li><span class="term">Cerebellum</span><span class="def">Coordinates posture, balance and motor planning</span></li>
+          <li><span class="term">The three layers of the cerebellar cortex</span><span class="def">Granular, Purkinje, molecular</span></li>
+          <li><span class="term">Purkinje cells</span><span class="def">The sole output of the cerebellar cortex; GABAergic, therefore inhibitory</span></li>
+          <li><span class="term">The three parts of the brainstem</span><span class="def">Midbrain, pons, medulla oblongata</span></li>
+          <li><span class="term">Frontal lobe</span><span class="def">Primary motor cortex (precentral gyrus), motor planning, executive function, working memory and Broca's area</span></li>
+          <li><span class="term">Parietal lobe</span><span class="def">Primary somatosensory cortex (postcentral gyrus), spatial awareness and integration of sensory inputs</span></li>
+          <li><span class="term">Temporal lobe</span><span class="def">Primary auditory cortex, Wernicke's area and memory (hippocampus)</span></li>
+          <li><span class="term">Occipital lobe</span><span class="def">Primary visual cortex (V1) and the visual association areas</span></li>
+          <li class="is-alert"><span class="term">Precentral gyrus<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The primary motor cortex, in the frontal lobe</span></li>
+          <li class="is-alert"><span class="term">Postcentral gyrus<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The primary somatosensory cortex, in the parietal lobe</span></li>
+          <li class="is-alert"><span class="term">Broca's area<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Speech production; frontal lobe of the dominant hemisphere</span></li>
+          <li class="is-alert"><span class="term">Wernicke's area<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Language comprehension; temporal lobe of the dominant hemisphere</span></li>
+          <li><span class="term">Spinal cord gray matter</span><span class="def">Medial and butterfly or H-shaped</span></li>
+          <li><span class="term">Dorsal (posterior) horn</span><span class="def">Sensory</span></li>
+          <li><span class="term">Ventral (anterior) horn</span><span class="def">Motor</span></li>
+          <li><span class="term">Lateral horn (T1 to L2)</span><span class="def">Sympathetic preganglionic cell bodies</span></li>
+          <li><span class="term">Spinal cord white matter</span><span class="def">Lateral: ascending sensory tracts and descending motor tracts</span></li>
+          <li class="is-alert"><span class="term">Gray vs. white matter organization<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Brain: gray matter outer (cortex), white matter inner. Spinal cord: gray matter inner and medial, white matter outer and lateral.</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-3">
+        <div class="deck-head">
+          <h4 id="h-1-3"><span class="obj-num">1.3</span>Nerves and ganglia in the PNS</h4>
+          <span class="alert-count">4 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.3"
+                  id="copy-deck-1-3">Copy 16</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Connective tissue layers of a nerve, innermost to outermost</span><span class="def">Endoneurium, perineurium, epineurium</span></li>
+          <li><span class="term">Endoneurium</span><span class="def">Surrounds an individual axon</span></li>
+          <li><span class="term">Perineurium</span><span class="def">Surrounds a fascicle of axons</span></li>
+          <li><span class="term">Epineurium</span><span class="def">Surrounds the entire nerve</span></li>
+          <li><span class="term">How many pairs of spinal nerves are there?</span><span class="def">31 pairs</span></li>
+          <li><span class="term">Breakdown of the 31 spinal nerve pairs</span><span class="def">8 cervical, 12 thoracic, 5 lumbar, 5 sacral, 1 coccygeal</span></li>
+          <li><span class="term">Are spinal nerves sensory, motor or mixed?</span><span class="def">All spinal nerves are mixed</span></li>
+          <li><span class="term">Which cranial nerves are CNS extensions?</span><span class="def">CN I and CN II. CN III to CN XII are PNS nerves.</span></li>
+          <li class="is-alert"><span class="term">Sympathetic outflow<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Thoracolumbar: T1 to L2</span></li>
+          <li class="is-alert"><span class="term">Parasympathetic outflow<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Craniosacral: CN III, VII, IX, X and S2 to S4</span></li>
+          <li><span class="term">Sympathetic pathway</span><span class="def">Short preganglionic axon to a sympathetic chain ganglion, then a long postganglionic axon releasing norepinephrine</span></li>
+          <li><span class="term">Exception to sympathetic norepinephrine release</span><span class="def">Sweat glands, where the postganglionic fiber releases acetylcholine</span></li>
+          <li><span class="term">Parasympathetic pathway</span><span class="def">Long preganglionic axon to a terminal ganglion near the target, then a short postganglionic axon releasing acetylcholine onto muscarinic receptors</span></li>
+          <li><span class="term">Which nerve carries about 75% of parasympathetic output?</span><span class="def">CN X, the vagus nerve</span></li>
+          <li class="is-alert"><span class="term">SAME DAVE<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Sensory = Afferent, Motor = Efferent; Dorsal = Afferent, Ventral = Efferent</span></li>
+          <li class="is-alert"><span class="term">Where do sensory cell bodies sit?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The dorsal root ganglion (DRG)</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-4">
+        <div class="deck-head">
+          <h4 id="h-1-4"><span class="obj-num">1.4</span>Categories of neurons</h4>
+          <span class="alert-count">3 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.4"
+                  id="copy-deck-1-4">Copy 9</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Multipolar neuron</span><span class="def">One axon plus multiple dendrites; the most common type, including motor and cortical neurons</span></li>
+          <li><span class="term">Bipolar neuron</span><span class="def">One axon plus one dendrite; retinal, olfactory and vestibulocochlear neurons</span></li>
+          <li><span class="term">Pseudounipolar neuron</span><span class="def">A single process that bifurcates into central and peripheral axons; the sensory neurons of the DRG</span></li>
+          <li class="is-alert"><span class="term">What morphology are DRG neurons?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Pseudounipolar, both the somatic and the visceral sensory neurons</span></li>
+          <li><span class="term">Glutamatergic neurons</span><span class="def">Release glutamate, the primary excitatory neurotransmitter of the CNS</span></li>
+          <li><span class="term">GABAergic neurons</span><span class="def">Release GABA; the primary inhibitory interneurons of the brain</span></li>
+          <li><span class="term">Glycinergic neurons</span><span class="def">Release glycine; the primary inhibitory interneurons of the spinal cord and brainstem</span></li>
+          <li class="is-alert"><span class="term">Chief excitatory neurotransmitter of the CNS<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Glutamate</span></li>
+          <li class="is-alert"><span class="term">Chief inhibitory neurotransmitters of the CNS<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">GABA in the brain and glycine in the spinal cord</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-5">
+        <div class="deck-head">
+          <h4 id="h-1-5"><span class="obj-num">1.5</span>Neuronal organelles, energetics and metabolism</h4>
+          <span class="alert-count">1 exam alert</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.5"
+                  id="copy-deck-1-5">Copy 6</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Soma (perikaryon)</span><span class="def">The cell body: nucleus, Nissl bodies and organelles</span></li>
+          <li><span class="term">Nissl bodies</span><span class="def">Rough endoplasmic reticulum, where protein synthesis happens</span></li>
+          <li><span class="term">How are neuronal proteins degraded?</span><span class="def">By lysosomes and by proteasomes, which are ubiquitin-dependent</span></li>
+          <li><span class="term">What share of the body's oxygen and energy does the brain use?</span><span class="def">About 20%</span></li>
+          <li><span class="term">Astrocyte-neuron lactate shuttle</span><span class="def">Astrocytes convert glucose into lactate and shuttle it to neurons, which use it to make ATP by oxidative phosphorylation</span></li>
+          <li class="is-alert"><span class="term">What energy substrate do astrocytes supply to neurons?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Lactate</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-6">
+        <div class="deck-head">
+          <h4 id="h-1-6"><span class="obj-num">1.6</span>Specialized processes and axonal transport</h4>
+          <span class="alert-count">3 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.6"
+                  id="copy-deck-1-6">Copy 12</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Axon initial segment</span><span class="def">The trigger zone, where action potentials originate</span></li>
+          <li><span class="term">What do microtubules do in the axon?</span><span class="def">Serve as the tracks for fast axonal transport</span></li>
+          <li><span class="term">Anterograde transport</span><span class="def">Soma to axon terminal, powered by kinesin</span></li>
+          <li><span class="term">Retrograde transport</span><span class="def">Axon terminal to soma, powered by dynein</span></li>
+          <li class="is-alert"><span class="term">Kinesin<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The motor protein for anterograde transport, soma to terminal</span></li>
+          <li class="is-alert"><span class="term">Dynein<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The motor protein for retrograde transport, terminal to soma</span></li>
+          <li><span class="term">Electrical synapses</span><span class="def">Gap junctions made of connexons: bidirectional, ultrafast, with no synaptic delay</span></li>
+          <li><span class="term">Chemical synapses</span><span class="def">Neurotransmitter released into a synaptic cleft: unidirectional, with a delay</span></li>
+          <li class="is-alert"><span class="term">Electrical vs. chemical synapses<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Electrical: bidirectional, no delay. Chemical: unidirectional, 0.5 to 1 ms delay.</span></li>
+          <li><span class="term">How wide is the synaptic cleft?</span><span class="def">20 to 40 nm</span></li>
+          <li><span class="term">How long is the chemical synaptic delay?</span><span class="def">0.5 to 1 ms</span></li>
+          <li><span class="term">Ionotropic vs. metabotropic receptors</span><span class="def">Ionotropic: fast ligand-gated ion channels. Metabotropic: G-protein-coupled.</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-1-7">
+        <div class="deck-head">
+          <h4 id="h-1-7"><span class="obj-num">1.7</span>CNS and PNS glial cells</h4>
+          <span class="alert-count">2 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="1.7"
+                  id="copy-deck-1-7">Copy 12</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Most abundant glial cell of the CNS</span><span class="def">Astrocytes</span></li>
+          <li><span class="term">Astrocyte functions</span><span class="def">Blood-brain barrier perivascular end-feet, glutamate uptake, potassium regulation, the tripartite synapse, and scar formation by reactive gliosis</span></li>
+          <li><span class="term">How do astrocytes prevent excitotoxicity?</span><span class="def">They express EAAT1 and EAAT2 to take up glutamate</span></li>
+          <li><span class="term">Reactive gliosis</span><span class="def">Scar formation by astrocytes</span></li>
+          <li><span class="term">Oligodendrocytes</span><span class="def">Myelinate CNS axons; one cell myelinates segments of up to about 50 different axons</span></li>
+          <li><span class="term">Schwann cells</span><span class="def">Myelinate PNS axons; each cell myelinates a single segment of ONE axon</span></li>
+          <li class="is-alert"><span class="term">Myelination: CNS vs. PNS<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Oligodendrocyte: one cell to about 50 axons. Schwann cell: one cell to one axon segment.</span></li>
+          <li><span class="term">Microglia</span><span class="def">The resident immune and phagocytic cells, about 15 to 20% of brain cells</span></li>
+          <li class="is-alert"><span class="term">Where do microglia come from?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Yolk-sac progenitors, so mesodermal, unlike the macroglia, which are ectodermal</span></li>
+          <li><span class="term">Ependymal cells</span><span class="def">Ciliated cells lining the ventricles</span></li>
+          <li><span class="term">What produces CSF?</span><span class="def">Specialized ependymal cells of the choroid plexus</span></li>
+          <li><span class="term">Satellite cells</span><span class="def">Ensheath and support the cell bodies in PNS ganglia</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-1">
+        <div class="deck-head">
+          <h4 id="h-2-1"><span class="obj-num">2.1</span>Stages, timeline and germ layers</h4>
+          <span class="alert-count">1 exam alert</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.1"
+                  id="copy-deck-2-1">Copy 3</button>
+        </div>
+        <ol class="cards">
+          <li class="is-alert"><span class="term">Which germ layer forms the nervous system?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Ectoderm: the entire nervous system</span></li>
+          <li><span class="term">Developmental sequence of the nervous system</span><span class="def">Gastrulation, neural induction, neurulation, proliferation and migration, axonal outgrowth, synaptogenesis, refinement, myelination</span></li>
+          <li><span class="term">Which parts of development are hardwired and which are experiential?</span><span class="def">Early formation follows hardwired genetic programs; synapse refinement and pruning are experience-dependent</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-2">
+        <div class="deck-head">
+          <h4 id="h-2-2"><span class="obj-num">2.2</span>Primary and secondary brain vesicles</h4>
+          <span class="alert-count">2 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.2"
+                  id="copy-deck-2-2">Copy 17</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">The 3 primary brain vesicles (weeks 3 to 4)</span><span class="def">Prosencephalon (forebrain), mesencephalon (midbrain), rhombencephalon (hindbrain)</span></li>
+          <li><span class="term">When do the 5 secondary vesicles appear?</span><span class="def">About week 5</span></li>
+          <li><span class="term">Which secondary vesicles come from the prosencephalon?</span><span class="def">Telencephalon and diencephalon</span></li>
+          <li><span class="term">Which secondary vesicles come from the rhombencephalon?</span><span class="def">Metencephalon and myelencephalon</span></li>
+          <li><span class="term">Telencephalon derivatives</span><span class="def">Cerebral cortex, basal ganglia, hippocampus, olfactory bulbs, amygdala</span></li>
+          <li><span class="term">Telencephalon lumen</span><span class="def">The lateral ventricles</span></li>
+          <li><span class="term">Diencephalon derivatives</span><span class="def">Thalamus, hypothalamus and the optic vesicles, which give the optic nerve and retina</span></li>
+          <li><span class="term">Diencephalon lumen</span><span class="def">The third ventricle</span></li>
+          <li><span class="term">Mesencephalon derivatives</span><span class="def">The midbrain: tectum and tegmentum</span></li>
+          <li><span class="term">Mesencephalon lumen</span><span class="def">The cerebral aqueduct</span></li>
+          <li class="is-alert"><span class="term">Which primary vesicle does NOT divide?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">The mesencephalon</span></li>
+          <li><span class="term">Metencephalon derivatives</span><span class="def">Pons and cerebellum</span></li>
+          <li><span class="term">Metencephalon lumen</span><span class="def">The fourth ventricle, upper part</span></li>
+          <li><span class="term">Myelencephalon derivatives</span><span class="def">The medulla oblongata</span></li>
+          <li><span class="term">Myelencephalon lumen</span><span class="def">The fourth ventricle, lower part</span></li>
+          <li><span class="term">Caudal neural tube derivative</span><span class="def">The spinal cord, whose lumen is the central canal</span></li>
+          <li class="is-alert"><span class="term">Match each vesicle to its ventricle<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Telencephalon: lateral ventricles. Diencephalon: third ventricle. Mesencephalon: cerebral aqueduct. Metencephalon and myelencephalon: fourth ventricle.</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-3">
+        <div class="deck-head">
+          <h4 id="h-2-3"><span class="obj-num">2.3</span>Cellular mechanisms of neural development</h4>
+          <span class="alert-count">3 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.3"
+                  id="copy-deck-2-3">Copy 17</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Neural induction</span><span class="def">The notochord secretes morphogens instructing the overlying ectoderm to become the neural plate</span></li>
+          <li><span class="term">When does neurulation begin?</span><span class="def">About day 18</span></li>
+          <li><span class="term">When does the anterior neuropore close?</span><span class="def">About day 24</span></li>
+          <li><span class="term">When does the posterior neuropore close?</span><span class="def">About day 26</span></li>
+          <li><span class="term">Neural crest, the fourth germ layer</span><span class="def">A migratory progenitor population excluded at neural tube closure</span></li>
+          <li><span class="term">Neural crest derivatives</span><span class="def">Most of the PNS, including DRG sensory neurons, postganglionic autonomic neurons, Schwann cells and satellite cells, plus melanocytes and the adrenal medulla</span></li>
+          <li class="is-alert"><span class="term">Neural tube vs. neural crest<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Neural tube forms the CNS. Neural crest forms the PNS, melanocytes and the adrenal medulla.</span></li>
+          <li><span class="term">Sonic hedgehog (SHH)</span><span class="def">Secreted by the notochord and floor plate; produces the ventral basal plate and its motor neurons</span></li>
+          <li><span class="term">BMPs in neural patterning</span><span class="def">Secreted by the roof plate; produce the dorsal alar plate and its sensory neurons</span></li>
+          <li><span class="term">Basal plate</span><span class="def">Ventral, motor, induced by SHH</span></li>
+          <li><span class="term">Alar plate</span><span class="def">Dorsal, sensory, induced by BMPs</span></li>
+          <li class="is-alert"><span class="term">Alar vs. basal plate<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Alar: sensory, dorsal, BMP. Basal: motor, ventral, SHH.</span></li>
+          <li><span class="term">How many developing neurons die by apoptosis?</span><span class="def">About one third to one half</span></li>
+          <li><span class="term">What do axons compete for?</span><span class="def">Target-derived neurotrophic factors such as NGF and BDNF</span></li>
+          <li><span class="term">Is synapse formation activity-dependent?</span><span class="def">No: synaptogenesis is activity-INDEPENDENT</span></li>
+          <li><span class="term">Is synapse refinement activity-dependent?</span><span class="def">Yes: refinement and pruning are activity-DEPENDENT</span></li>
+          <li class="is-alert"><span class="term">The synapse rule<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Formation is activity-INDEPENDENT; refinement and pruning are activity-DEPENDENT</span></li>
+        </ol>
+      </section>
+      <section class="deck-obj" aria-labelledby="h-2-4">
+        <div class="deck-head">
+          <h4 id="h-2-4"><span class="obj-num">2.4</span>Congenital birth defects and teratogens</h4>
+          <span class="alert-count">2 exam alerts</span>
+          <button class="btn btn-quiet" type="button" data-copy="2.4"
+                  id="copy-deck-2-4">Copy 8</button>
+        </div>
+        <ol class="cards">
+          <li><span class="term">Failed anterior neuropore closure</span><span class="def">Anencephaly: absence of major brain structures, incompatible with sustained life</span></li>
+          <li><span class="term">Anencephaly</span><span class="def">Failure of the anterior neuropore to close, leaving major brain structures absent</span></li>
+          <li><span class="term">Failed posterior neuropore closure</span><span class="def">Spina bifida</span></li>
+          <li><span class="term">The spina bifida spectrum</span><span class="def">Occulta, then meningocele, then myelomeningocele</span></li>
+          <li class="is-alert"><span class="term">Neuropore defects<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Anterior failure gives anencephaly; posterior failure gives spina bifida</span></li>
+          <li class="is-alert"><span class="term">What protects against neural tube defects?<span class="flag" title="From an EXAM ALERT box">alert</span></span><span class="def">Periconceptional folic acid, or folate, supplementation</span></li>
+          <li><span class="term">Prenatal critical period for teratogens</span><span class="def">About 2 to 18 weeks, when exposure causes severe structural malformations</span></li>
+          <li><span class="term">Fetal alcohol spectrum disorder (FASD)</span><span class="def">The leading preventable cause of intellectual disability</span></li>
+        </ol>
+      </section>
+
+  <footer>
+    Built from the master study guide for Module 1, Introduction to the Nervous System, and
+    Module 1 Ch. 2, Development of the Nervous System. The same cards are committed to your
+    repo as tab-separated files under <code>quizlet/nervous-system/</code>. The trunk anatomy
+    and embryology cards are a separate deck.
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var GROUPS = {"1.1": [{"t": "Central nervous system (CNS)", "d": "The brain, housed in the cranial cavity, and the spinal cord, housed in the vertebral canal", "a": false}, {"t": "Peripheral nervous system (PNS)", "d": "12 pairs of cranial nerves, 31 pairs of spinal nerves, and ganglia", "a": false}, {"t": "Ganglion", "d": "A cluster of neuron cell bodies in the PNS", "a": false}, {"t": "The three functional subdivisions of the PNS", "d": "Somatic, autonomic and enteric", "a": false}, {"t": "The three meninges, outermost to innermost", "d": "Dura mater, arachnoid mater, pia mater", "a": false}, {"t": "Mnemonic for the meninges", "d": "DAP: Dura, Arachnoid, Pia, from the outside in", "a": true}, {"t": "What does the subarachnoid space contain?", "d": "Cerebrospinal fluid (CSF)", "a": false}, {"t": "Cluster of neuron cell bodies: CNS vs. PNS", "d": "Nucleus in the CNS; ganglion in the PNS", "a": true}, {"t": "Bundle of axons: CNS vs. PNS", "d": "Tract in the CNS; nerve in the PNS", "a": true}, {"t": "Where is the brain housed?", "d": "The cranial cavity", "a": false}, {"t": "Where is the spinal cord housed?", "d": "The vertebral canal", "a": false}], "1.2": [{"t": "Forebrain", "d": "The cerebrum (cortex, subcortical basal nuclei, white matter) and the diencephalon", "a": false}, {"t": "The two parts of the diencephalon", "d": "Thalamus, for sensory and motor relay, and hypothalamus, for homeostasis", "a": false}, {"t": "Thalamus", "d": "Sensory and motor relay", "a": false}, {"t": "Hypothalamus", "d": "Homeostasis", "a": false}, {"t": "Cerebellum", "d": "Coordinates posture, balance and motor planning", "a": false}, {"t": "The three layers of the cerebellar cortex", "d": "Granular, Purkinje, molecular", "a": false}, {"t": "Purkinje cells", "d": "The sole output of the cerebellar cortex; GABAergic, therefore inhibitory", "a": false}, {"t": "The three parts of the brainstem", "d": "Midbrain, pons, medulla oblongata", "a": false}, {"t": "Frontal lobe", "d": "Primary motor cortex (precentral gyrus), motor planning, executive function, working memory and Broca's area", "a": false}, {"t": "Parietal lobe", "d": "Primary somatosensory cortex (postcentral gyrus), spatial awareness and integration of sensory inputs", "a": false}, {"t": "Temporal lobe", "d": "Primary auditory cortex, Wernicke's area and memory (hippocampus)", "a": false}, {"t": "Occipital lobe", "d": "Primary visual cortex (V1) and the visual association areas", "a": false}, {"t": "Precentral gyrus", "d": "The primary motor cortex, in the frontal lobe", "a": true}, {"t": "Postcentral gyrus", "d": "The primary somatosensory cortex, in the parietal lobe", "a": true}, {"t": "Broca's area", "d": "Speech production; frontal lobe of the dominant hemisphere", "a": true}, {"t": "Wernicke's area", "d": "Language comprehension; temporal lobe of the dominant hemisphere", "a": true}, {"t": "Spinal cord gray matter", "d": "Medial and butterfly or H-shaped", "a": false}, {"t": "Dorsal (posterior) horn", "d": "Sensory", "a": false}, {"t": "Ventral (anterior) horn", "d": "Motor", "a": false}, {"t": "Lateral horn (T1 to L2)", "d": "Sympathetic preganglionic cell bodies", "a": false}, {"t": "Spinal cord white matter", "d": "Lateral: ascending sensory tracts and descending motor tracts", "a": false}, {"t": "Gray vs. white matter organization", "d": "Brain: gray matter outer (cortex), white matter inner. Spinal cord: gray matter inner and medial, white matter outer and lateral.", "a": true}], "1.3": [{"t": "Connective tissue layers of a nerve, innermost to outermost", "d": "Endoneurium, perineurium, epineurium", "a": false}, {"t": "Endoneurium", "d": "Surrounds an individual axon", "a": false}, {"t": "Perineurium", "d": "Surrounds a fascicle of axons", "a": false}, {"t": "Epineurium", "d": "Surrounds the entire nerve", "a": false}, {"t": "How many pairs of spinal nerves are there?", "d": "31 pairs", "a": false}, {"t": "Breakdown of the 31 spinal nerve pairs", "d": "8 cervical, 12 thoracic, 5 lumbar, 5 sacral, 1 coccygeal", "a": false}, {"t": "Are spinal nerves sensory, motor or mixed?", "d": "All spinal nerves are mixed", "a": false}, {"t": "Which cranial nerves are CNS extensions?", "d": "CN I and CN II. CN III to CN XII are PNS nerves.", "a": false}, {"t": "Sympathetic outflow", "d": "Thoracolumbar: T1 to L2", "a": true}, {"t": "Parasympathetic outflow", "d": "Craniosacral: CN III, VII, IX, X and S2 to S4", "a": true}, {"t": "Sympathetic pathway", "d": "Short preganglionic axon to a sympathetic chain ganglion, then a long postganglionic axon releasing norepinephrine", "a": false}, {"t": "Exception to sympathetic norepinephrine release", "d": "Sweat glands, where the postganglionic fiber releases acetylcholine", "a": false}, {"t": "Parasympathetic pathway", "d": "Long preganglionic axon to a terminal ganglion near the target, then a short postganglionic axon releasing acetylcholine onto muscarinic receptors", "a": false}, {"t": "Which nerve carries about 75% of parasympathetic output?", "d": "CN X, the vagus nerve", "a": false}, {"t": "SAME DAVE", "d": "Sensory = Afferent, Motor = Efferent; Dorsal = Afferent, Ventral = Efferent", "a": true}, {"t": "Where do sensory cell bodies sit?", "d": "The dorsal root ganglion (DRG)", "a": true}], "1.4": [{"t": "Multipolar neuron", "d": "One axon plus multiple dendrites; the most common type, including motor and cortical neurons", "a": false}, {"t": "Bipolar neuron", "d": "One axon plus one dendrite; retinal, olfactory and vestibulocochlear neurons", "a": false}, {"t": "Pseudounipolar neuron", "d": "A single process that bifurcates into central and peripheral axons; the sensory neurons of the DRG", "a": false}, {"t": "What morphology are DRG neurons?", "d": "Pseudounipolar, both the somatic and the visceral sensory neurons", "a": true}, {"t": "Glutamatergic neurons", "d": "Release glutamate, the primary excitatory neurotransmitter of the CNS", "a": false}, {"t": "GABAergic neurons", "d": "Release GABA; the primary inhibitory interneurons of the brain", "a": false}, {"t": "Glycinergic neurons", "d": "Release glycine; the primary inhibitory interneurons of the spinal cord and brainstem", "a": false}, {"t": "Chief excitatory neurotransmitter of the CNS", "d": "Glutamate", "a": true}, {"t": "Chief inhibitory neurotransmitters of the CNS", "d": "GABA in the brain and glycine in the spinal cord", "a": true}], "1.5": [{"t": "Soma (perikaryon)", "d": "The cell body: nucleus, Nissl bodies and organelles", "a": false}, {"t": "Nissl bodies", "d": "Rough endoplasmic reticulum, where protein synthesis happens", "a": false}, {"t": "How are neuronal proteins degraded?", "d": "By lysosomes and by proteasomes, which are ubiquitin-dependent", "a": false}, {"t": "What share of the body's oxygen and energy does the brain use?", "d": "About 20%", "a": false}, {"t": "Astrocyte-neuron lactate shuttle", "d": "Astrocytes convert glucose into lactate and shuttle it to neurons, which use it to make ATP by oxidative phosphorylation", "a": false}, {"t": "What energy substrate do astrocytes supply to neurons?", "d": "Lactate", "a": true}], "1.6": [{"t": "Axon initial segment", "d": "The trigger zone, where action potentials originate", "a": false}, {"t": "What do microtubules do in the axon?", "d": "Serve as the tracks for fast axonal transport", "a": false}, {"t": "Anterograde transport", "d": "Soma to axon terminal, powered by kinesin", "a": false}, {"t": "Retrograde transport", "d": "Axon terminal to soma, powered by dynein", "a": false}, {"t": "Kinesin", "d": "The motor protein for anterograde transport, soma to terminal", "a": true}, {"t": "Dynein", "d": "The motor protein for retrograde transport, terminal to soma", "a": true}, {"t": "Electrical synapses", "d": "Gap junctions made of connexons: bidirectional, ultrafast, with no synaptic delay", "a": false}, {"t": "Chemical synapses", "d": "Neurotransmitter released into a synaptic cleft: unidirectional, with a delay", "a": false}, {"t": "Electrical vs. chemical synapses", "d": "Electrical: bidirectional, no delay. Chemical: unidirectional, 0.5 to 1 ms delay.", "a": true}, {"t": "How wide is the synaptic cleft?", "d": "20 to 40 nm", "a": false}, {"t": "How long is the chemical synaptic delay?", "d": "0.5 to 1 ms", "a": false}, {"t": "Ionotropic vs. metabotropic receptors", "d": "Ionotropic: fast ligand-gated ion channels. Metabotropic: G-protein-coupled.", "a": false}], "1.7": [{"t": "Most abundant glial cell of the CNS", "d": "Astrocytes", "a": false}, {"t": "Astrocyte functions", "d": "Blood-brain barrier perivascular end-feet, glutamate uptake, potassium regulation, the tripartite synapse, and scar formation by reactive gliosis", "a": false}, {"t": "How do astrocytes prevent excitotoxicity?", "d": "They express EAAT1 and EAAT2 to take up glutamate", "a": false}, {"t": "Reactive gliosis", "d": "Scar formation by astrocytes", "a": false}, {"t": "Oligodendrocytes", "d": "Myelinate CNS axons; one cell myelinates segments of up to about 50 different axons", "a": false}, {"t": "Schwann cells", "d": "Myelinate PNS axons; each cell myelinates a single segment of ONE axon", "a": false}, {"t": "Myelination: CNS vs. PNS", "d": "Oligodendrocyte: one cell to about 50 axons. Schwann cell: one cell to one axon segment.", "a": true}, {"t": "Microglia", "d": "The resident immune and phagocytic cells, about 15 to 20% of brain cells", "a": false}, {"t": "Where do microglia come from?", "d": "Yolk-sac progenitors, so mesodermal, unlike the macroglia, which are ectodermal", "a": true}, {"t": "Ependymal cells", "d": "Ciliated cells lining the ventricles", "a": false}, {"t": "What produces CSF?", "d": "Specialized ependymal cells of the choroid plexus", "a": false}, {"t": "Satellite cells", "d": "Ensheath and support the cell bodies in PNS ganglia", "a": false}], "2.1": [{"t": "Which germ layer forms the nervous system?", "d": "Ectoderm: the entire nervous system", "a": true}, {"t": "Developmental sequence of the nervous system", "d": "Gastrulation, neural induction, neurulation, proliferation and migration, axonal outgrowth, synaptogenesis, refinement, myelination", "a": false}, {"t": "Which parts of development are hardwired and which are experiential?", "d": "Early formation follows hardwired genetic programs; synapse refinement and pruning are experience-dependent", "a": false}], "2.2": [{"t": "The 3 primary brain vesicles (weeks 3 to 4)", "d": "Prosencephalon (forebrain), mesencephalon (midbrain), rhombencephalon (hindbrain)", "a": false}, {"t": "When do the 5 secondary vesicles appear?", "d": "About week 5", "a": false}, {"t": "Which secondary vesicles come from the prosencephalon?", "d": "Telencephalon and diencephalon", "a": false}, {"t": "Which secondary vesicles come from the rhombencephalon?", "d": "Metencephalon and myelencephalon", "a": false}, {"t": "Telencephalon derivatives", "d": "Cerebral cortex, basal ganglia, hippocampus, olfactory bulbs, amygdala", "a": false}, {"t": "Telencephalon lumen", "d": "The lateral ventricles", "a": false}, {"t": "Diencephalon derivatives", "d": "Thalamus, hypothalamus and the optic vesicles, which give the optic nerve and retina", "a": false}, {"t": "Diencephalon lumen", "d": "The third ventricle", "a": false}, {"t": "Mesencephalon derivatives", "d": "The midbrain: tectum and tegmentum", "a": false}, {"t": "Mesencephalon lumen", "d": "The cerebral aqueduct", "a": false}, {"t": "Which primary vesicle does NOT divide?", "d": "The mesencephalon", "a": true}, {"t": "Metencephalon derivatives", "d": "Pons and cerebellum", "a": false}, {"t": "Metencephalon lumen", "d": "The fourth ventricle, upper part", "a": false}, {"t": "Myelencephalon derivatives", "d": "The medulla oblongata", "a": false}, {"t": "Myelencephalon lumen", "d": "The fourth ventricle, lower part", "a": false}, {"t": "Caudal neural tube derivative", "d": "The spinal cord, whose lumen is the central canal", "a": false}, {"t": "Match each vesicle to its ventricle", "d": "Telencephalon: lateral ventricles. Diencephalon: third ventricle. Mesencephalon: cerebral aqueduct. Metencephalon and myelencephalon: fourth ventricle.", "a": true}], "2.3": [{"t": "Neural induction", "d": "The notochord secretes morphogens instructing the overlying ectoderm to become the neural plate", "a": false}, {"t": "When does neurulation begin?", "d": "About day 18", "a": false}, {"t": "When does the anterior neuropore close?", "d": "About day 24", "a": false}, {"t": "When does the posterior neuropore close?", "d": "About day 26", "a": false}, {"t": "Neural crest, the fourth germ layer", "d": "A migratory progenitor population excluded at neural tube closure", "a": false}, {"t": "Neural crest derivatives", "d": "Most of the PNS, including DRG sensory neurons, postganglionic autonomic neurons, Schwann cells and satellite cells, plus melanocytes and the adrenal medulla", "a": false}, {"t": "Neural tube vs. neural crest", "d": "Neural tube forms the CNS. Neural crest forms the PNS, melanocytes and the adrenal medulla.", "a": true}, {"t": "Sonic hedgehog (SHH)", "d": "Secreted by the notochord and floor plate; produces the ventral basal plate and its motor neurons", "a": false}, {"t": "BMPs in neural patterning", "d": "Secreted by the roof plate; produce the dorsal alar plate and its sensory neurons", "a": false}, {"t": "Basal plate", "d": "Ventral, motor, induced by SHH", "a": false}, {"t": "Alar plate", "d": "Dorsal, sensory, induced by BMPs", "a": false}, {"t": "Alar vs. basal plate", "d": "Alar: sensory, dorsal, BMP. Basal: motor, ventral, SHH.", "a": true}, {"t": "How many developing neurons die by apoptosis?", "d": "About one third to one half", "a": false}, {"t": "What do axons compete for?", "d": "Target-derived neurotrophic factors such as NGF and BDNF", "a": false}, {"t": "Is synapse formation activity-dependent?", "d": "No: synaptogenesis is activity-INDEPENDENT", "a": false}, {"t": "Is synapse refinement activity-dependent?", "d": "Yes: refinement and pruning are activity-DEPENDENT", "a": false}, {"t": "The synapse rule", "d": "Formation is activity-INDEPENDENT; refinement and pruning are activity-DEPENDENT", "a": true}], "2.4": [{"t": "Failed anterior neuropore closure", "d": "Anencephaly: absence of major brain structures, incompatible with sustained life", "a": false}, {"t": "Anencephaly", "d": "Failure of the anterior neuropore to close, leaving major brain structures absent", "a": false}, {"t": "Failed posterior neuropore closure", "d": "Spina bifida", "a": false}, {"t": "The spina bifida spectrum", "d": "Occulta, then meningocele, then myelomeningocele", "a": false}, {"t": "Neuropore defects", "d": "Anterior failure gives anencephaly; posterior failure gives spina bifida", "a": true}, {"t": "What protects against neural tube defects?", "d": "Periconceptional folic acid, or folate, supplementation", "a": true}, {"t": "Prenatal critical period for teratogens", "d": "About 2 to 18 weeks, when exposure causes severe structural malformations", "a": false}, {"t": "Fetal alcohol spectrum disorder (FASD)", "d": "The leading preventable cause of intellectual disability", "a": false}]};
+  var KEYS = Object.keys(GROUPS);
+
+  function cardsFor(key) {
+    if (key === 'all') return KEYS.reduce(function (a, k) { return a.concat(GROUPS[k]); }, []);
+    if (key === 'alerts') return KEYS.reduce(function (a, k) {
+      return a.concat(GROUPS[k].filter(function (c) { return c.a; }));
+    }, []);
+    if (key === 'p1' || key === 'p2') {
+      var prefix = key.charAt(1) + '.';
+      return KEYS.filter(function (k) { return k.indexOf(prefix) === 0; })
+        .reduce(function (a, k) { return a.concat(GROUPS[k]); }, []);
+    }
+    return GROUPS[key] || [];
+  }
+
+  function textFor(key) {
+    return cardsFor(key).map(function (c) { return c.t + '\t' + c.d; }).join('\n') + '\n';
+  }
+
+  var fallback = document.getElementById('fallback');
+  var fallbackText = document.getElementById('fallback-text');
+
+  function flash(btn, label) {
+    var original = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', original);
+    btn.textContent = label;
+    btn.classList.add('ok');
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove('ok');
+    }, 2000);
+  }
+
+  function offerManual(text) {
+    fallbackText.value = text;
+    fallback.hidden = false;
+    fallback.scrollIntoView({ block: 'nearest' });
+    fallbackText.focus();
+    fallbackText.select();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function copy(btn) {
+    var key = btn.getAttribute('data-copy');
+    var text = textFor(key);
+    var count = cardsFor(key).length;
+    var done = function () {
+      fallback.hidden = true;
+      flash(btn, 'Copied ' + count);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {
+        if (legacyCopy(text)) done(); else offerManual(text);
+      });
+    } else if (legacyCopy(text)) {
+      done();
+    } else {
+      offerManual(text);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (btn) {
+    btn.addEventListener('click', function () { copy(btn); });
+  });
+})();
+</script>

@@ -1,0 +1,88 @@
+Central nervous system (CNS)	The brain, housed in the cranial cavity, and the spinal cord, housed in the vertebral canal
+Peripheral nervous system (PNS)	12 pairs of cranial nerves, 31 pairs of spinal nerves, and ganglia
+Ganglion	A cluster of neuron cell bodies in the PNS
+The three functional subdivisions of the PNS	Somatic, autonomic and enteric
+The three meninges, outermost to innermost	Dura mater, arachnoid mater, pia mater
+Mnemonic for the meninges	DAP: Dura, Arachnoid, Pia, from the outside in
+What does the subarachnoid space contain?	Cerebrospinal fluid (CSF)
+Cluster of neuron cell bodies: CNS vs. PNS	Nucleus in the CNS; ganglion in the PNS
+Bundle of axons: CNS vs. PNS	Tract in the CNS; nerve in the PNS
+Where is the brain housed?	The cranial cavity
+Where is the spinal cord housed?	The vertebral canal
+Forebrain	The cerebrum (cortex, subcortical basal nuclei, white matter) and the diencephalon
+The two parts of the diencephalon	Thalamus, for sensory and motor relay, and hypothalamus, for homeostasis
+Thalamus	Sensory and motor relay
+Hypothalamus	Homeostasis
+Cerebellum	Coordinates posture, balance and motor planning
+The three layers of the cerebellar cortex	Granular, Purkinje, molecular
+Purkinje cells	The sole output of the cerebellar cortex; GABAergic, therefore inhibitory
+The three parts of the brainstem	Midbrain, pons, medulla oblongata
+Frontal lobe	Primary motor cortex (precentral gyrus), motor planning, executive function, working memory and Broca's area
+Parietal lobe	Primary somatosensory cortex (postcentral gyrus), spatial awareness and integration of sensory inputs
+Temporal lobe	Primary auditory cortex, Wernicke's area and memory (hippocampus)
+Occipital lobe	Primary visual cortex (V1) and the visual association areas
+Precentral gyrus	The primary motor cortex, in the frontal lobe
+Postcentral gyrus	The primary somatosensory cortex, in the parietal lobe
+Broca's area	Speech production; frontal lobe of the dominant hemisphere
+Wernicke's area	Language comprehension; temporal lobe of the dominant hemisphere
+Spinal cord gray matter	Medial and butterfly or H-shaped
+Dorsal (posterior) horn	Sensory
+Ventral (anterior) horn	Motor
+Lateral horn (T1 to L2)	Sympathetic preganglionic cell bodies
+Spinal cord white matter	Lateral: ascending sensory tracts and descending motor tracts
+Gray vs. white matter organization	Brain: gray matter outer (cortex), white matter inner. Spinal cord: gray matter inner and medial, white matter outer and lateral.
+Connective tissue layers of a nerve, innermost to outermost	Endoneurium, perineurium, epineurium
+Endoneurium	Surrounds an individual axon
+Perineurium	Surrounds a fascicle of axons
+Epineurium	Surrounds the entire nerve
+How many pairs of spinal nerves are there?	31 pairs
+Breakdown of the 31 spinal nerve pairs	8 cervical, 12 thoracic, 5 lumbar, 5 sacral, 1 coccygeal
+Are spinal nerves sensory, motor or mixed?	All spinal nerves are mixed
+Which cranial nerves are CNS extensions?	CN I and CN II. CN III to CN XII are PNS nerves.
+Sympathetic outflow	Thoracolumbar: T1 to L2
+Parasympathetic outflow	Craniosacral: CN III, VII, IX, X and S2 to S4
+Sympathetic pathway	Short preganglionic axon to a sympathetic chain ganglion, then a long postganglionic axon releasing norepinephrine
+Exception to sympathetic norepinephrine release	Sweat glands, where the postganglionic fiber releases acetylcholine
+Parasympathetic pathway	Long preganglionic axon to a terminal ganglion near the target, then a short postganglionic axon releasing acetylcholine onto muscarinic receptors
+Which nerve carries about 75% of parasympathetic output?	CN X, the vagus nerve
+SAME DAVE	Sensory = Afferent, Motor = Efferent; Dorsal = Afferent, Ventral = Efferent
+Where do sensory cell bodies sit?	The dorsal root ganglion (DRG)
+Multipolar neuron	One axon plus multiple dendrites; the most common type, including motor and cortical neurons
+Bipolar neuron	One axon plus one dendrite; retinal, olfactory and vestibulocochlear neurons
+Pseudounipolar neuron	A single process that bifurcates into central and peripheral axons; the sensory neurons of the DRG
+What morphology are DRG neurons?	Pseudounipolar, both the somatic and the visceral sensory neurons
+Glutamatergic neurons	Release glutamate, the primary excitatory neurotransmitter of the CNS
+GABAergic neurons	Release GABA; the primary inhibitory interneurons of the brain
+Glycinergic neurons	Release glycine; the primary inhibitory interneurons of the spinal cord and brainstem
+Chief excitatory neurotransmitter of the CNS	Glutamate
+Chief inhibitory neurotransmitters of the CNS	GABA in the brain and glycine in the spinal cord
+Soma (perikaryon)	The cell body: nucleus, Nissl bodies and organelles
+Nissl bodies	Rough endoplasmic reticulum, where protein synthesis happens
+How are neuronal proteins degraded?	By lysosomes and by proteasomes, which are ubiquitin-dependent
+What share of the body's oxygen and energy does the brain use?	About 20%
+Astrocyte-neuron lactate shuttle	Astrocytes convert glucose into lactate and shuttle it to neurons, which use it to make ATP by oxidative phosphorylation
+What energy substrate do astrocytes supply to neurons?	Lactate
+Axon initial segment	The trigger zone, where action potentials originate
+What do microtubules do in the axon?	Serve as the tracks for fast axonal transport
+Anterograde transport	Soma to axon terminal, powered by kinesin
+Retrograde transport	Axon terminal to soma, powered by dynein
+Kinesin	The motor protein for anterograde transport, soma to terminal
+Dynein	The motor protein for retrograde transport, terminal to soma
+Electrical synapses	Gap junctions made of connexons: bidirectional, ultrafast, with no synaptic delay
+Chemical synapses	Neurotransmitter released into a synaptic cleft: unidirectional, with a delay
+Electrical vs. chemical synapses	Electrical: bidirectional, no delay. Chemical: unidirectional, 0.5 to 1 ms delay.
+How wide is the synaptic cleft?	20 to 40 nm
+How long is the chemical synaptic delay?	0.5 to 1 ms
+Ionotropic vs. metabotropic receptors	Ionotropic: fast ligand-gated ion channels. Metabotropic: G-protein-coupled.
+Most abundant glial cell of the CNS	Astrocytes
+Astrocyte functions	Blood-brain barrier perivascular end-feet, glutamate uptake, potassium regulation, the tripartite synapse, and scar formation by reactive gliosis
+How do astrocytes prevent excitotoxicity?	They express EAAT1 and EAAT2 to take up glutamate
+Reactive gliosis	Scar formation by astrocytes
+Oligodendrocytes	Myelinate CNS axons; one cell myelinates segments of up to about 50 different axons
+Schwann cells	Myelinate PNS axons; each cell myelinates a single segment of ONE axon
+Myelination: CNS vs. PNS	Oligodendrocyte: one cell to about 50 axons. Schwann cell: one cell to one axon segment.
+Microglia	The resident immune and phagocytic cells, about 15 to 20% of brain cells
+Where do microglia come from?	Yolk-sac progenitors, so mesodermal, unlike the macroglia, which are ectodermal
+Ependymal cells	Ciliated cells lining the ventricles
+What produces CSF?	Specialized ependymal cells of the choroid plexus
+Satellite cells	Ensheath and support the cell bodies in PNS ganglia

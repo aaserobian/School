@@ -1,0 +1,29 @@
+Mnemonic for the meninges	DAP: Dura, Arachnoid, Pia, from the outside in
+Cluster of neuron cell bodies: CNS vs. PNS	Nucleus in the CNS; ganglion in the PNS
+Bundle of axons: CNS vs. PNS	Tract in the CNS; nerve in the PNS
+Precentral gyrus	The primary motor cortex, in the frontal lobe
+Postcentral gyrus	The primary somatosensory cortex, in the parietal lobe
+Broca's area	Speech production; frontal lobe of the dominant hemisphere
+Wernicke's area	Language comprehension; temporal lobe of the dominant hemisphere
+Gray vs. white matter organization	Brain: gray matter outer (cortex), white matter inner. Spinal cord: gray matter inner and medial, white matter outer and lateral.
+Sympathetic outflow	Thoracolumbar: T1 to L2
+Parasympathetic outflow	Craniosacral: CN III, VII, IX, X and S2 to S4
+SAME DAVE	Sensory = Afferent, Motor = Efferent; Dorsal = Afferent, Ventral = Efferent
+Where do sensory cell bodies sit?	The dorsal root ganglion (DRG)
+What morphology are DRG neurons?	Pseudounipolar, both the somatic and the visceral sensory neurons
+Chief excitatory neurotransmitter of the CNS	Glutamate
+Chief inhibitory neurotransmitters of the CNS	GABA in the brain and glycine in the spinal cord
+What energy substrate do astrocytes supply to neurons?	Lactate
+Kinesin	The motor protein for anterograde transport, soma to terminal
+Dynein	The motor protein for retrograde transport, terminal to soma
+Electrical vs. chemical synapses	Electrical: bidirectional, no delay. Chemical: unidirectional, 0.5 to 1 ms delay.
+Myelination: CNS vs. PNS	Oligodendrocyte: one cell to about 50 axons. Schwann cell: one cell to one axon segment.
+Where do microglia come from?	Yolk-sac progenitors, so mesodermal, unlike the macroglia, which are ectodermal
+Which germ layer forms the nervous system?	Ectoderm: the entire nervous system
+Which primary vesicle does NOT divide?	The mesencephalon
+Match each vesicle to its ventricle	Telencephalon: lateral ventricles. Diencephalon: third ventricle. Mesencephalon: cerebral aqueduct. Metencephalon and myelencephalon: fourth ventricle.
+Neural tube vs. neural crest	Neural tube forms the CNS. Neural crest forms the PNS, melanocytes and the adrenal medulla.
+Alar vs. basal plate	Alar: sensory, dorsal, BMP. Basal: motor, ventral, SHH.
+The synapse rule	Formation is activity-INDEPENDENT; refinement and pruning are activity-DEPENDENT
+Neuropore defects	Anterior failure gives anencephaly; posterior failure gives spina bifida
+What protects against neural tube defects?	Periconceptional folic acid, or folate, supplementation
