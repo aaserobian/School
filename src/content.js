@@ -755,3 +755,33 @@ const CARDS = [
   { lo: 'm5-6', f: 'Achondroplasia', b: 'Dominantly inherited single gene mutation — short-limb dwarfism; the guide names FGFR3' },
   { lo: 'm5-6', f: 'Fragile X syndrome', b: 'X-linked; the most common inherited cause of moderate mental retardation' },
 ];
+
+/* A term-recognition deck, built from the structures glossary rather than from an
+ * objective's prose. These overlap the objective cards on purpose — "what IS a
+ * cytotrophoblast" is a different drill from "describe the trophoblast layers" — so they
+ * carry set:'structures' and are kept out of every other deck to avoid near-duplicates
+ * turning up back to back. Each still names the objective it belongs to. */
+const STRUCTURE_CARDS = [
+  { lo: 'm2-5', set: 'structures', f: 'Blastomeres',
+    b: 'The individual daughter cells produced by cleavage of the zygote. They get progressively smaller with each division; by day 3 the compacted blastomeres form the solid 16-cell morula.' },
+  { lo: 'm2-5', set: 'structures', f: 'Blastocyst',
+    b: 'The fluid-filled hollow sphere formed around days 4–5 as the morula enters the uterus. A central cavity, an inner cell mass (embryoblast) and an outer wall (trophoblast). Implantation begins day 6.' },
+  { lo: 'm2-5', set: 'structures', f: 'Embryoblast (inner cell mass)',
+    b: 'The cluster of cells at one pole inside the blastocyst. Gives rise to the embryo proper, becoming the bilaminar disc in week 2.' },
+  { lo: 'm2-5', set: 'structures', f: 'Trophoblast (outer cell mass)',
+    b: 'The outer epithelial wall surrounding the blastocyst cavity. Forms the fetal contribution to the placenta and the outer membranes, and splits into two layers during week 2.' },
+  { lo: 'm3-1', set: 'structures', f: 'Cytotrophoblast',
+    b: 'The inner cellular layer of the trophoblast — distinct mononucleated cells. Mitotically active; its columns penetrate outward as the primary villi.' },
+  { lo: 'm3-1', set: 'structures', f: 'Syncytiotrophoblast',
+    b: 'The outer multinucleated mass with no distinct cell boundaries. Invasive — erodes maternal sinusoids to establish uteroplacental circulation. Secretes hCG (which prevents the corpus luteum degenerating, and is what a pregnancy test detects), EPF and TNF.' },
+  { lo: 'm3-2', set: 'structures', f: 'Epiblast',
+    b: 'The dorsal layer of high columnar cells of the bilaminar disc, adjacent to the amniotic cavity. Origin of ALL three germ layers, via invagination at the primitive streak.' },
+  { lo: 'm3-2', set: 'structures', f: 'Hypoblast',
+    b: 'The ventral layer of small cuboidal cells, adjacent to the blastocyst cavity. Contributes to the yolk sac lining, and is displaced by migrating epiblast cells to help form endoderm.' },
+  { lo: 'm3-3', set: 'structures', f: 'Amnioblasts',
+    b: 'Cells arising directly from the epiblast that line the amniotic cavity, superior to the epiblast layer.' },
+  { lo: 'm4-2', set: 'structures', f: 'Myoblasts',
+    b: 'Progenitor cells from the myotome of the somites (paraxial mesoderm). Spindle-shaped; they align and fuse end-to-end into multinucleated myotubes, which mature into striated skeletal muscle fibres.' },
+];
+
+CARDS.push.apply(CARDS, STRUCTURE_CARDS);

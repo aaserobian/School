@@ -344,15 +344,21 @@
 
   /* ------------------------------------------------------------- flashcards */
 
+  /* The structures deck is term-recognition and deliberately overlaps the objective
+   * cards, so it is kept out of every other deck rather than serving near-duplicates. */
+  var OBJECTIVE_CARDS = CARDS.filter(function (c) { return !c.set; });
+  var STRUCTURES = CARDS.filter(function (c) { return c.set === 'structures'; });
+
   function cardPool(scope) {
+    if (scope === 'structures') return STRUCTURES.slice();
     if (scope === 'hy') {
-      return CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].highYield; });
+      return OBJECTIVE_CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].highYield; });
     }
-    if (scope === 'due') return dueCards(CARDS);
+    if (scope === 'due') return dueCards(OBJECTIVE_CARDS);
     if (scope && scope.indexOf('m') === 0) {
-      return CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].module === scope; });
+      return OBJECTIVE_CARDS.filter(function (c) { return OBJ_BY_ID[c.lo].module === scope; });
     }
-    return CARDS.slice();
+    return OBJECTIVE_CARDS.slice();
   }
 
   var BOX_DAYS = [0, 0.007, 1, 3, 7, 21];
@@ -431,9 +437,10 @@
     var total = deck.queue.length;
 
     var picker = '<div class="scope"><label for="deck-scope">Deck</label><select id="deck-scope">' +
-      [{ v: 'all', t: 'Everything (' + CARDS.length + ' cards)' },
+      [{ v: 'all', t: 'Everything (' + OBJECTIVE_CARDS.length + ' cards)' },
+       { v: 'structures', t: 'Key structures & cell types (' + STRUCTURES.length + ')' },
        { v: 'hy', t: 'High-yield only' },
-       { v: 'due', t: 'Due for review (' + dueCards(CARDS).length + ')' }].concat(
+       { v: 'due', t: 'Due for review (' + dueCards(OBJECTIVE_CARDS).length + ')' }].concat(
         MODULES.map(function (m) {
           return { v: m.id, t: 'Module ' + m.num + ' — ' + m.short };
         })).map(function (o) {
