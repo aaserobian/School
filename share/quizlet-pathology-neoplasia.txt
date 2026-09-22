@@ -1,0 +1,104 @@
+Pathology	The study of molecular and cellular abnormalities that manifest as disease.
+Etiology	The underlying cause of a disease.
+Pathogenesis	The step-by-step mechanism by which a disease develops.
+Etiology vs. pathogenesis	Etiology is WHY the disease occurs (the cause); pathogenesis is HOW it develops (the mechanism).
+Sign	An objective finding observed by a clinician (e.g., fever, a rash, a palpable mass).
+Symptom	A subjective experience reported by the patient (e.g., pain, nausea, fatigue).
+Diagnosis	Identification of the disease that is currently present.
+Prognosis	A forecast of the probable outcome or course of a disease.
+Sequelae	Expected later conditions that result from a disease.
+Complication	A new, secondary problem that arises from a disease and is not part of its expected course.
+Sequelae vs. complications	Sequelae are the expected after-effects of a disease; complications are new secondary problems arising from it.
+Acute	Rapid onset and short duration.
+Chronic	Gradual onset and prolonged course.
+Pathognomonic	A finding so specific to one disease that its presence clinches the diagnosis.
+Iatrogenic	A condition caused directly by medical care or treatment.
+Biopsy	Removal of a tissue sample for examination by a pathologist.
+Cytology	Examination of scattered individual cells rather than intact tissue (e.g., Pap smear, fine-needle aspiration/FNA).
+Four diagnostic modalities used in pathology	Biopsy (tissue samples), cytology (scattered cells), laboratory testing (blood and enzyme levels), and imaging.
+Suffix -itis	Inflammation.
+Suffix -oma	Tumor or neoplasm.
+Suffix -osis	A condition, often an abnormal increase.
+Suffix -plasia	Growth in the number of cells.
+Suffix -opathy	A disease process.
+Atrophy	Decrease in cell size and number due to reduced demand or supply (e.g., disuse muscle atrophy, the aging brain).
+Hypertrophy	Increase in the size of individual cells (e.g., left ventricular thickening in hypertension).
+Why does the hypertensive heart undergo hypertrophy rather than hyperplasia?	Cardiac myocytes are permanent cells that cannot divide, so they can only enlarge.
+Hyperplasia	Increase in the total number of cells.
+Hypertrophy vs. hyperplasia	Hypertrophy = bigger cells; hyperplasia = more cells.
+Metaplasia	Reversible reprogramming of one mature tissue type into another, hardier mature cell type to withstand chronic stress.
+Barrett's esophagus	Metaplasia in which the esophageal squamous lining becomes columnar epithelium because of chronic acid reflux.
+Is metaplasia reversible? What is the catch?	Yes, it is reversible, but it increases cancer risk (Barrett's esophagus predisposes to esophageal adenocarcinoma).
+Cancer that Barrett's esophagus predisposes to	Esophageal adenocarcinoma.
+The four reversible cellular adaptations	Atrophy, hypertrophy, hyperplasia, and metaplasia.
+Hypoxia/ischemia as a mechanism of cell injury	Oxygen deprivation leads to ATP depletion.
+Free radicals as a mechanism of cell injury	Molecules with unpaired electrons damage membrane lipids and nuclear DNA.
+First reversible change in cell injury	Cellular swelling, caused by failure of the ATP-dependent Na+/K+ membrane pump.
+"Point of no return" in cell injury (irreversible injury)	Severe plasma membrane damage with massive Ca2+ influx into the cell.
+Necrosis	Uncontrolled, "messy" death of groups of cells: cells swell, plasma membranes rupture, intracellular contents spill out, and inflammation follows.
+Apoptosis	Tidy, energy-requiring programmed "cell suicide" of single scattered cells: cells shrink, bleb, condense their chromatin, and are quietly phagocytosed with no inflammation.
+Which type of cell death provokes inflammation?	Necrosis. Apoptosis does not.
+Which type of cell death requires energy (ATP)?	Apoptosis.
+Cell size in necrosis vs. apoptosis	Necrotic cells SWELL; apoptotic cells SHRINK.
+Coagulative necrosis	The classic ischemic infarct pattern (e.g., myocardial infarction); tissue architecture and cell outlines are temporarily preserved.
+Why do troponin and CK-MB rise in the blood after a myocardial infarction?	Membrane breakage in necrotic cardiac cells lets intracellular enzymes leak into the bloodstream.
+Liquefactive necrosis	Rapid enzymatic digestion of dead tissue; seen in brain infarcts and bacterial abscesses.
+Caseous necrosis	Crumbly, "cheese-like" necrosis characteristic of tuberculosis.
+Gangrenous necrosis	Ischemic necrosis of a limb or the bowel.
+Dry gangrene vs. wet gangrene	Dry = pure coagulative necrosis; wet = coagulative necrosis plus secondary liquefactive necrosis from bacterial infection.
+Fat necrosis	Released lipase saponifies fat into chalky deposits; seen in acute pancreatitis and breast trauma.
+Fibrinoid necrosis	Smudgy pink vessel walls caused by immune complex deposition or malignant hypertension.
+Necrosis pattern of a brain infarct	Liquefactive.
+Necrosis pattern of a myocardial infarct	Coagulative.
+Necrosis pattern in tuberculosis	Caseous.
+Necrosis pattern in acute pancreatitis	Fat necrosis.
+Necrosis pattern in a bacterial abscess	Liquefactive.
+Necrosis pattern in malignant hypertension or immune complex vasculitis	Fibrinoid.
+Semiconservative DNA replication	Each new double helix keeps one original (parental) strand and one newly synthesized strand.
+Direction in which DNA polymerase synthesizes new DNA	5' to 3'.
+Phases of the cell cycle in order	G0 (resting) → G1 → S (DNA replication) → G2 → M (mitosis).
+G0 phase	Resting phase; the cell is not actively cycling.
+S phase	DNA replication (synthesis).
+M phase	Mitosis.
+Nondisjunction	Failure of chromosomes to separate during cell division, causing aneuploidy (e.g., Trisomy 21).
+Aneuploidy	An abnormal number of chromosomes (e.g., Trisomy 21).
+Frameshift mutation	An insertion or deletion that shifts the reading frame of a gene.
+Change in gene expression vs. mutation	Protein production can be turned down by gene regulation (e.g., reduced lactase in adults) without any change to the underlying DNA sequence.
+Neoplasia	"New growth": an abnormal, uncoordinated, autonomous mass of cells that persists even after the original stimulus is removed.
+Features of a benign neoplasm	Well-differentiated, slow-growing, encapsulated, non-invasive, and never metastasizes.
+Features of a malignant neoplasm	Poorly differentiated or anaplastic, rapid growth with abnormal mitoses, irregular infiltrative borders, locally invasive, and metastasizes.
+The single defining feature of malignancy	Metastasis.
+Differentiation	The extent to which neoplastic cells resemble their normal tissue of origin.
+Dysplasia	Disordered cell growth with variable cell size and shape and abnormal multipolar (tri- or quadripolar) mitotic spindles; reversible and premalignant.
+Anaplasia	Complete loss of cell differentiation; a hallmark of high-grade malignancy.
+Carcinoma in situ	Severe dysplastic change spanning the full thickness of the epithelium without penetrating the basement membrane.
+Benign epithelial tumor nomenclature	Adenoma or papilloma.
+Malignant epithelial tumor nomenclature	Carcinoma.
+Benign connective tissue tumor nomenclature	Tissue name plus "-oma" (e.g., lipoma, osteoma).
+Malignant connective tissue tumor nomenclature	Sarcoma.
+Typical route of spread for carcinomas	Lymphatic spread.
+Typical route of spread for sarcomas	Hematogenous spread (via blood vessels).
+Malignant tumors that break the "-oma means benign" rule	Lymphoma and melanoma are malignant despite the "-oma" ending; leukemia is malignant as well.
+Hamartoma	A disorganized mass of tissue native to the site; not a true neoplasm.
+Grading	Microscopic assessment of how well the tumor cells are differentiated and how mitotically active they are (low grade vs. high grade/anaplastic).
+Staging	Assessment of how far the tumor has spread in the body, using the TNM system.
+TNM	T = Tumor size, N = lymph Node involvement, M = distant Metastasis.
+Which is the better predictor of clinical prognosis, grading or staging?	Staging.
+Grading vs. staging	Grading = what the cells look like under the microscope; staging = how far the tumor has spread in the body.
+Four classes of cancer-related genes	Oncogenes, tumor suppressor genes, apoptosis regulators, and DNA repair genes.
+Oncogene	A mutated proto-oncogene that drives proliferation; the "accelerator" ("gas pedal stuck").
+Number of hits needed to activate an oncogene	One activating mutation.
+Tumor suppressor gene	A gene that normally restrains cell division; the "brakes."
+Number of hits needed to inactivate a tumor suppressor gene	Two; both copies must be lost ("brakes fail").
+p53	"Guardian of the genome": a tumor suppressor and the most commonly mutated gene in human cancer.
+Rb	Retinoblastoma gene; a tumor suppressor ("brake") that restrains cell division.
+Apoptosis regulator genes in cancer	Shift the balance between survival and death signals (e.g., overexpressed Bcl-2 prevents cell death).
+Bcl-2	Anti-apoptotic protein; when overexpressed it prevents cell death and lets damaged cells survive.
+DNA repair genes	"Spell-checkers" that fix replication errors; their loss produces a mutator phenotype (e.g., HNPCC, xeroderma pigmentosum).
+Mutator phenotype	Rapid accumulation of mutations because DNA repair genes have been lost.
+Stepwise (multi-hit) model of carcinogenesis	Cancer develops through multi-step clonal evolution; several mutations must accumulate in one cell lineage.
+Colon adenoma-to-carcinoma sequence	APC → KRAS → p53.
+Why does cancer incidence increase with age?	Multiple mutations ("hits") must accumulate over time before a cell becomes malignant.
+The 8 hallmarks of cancer	(1) Sustaining proliferative signaling, (2) evading growth suppressors, (3) resisting apoptosis, (4) enabling replicative immortality, (5) inducing angiogenesis, (6) activating invasion and metastasis, (7) reprogramming energy metabolism, (8) evading immune destruction.
+Paraneoplastic syndrome	Clinical effects caused by substances a tumor secretes, rather than by the local mass or its physical spread.
+Example of a paraneoplastic syndrome	Small-cell lung carcinoma secreting ectopic ACTH, causing Cushing syndrome.
