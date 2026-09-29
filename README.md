@@ -60,6 +60,29 @@ so rather than failing. Regenerate it with
 Note the published Artifact link is *not* shareable this way: declaring the `db` capability
 makes an artifact organization-internal by platform rule.
 
+## PNS practice quiz
+
+**Open it:** <https://claude.ai/artifact/KwfxTX3BQxfFHSnFrTWhRD>
+
+The 42 questions from the PNS practice sheet (it numbers them 1–39 and 41–43; there is no 40)
+as a Quizlet-style page with four modes:
+
+- **Flashcards** — flip, swipe, shuffle, hide the choices for harder recall, and sort into
+  "know it" and "still learning".
+- **Learn** — rounds of seven. Two right answers in a row masters a question, and missed
+  ones come back sooner.
+- **Test** — 10, 20 or all 42 questions, or just the ones you haven't mastered, scored at the
+  end with every explanation.
+- **Match** — pair six questions with their answers against the clock.
+
+"Explain with Claude" asks Claude why the right answer is right and each other choice is
+wrong. Mastery, the last test and the best Match time save to your Claude account. Like the
+main guide, that means it can't be shared by public link.
+
+`pns-quiz.html` is the page itself, with the questions embedded; there is no build step. The
+same questions are in `share/quizlet-pns-practice-questions.txt` (tab-separated) and
+`share/quizlet-pns-practice-questions-pipe.txt` for importing into Quizlet.
+
 ## Rebuilding
 
 `study-guide.html` is generated — edit the files in `src/`, not the built page.
@@ -88,4 +111,6 @@ src/app.js           the app
 src/figures.json     extracted figures, generated
 tools/               the extraction and build scripts
 study-guide.html     the built single-file app, generated
+pns-quiz.html        the PNS practice quiz, hand-written, questions embedded
+share/               the standalone guide and the Quizlet import files
 ```

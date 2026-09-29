@@ -1,0 +1,1106 @@
+<title>PNS Practice Quiz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Palette from the two classic nervous-tissue stains: Luxol fast blue, which dyes myelin, and
+ * cresyl violet, which dyes the Nissl substance in neuron cell bodies, on slide-glass grey.
+ * Atkinson Hyperlegible for reading, because it keeps 1, l and I apart in C1, L1 and T1–L2.
+ * Layout: one study column under a sticky mode bar; the card or question is the only raised object. */
+:root {
+  --glass: #eef2f5;
+  --paper: #ffffff;
+  --ink: #132130;
+  --muted: #55677a;
+  --rule: #d2dbe3;
+  --luxol: #1b54a2;
+  --luxol-wash: #e1eaf7;
+  --cresyl: #7545ab;
+  --cresyl-wash: #efe7f8;
+  --on-accent: #ffffff;
+  --ok: #16774b;
+  --ok-wash: #dff2e7;
+  --bad: #b92e4a;
+  --bad-wash: #fae3e8;
+  --lift: 0 1px 2px rgb(19 33 48 / .06), 0 12px 32px rgb(19 33 48 / .10);
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --glass: #0d141c; --paper: #16202b; --ink: #e4ebf2; --muted: #94a5b6; --rule: #283746;
+    --luxol: #88b5ff; --luxol-wash: #172a44; --cresyl: #c7a8f2; --cresyl-wash: #29203e;
+    --on-accent: #0a1320; --ok: #63d49f; --ok-wash: #13301f; --bad: #ff8fa5; --bad-wash: #3b1a24;
+    --lift: 0 1px 2px rgb(0 0 0 / .4), 0 12px 32px rgb(0 0 0 / .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --glass: #0d141c; --paper: #16202b; --ink: #e4ebf2; --muted: #94a5b6; --rule: #283746;
+  --luxol: #88b5ff; --luxol-wash: #172a44; --cresyl: #c7a8f2; --cresyl-wash: #29203e;
+  --on-accent: #0a1320; --ok: #63d49f; --ok-wash: #13301f; --bad: #ff8fa5; --bad-wash: #3b1a24;
+  --lift: 0 1px 2px rgb(0 0 0 / .4), 0 12px 32px rgb(0 0 0 / .45);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--glass); color: var(--ink); font: 400 1rem/1.5 var(--f-body); -webkit-font-smoothing: antialiased; }
+.app { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 1.5rem 3rem; }
+h1, h2 { margin: 0; font-family: var(--f-display); text-wrap: balance; }
+h1 { font-weight: 800; font-size: clamp(2rem, 1.35rem + 2.8vw, 2.9rem); line-height: 1.02; letter-spacing: -.015em; }
+h2 { font-weight: 750; font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem); line-height: 1.1; }
+p { margin: 0; }
+.eyebrow { font: 500 .75rem/1.3 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (hover: hover) { .on-touch { display: none; } }
+@media (hover: none) { .on-keys { display: none; } }
+
+/* Header and mastery meter */
+.top { display: grid; gap: .55rem; }
+.meter { display: flex; height: .5rem; margin-top: .6rem; border-radius: 99px; overflow: hidden; background: var(--rule); }
+.meter i { height: 100%; transition: width .5s ease; }
+.meter .m { background: var(--luxol); }
+.meter .l { background: var(--cresyl); }
+.legend { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.legend span { display: inline-flex; align-items: center; gap: .45rem; }
+.legend span::before { content: ""; width: .65rem; height: .65rem; border-radius: 2px; background: var(--c); }
+
+/* Sticky mode bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; margin-top: 1.4rem; background: var(--glass); border-bottom: 1px solid var(--rule); }
+.tabs { display: flex; gap: 1.6rem; overflow-x: auto; scrollbar-width: none; }
+.tab { appearance: none; margin-bottom: -1px; padding: .85rem 0 .7rem; background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); font: 700 1rem/1 var(--f-body); white-space: nowrap; cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--luxol); }
+.status { padding: .5rem 0 .6rem; font: 500 .8125rem var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+#panel { min-height: 24rem; padding-top: 1.4rem; }
+
+/* Controls */
+button { font: inherit; color: inherit; }
+.btn { appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 2.75rem; padding: .6rem 1.1rem; border: 1.5px solid var(--rule); border-radius: 8px; background: var(--paper); color: var(--ink); font-weight: 700; text-align: center; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: var(--luxol); }
+.btn.primary { background: var(--luxol); border-color: var(--luxol); color: var(--on-accent); }
+.btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.btn.quiet { padding-inline: .6rem; background: transparent; border-color: transparent; color: var(--luxol); }
+.btn.quiet:hover:not(:disabled) { border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.chip { appearance: none; min-height: 2.25rem; padding: .3rem .85rem; border: 1.5px solid var(--rule); border-radius: 99px; background: transparent; color: var(--muted); font-size: .875rem; font-weight: 700; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--luxol); background: var(--luxol-wash); color: var(--ink); }
+.linkish { appearance: none; padding: 0; background: none; border: 0; color: var(--luxol); font: inherit; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+:focus-visible { outline: 3px solid var(--luxol); outline-offset: 2px; }
+.block { display: grid; gap: 1rem; }
+
+/* Flashcards */
+.cards-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; margin-bottom: .9rem; }
+.count { font: 500 .9375rem var(--f-mono); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.stage { perspective: 1600px; }
+.flash { position: relative; display: grid; min-height: 20rem; border-radius: 16px; cursor: pointer; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.25, .75, .25, 1); touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.flash:focus-visible { outline-offset: 4px; }
+.flash.flipped { transform: rotateY(180deg); }
+.face { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 1rem; min-width: 0; padding: 1.4rem 1.5rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-radius: 16px; box-shadow: var(--lift); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face.back { transform: rotateY(180deg); }
+.face-top { display: flex; justify-content: space-between; gap: 1rem; font: 500 .75rem/1 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.fq { font-weight: 700; font-size: clamp(1.2rem, 1.05rem + .8vw, 1.45rem); line-height: 1.35; text-wrap: pretty; }
+.fopts { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.fopts li { display: flex; align-items: baseline; gap: .7rem; font-size: 1.0625rem; }
+.key { flex: none; font: 500 .875rem/1 var(--f-mono); color: var(--luxol); }
+.fans { display: flex; align-items: baseline; gap: .7rem; font: 800 clamp(1.6rem, 1.25rem + 1.6vw, 2.2rem)/1.12 var(--f-display); }
+.fans .key { font-size: 1.1rem; }
+.fexp { max-width: 60ch; font-size: 1.0625rem; }
+.face .hint { margin-top: auto; font-size: .8125rem; color: var(--muted); }
+.flash-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; margin-top: 1rem; }
+.flash-nav .hint { text-align: center; font-size: .8125rem; color: var(--muted); }
+.circle { appearance: none; display: grid; place-items: center; width: 3rem; height: 3rem; border: 1.5px solid var(--rule); border-radius: 50%; background: var(--paper); color: var(--ink); font-size: 1.2rem; cursor: pointer; }
+.circle:hover:not(:disabled) { border-color: var(--luxol); }
+.circle:disabled { opacity: .4; cursor: default; }
+.sort { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: .8rem; }
+.sort .btn { justify-content: space-between; }
+.sort .s-learn { color: var(--cresyl); border-color: color-mix(in srgb, var(--cresyl) 45%, var(--rule)); }
+.sort .s-know { color: var(--luxol); border-color: color-mix(in srgb, var(--luxol) 45%, var(--rule)); }
+.sort .n { font: 500 .875rem var(--f-mono); font-variant-numeric: tabular-nums; }
+.card-explain { display: grid; gap: .6rem; margin-top: 1rem; }
+
+/* Learn and Test questions */
+.lhead { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font: 500 .8125rem var(--f-mono); color: var(--muted); }
+.tag { padding: .2rem .55rem; border-radius: 99px; background: var(--cresyl-wash); color: var(--cresyl); font-size: .75rem; white-space: nowrap; }
+.tag.blue { background: var(--luxol-wash); color: var(--luxol); }
+.line { height: 4px; margin-top: .6rem; border-radius: 99px; overflow: hidden; background: var(--rule); }
+.line i { display: block; height: 100%; background: var(--luxol); transition: width .3s ease; }
+.qtext { margin-top: 1.4rem; font-weight: 700; font-size: clamp(1.25rem, 1.05rem + 1vw, 1.55rem); line-height: 1.33; text-wrap: pretty; }
+.choices { display: grid; gap: .55rem; margin-top: 1.1rem; }
+.choice { appearance: none; display: flex; align-items: flex-start; gap: .8rem; width: 100%; min-height: 3rem; padding: .75rem .95rem; background: var(--paper); border: 1.5px solid var(--rule); border-radius: 10px; color: var(--ink); font-size: 1.0625rem; line-height: 1.4; text-align: left; cursor: pointer; }
+.choice .key { display: inline-grid; place-items: center; width: 1.65rem; height: 1.65rem; margin-top: -.05rem; border-radius: 6px; background: var(--luxol-wash); color: var(--luxol); }
+button.choice:hover:not(:disabled) { border-color: var(--luxol); }
+.choice[aria-pressed="true"] { border-color: var(--luxol); background: var(--luxol-wash); }
+.choice[aria-pressed="true"] .key { background: var(--luxol); color: var(--on-accent); }
+.choice.right { border-color: var(--ok); background: var(--ok-wash); }
+.choice.right .key { background: var(--ok); color: var(--paper); }
+.choice.wrong { border-color: var(--bad); background: var(--bad-wash); }
+.choice.wrong .key { background: var(--bad); color: var(--paper); }
+.choice.dim { opacity: .55; }
+.choice:disabled, div.choice { cursor: default; }
+.keys-hint { margin-top: .9rem; font-size: .8125rem; color: var(--muted); }
+.feedback { display: grid; gap: .5rem; margin-top: 1.1rem; padding: 1rem 1.1rem 1.05rem; border: 1.5px solid; border-radius: 12px; }
+.feedback.ok { border-color: var(--ok); background: var(--ok-wash); }
+.feedback.bad { border-color: var(--bad); background: var(--bad-wash); }
+.verdict { font: 800 1.2rem/1.2 var(--f-display); }
+.feedback.ok .verdict { color: var(--ok); }
+.feedback.bad .verdict { color: var(--bad); }
+.fb-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-top: .35rem; }
+.rlist { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+.rlist li { display: flex; align-items: baseline; gap: .65rem; }
+.mark { flex: none; font: 700 .875rem var(--f-mono); }
+.mark.ok { color: var(--ok); }
+.mark.bad { color: var(--bad); }
+.warn-text { width: 100%; font-weight: 700; color: var(--bad); }
+
+/* Explain with Claude */
+body:not(.claude-on) .needs-claude { display: none !important; }
+.claude-box { display: grid; gap: .35rem; padding: .85rem 1rem; border-radius: 10px; background: var(--cresyl-wash); }
+.claude-label { font: 500 .6875rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--cresyl); }
+.claude-text { white-space: pre-wrap; font-size: .96875rem; line-height: 1.5; }
+.claude-text.wait { color: var(--muted); }
+.claude-note { font-size: .8125rem; color: var(--muted); }
+
+/* Test */
+.seg { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: 0; padding: 0; border: 0; }
+.seg legend { width: 100%; margin-bottom: .45rem; padding: 0; font-weight: 700; }
+.check { display: flex; align-items: center; gap: .6rem; cursor: pointer; }
+.check input { width: 1.2rem; height: 1.2rem; accent-color: var(--luxol); }
+.tlist { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.results-list { margin-top: 1.6rem; }
+.tq { display: grid; gap: .25rem; padding: 1.1rem 1.1rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; }
+.tq .choices { margin-top: .75rem; }
+.tq .claude-box { margin-top: .6rem; }
+.tq-num { font: 500 .8125rem var(--f-mono); color: var(--muted); }
+.tq-q { margin-top: .2rem; font-weight: 700; font-size: 1.125rem; line-height: 1.38; }
+.tq-expl { margin-top: .75rem; }
+.tq-actions { display: flex; justify-content: flex-end; margin-top: .25rem; }
+.submit { display: grid; gap: .6rem; margin-top: 1.4rem; }
+.warn { font-weight: 700; color: var(--bad); }
+.score { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
+.score .big { font: 800 clamp(3.2rem, 2.2rem + 5vw, 4.8rem)/.95 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.score .pct { font: 700 1.6rem var(--f-display); color: var(--muted); }
+
+/* Match */
+.mhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; }
+.timer { font: 500 1.75rem/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.pen { font: 500 .9375rem var(--f-mono); color: var(--bad); }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: 1rem; }
+@media (min-width: 42rem) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tile { appearance: none; display: flex; align-items: center; min-height: 6.25rem; padding: .7rem .8rem; background: var(--paper); border: 1.5px solid var(--rule); border-radius: 10px; color: var(--ink); font: .9375rem/1.35 var(--f-body); text-align: left; cursor: pointer; transition: opacity .25s ease, transform .25s ease, border-color .15s, background-color .15s; -webkit-tap-highlight-color: transparent; }
+.tile.ans { justify-content: center; text-align: center; font: 700 1.0625rem/1.25 var(--f-display); }
+.tile:hover { border-color: var(--luxol); }
+.tile.sel { border-color: var(--luxol); background: var(--luxol-wash); }
+.tile.wrong { border-color: var(--bad); background: var(--bad-wash); animation: shake .4s; }
+.tile.gone { opacity: 0; transform: scale(.92); visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s; }
+@keyframes shake { 0%, 100% { translate: 0; } 20%, 60% { translate: -5px; } 40%, 80% { translate: 5px; } }
+
+/* Footer */
+.foot { display: grid; gap: .45rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .875rem; color: var(--muted); }
+.foot .row { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flash, .meter i, .line i, .tile, .tile.gone { transition: none !important; }
+  .tile.wrong { animation: none; }
+}
+</style>
+
+<div class="app">
+  <header class="top">
+    <p class="eyebrow">Peripheral nervous system · practice set</p>
+    <h1>PNS Practice Quiz</h1>
+    <div class="meter" id="meter" role="img" aria-label="Progress"><i class="m" id="meter-m"></i><i class="l" id="meter-l"></i></div>
+    <p class="legend"><span id="leg-m" style="--c: var(--luxol)">Mastered 0</span><span id="leg-l" style="--c: var(--cresyl)">Still learning 0</span><span id="leg-n" style="--c: var(--rule)">Not studied 42</span></p>
+  </header>
+
+  <div class="bar">
+    <nav class="tabs" role="tablist" aria-label="Study modes">
+      <button class="tab" role="tab" id="tab-cards" data-mode="cards" aria-controls="panel">Flashcards</button>
+      <button class="tab" role="tab" id="tab-learn" data-mode="learn" aria-controls="panel">Learn</button>
+      <button class="tab" role="tab" id="tab-test" data-mode="test" aria-controls="panel">Test</button>
+      <button class="tab" role="tab" id="tab-match" data-mode="match" aria-controls="panel">Match</button>
+    </nav>
+    <p class="status" id="status" hidden></p>
+  </div>
+
+  <main id="panel" role="tabpanel" aria-labelledby="tab-cards"></main>
+
+  <footer class="foot">
+    <p>42 questions from the PNS practice sheet, with its answers and explanations. The sheet numbers them 1–39 and 41–43; there is no question 40.</p>
+    <p class="row"><span id="sync">Progress saves in this browser.</span><span id="reset-slot"><button class="linkish" data-act="reset">Reset progress</button></span></p>
+  </footer>
+  <p class="sr" id="sr" aria-live="polite"></p>
+</div>
+
+<script>
+/* Questions from the practice sheet: n = the sheet's number, o = choices A-D, a = index of the
+ * correct choice, e = the sheet's explanation, m = answer wording for places the choices aren't shown. */
+const QS = [{"n":1,"q":"How many pairs of spinal nerves are present in the human body?","o":["30","31","32","33"],"a":1,"e":"There are 31 pairs: 8 cervical, 12 thoracic, 5 lumbar, 5 sacral, and 1 coccygeal."},{"n":2,"q":"Which cells are responsible for myelination in the PNS?","o":["Oligodendrocytes","Astrocytes","Schwann cells","Microglia"],"a":2,"e":"Schwann cells form the myelin sheath around peripheral nerve fibers."},{"n":3,"q":"Which type of fibers carry motor signals to skeletal muscles?","o":["GSA","GSE","GVA","GVE"],"a":1,"e":"General Somatic Efferent (GSE) fibers innervate skeletal muscles."},{"n":4,"q":"What is the function of general visceral afferent (GVA) fibers?","o":["Send motor signals to glands","Receive sensory input from visceral organs","Transmit pain from skin","Control skeletal muscle movement"],"a":1,"e":"GVA fibers carry sensory information from internal organs."},{"n":5,"q":"Which plexus supplies the upper limb?","o":["Cervical","Brachial","Lumbar","Sacral"],"a":1,"e":"The brachial plexus (C5–T1) innervates the upper limb."},{"n":6,"q":"Which division of the ANS is responsible for 'fight or flight'?","o":["Somatic","Parasympathetic","Sympathetic","Central"],"a":2,"e":"The sympathetic division activates stress responses."},{"n":7,"q":"Which dermatome corresponds to the umbilicus?","o":["T4","T10","L1","S1"],"a":1,"e":"T10 dermatome is at the level of the umbilicus."},{"n":8,"q":"Which ganglia are associated with the sympathetic nervous system?","o":["Cranial","Intramural","Paravertebral","None"],"a":2,"e":"Paravertebral ganglia form the sympathetic chain."},{"n":9,"q":"Which plexus is formed by L1–L4 spinal nerves?","o":["Cervical","Brachial","Lumbar","Sacral"],"a":2,"e":"The lumbar plexus arises from L1–L4."},{"n":10,"q":"Which fibers transmit pain and proprioception from the skin?","o":["GSE","GVA","GSA","SSA"],"a":2,"e":"GSA fibers carry somatic sensory stimuli."},{"n":11,"q":"What type of fibers innervate smooth muscle and glands?","o":["GSE","GVE","SSA","SVE"],"a":1,"e":"General Visceral Efferent (GVE) fibers target autonomic effectors."},{"n":12,"q":"Which spinal nerves form the sacral plexus?","o":["L1–L4","L4–S4","C5–T1","T1–T12"],"a":1,"e":"Sacral plexus includes L4–S4."},{"n":13,"q":"Which structure contains sensory neuron cell bodies?","o":["Ventral root","Dorsal root ganglion","Gray matter","White matter"],"a":1,"e":"Dorsal root ganglia house sensory neuron cell bodies."},{"n":14,"q":"Which type of neuron conducts impulses from CNS to effectors?","o":["Sensory","Interneuron","Motor","Association"],"a":2,"e":"Motor neurons carry signals from CNS to muscles/glands."},{"n":15,"q":"Which part of the spinal nerve contains both sensory and motor fibers?","o":["Dorsal root","Ventral root","Spinal nerve","Dorsal root ganglion"],"a":2,"e":"Spinal nerves are mixed nerves."},{"n":16,"q":"Which division of the ANS conserves energy?","o":["Sympathetic","Parasympathetic","Somatic","Central"],"a":1,"e":"Parasympathetic division promotes rest and digestion."},{"n":17,"q":"What is a dermatome?","o":["A nerve plexus","A spinal ganglion","An area of skin supplied by a single spinal nerve","A type of motor fiber"],"a":2,"e":"Dermatomes map skin regions to spinal nerves."},{"n":18,"q":"Which spinal nerve region has 12 pairs?","o":["Cervical","Thoracic","Lumbar","Sacral"],"a":1,"e":"The thoracic region has 12 pairs of spinal nerves."},{"n":19,"q":"Which type of fiber is involved in autonomic motor control?","o":["GSE","GVE","SSA","SVA"],"a":1,"e":"GVE fibers innervate smooth muscle, cardiac muscle, and glands."},{"n":20,"q":"Which spinal nerve region has 8 pairs?","o":["Thoracic","Lumbar","Cervical","Sacral"],"a":2,"e":"There are 8 cervical spinal nerves (C1–C8)."},{"n":21,"q":"Which structure carries motor fibers from the spinal cord?","o":["Dorsal root","Ventral root","Dorsal root ganglion","Spinal nerve"],"a":1,"e":"Ventral roots carry motor (efferent) fibers."},{"n":22,"q":"Which autonomic division has craniosacral origin?","o":["Sympathetic","Parasympathetic","Somatic","Central"],"a":1,"e":"Parasympathetic fibers originate from the brainstem and S2–S4."},{"n":23,"q":"Which autonomic division has thoracolumbar origin?","o":["Sympathetic","Parasympathetic","Somatic","Central"],"a":0,"e":"Sympathetic fibers arise from T1–L2 spinal segments."},{"n":24,"q":"Which ganglia are located near or within target organs?","o":["Paravertebral","Prevertebral","Intramural","Dorsal root"],"a":2,"e":"Intramural ganglia are found in or near the target organs (parasympathetic)."},{"n":25,"q":"Which fibers carry sensory input from joints and tendons?","o":["GSA","GVA","SSA","SVA"],"a":0,"e":"GSA fibers transmit somatic sensory input including proprioception."},{"n":26,"q":"Which autonomic division promotes digestion and glandular secretion?","o":["Sympathetic","Parasympathetic","Somatic","Central"],"a":1,"e":"Parasympathetic division supports rest and digest functions."},{"n":27,"q":"Which spinal nerve region contributes to the brachial plexus?","o":["C5–T1","T1–T12","L1–L4","S1–S4"],"a":0,"e":"The brachial plexus is formed by C5–T1."},{"n":28,"q":"Which structure is the site of synapse for autonomic motor neurons?","o":["Dorsal horn","Ventral horn","Autonomic ganglion","Spinal nerve"],"a":2,"e":"Autonomic ganglia are where pre- and postganglionic neurons synapse."},{"n":29,"q":"Which spinal nerves form the cervical plexus?","o":["C1–C4","C5–T1","T1–T12","L1–L4"],"a":0,"e":"The cervical plexus includes C1–C4."},{"n":30,"q":"Which spinal nerves form the lumbar plexus?","o":["C1–C4","C5–T1","L1–L4","S1–S4"],"a":2,"e":"Lumbar plexus arises from L1–L4."},{"n":31,"q":"Which structure contains motor neuron cell bodies?","o":["Dorsal horn","Ventral horn","Dorsal root ganglion","White matter"],"a":1,"e":"Ventral horn of the spinal cord contains motor neuron cell bodies."},{"n":32,"q":"Which autonomic division is energy-expending?","o":["Parasympathetic","Sympathetic","Somatic","Central"],"a":1,"e":"Sympathetic division prepares the body for action."},{"n":33,"q":"Which autonomic division regulates glandular secretion?","o":["Somatic","Sympathetic","Parasympathetic","Both B and C"],"a":3,"e":"Both sympathetic and parasympathetic divisions regulate glands.","m":"Both sympathetic and parasympathetic"},{"n":34,"q":"Where are the cell bodies of sympathetic preganglionic neurons located?","o":["Brainstem","Thoracolumbar spinal cord (T1–L2)","Sacral spinal cord (S2–S4)","Paravertebral ganglia"],"a":1,"e":"Sympathetic preganglionic neurons originate in the lateral horn of the thoracolumbar spinal cord (T1–L2)."},{"n":35,"q":"Where are the cell bodies of parasympathetic preganglionic neurons located?","o":["Thoracolumbar spinal cord","Brainstem and sacral spinal cord (S2–S4)","Paravertebral ganglia","Prevertebral ganglia"],"a":1,"e":"Parasympathetic preganglionic neurons arise from cranial nerve nuclei in the brainstem and the sacral spinal cord (S2–S4)."},{"n":36,"q":"Where are sympathetic postganglionic neurons typically located?","o":["Intramural ganglia","Cranial ganglia","Paravertebral and prevertebral ganglia","Dorsal root ganglia"],"a":2,"e":"Sympathetic postganglionic neurons are found in paravertebral (sympathetic chain) and prevertebral ganglia."},{"n":37,"q":"Where are parasympathetic postganglionic neurons typically located?","o":["Near or within the target organ (intramural ganglia)","Paravertebral ganglia","Prevertebral ganglia","Thoracolumbar spinal cord"],"a":0,"e":"Parasympathetic postganglionic neurons are located in ganglia close to or within the walls of the target organs."},{"n":38,"q":"Which autonomic division has long preganglionic and short postganglionic fibers?","o":["Sympathetic","Parasympathetic","Somatic","Central"],"a":1,"e":"Parasympathetic pathways feature long preganglionic fibers that synapse in ganglia near the target organ."},{"n":39,"q":"Where are the cell bodies of the first-order sensory neurons located?","o":["Ventral horn of the spinal cord","Dorsal root ganglion","Paravertebral ganglion","Brainstem nuclei"],"a":1,"e":"The first-order sensory neurons have their cell bodies in the dorsal root ganglia, located just outside the spinal cord."},{"n":41,"q":"Where are the cell bodies of somatic motor neurons located in the spinal cord?","o":["Dorsal horn","Dorsal root ganglion","Ventral horn","Lateral horn"],"a":2,"e":"Somatic motor neurons originate in the ventral horn of the spinal cord and send axons through the ventral root."},{"n":42,"q":"Which part of the spinal cord contains sensory neuron synapses?","o":["Ventral horn","Dorsal horn","Lateral horn","Central canal"],"a":1,"e":"Sensory neurons synapse in the dorsal horn of the spinal cord gray matter."},{"n":43,"q":"Where are autonomic (visceral) motor neuron cell bodies located in the spinal cord?","o":["Dorsal horn","Ventral horn","Lateral horn","Dorsal root ganglion"],"a":2,"e":"Autonomic motor neurons (preganglionic) originate in the lateral horn of the spinal cord (T1–L2 for sympathetic, S2–S4 for parasympathetic)."}];
+
+const NS = QS.map(q => q.n);
+const BY = new Map(QS.map(q => [q.n, q]));
+const LETTERS = "ABCD";
+const $ = (s, r = document) => r.querySelector(s);
+const panel = $("#panel");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const bySheet = a => a.slice().sort((x, y) => x - y);
+const answerText = q => q.m || q.o[q.a];
+const fmtSec = ms => (ms / 1000).toFixed(1) + " s";
+const fmtDate = ms => new Date(ms).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function announce(text) { const el = $("#sr"); el.textContent = ""; setTimeout(() => { el.textContent = text; }, 30); }
+
+/* ---------- Saved progress: mastery per question, best Match time, last test ---------- */
+/* Mastery levels: absent = not studied, 0 = missed last time, 1 = right once, 2 = mastered. */
+const KEY_P = "pns-quiz:progress:v1";
+const KEY_UI = "pns-quiz:ui:v1";
+function lsGet(k) { try { const s = localStorage.getItem(k); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+
+function cleanP(x) {
+  const p = { v: 1, updatedAt: 0, lv: {}, bestMatch: null, lastTest: null };
+  if (!x || typeof x !== "object") return p;
+  if (typeof x.updatedAt === "number") p.updatedAt = x.updatedAt;
+  if (x.lv && typeof x.lv === "object") for (const n of NS) { const l = x.lv[n]; if (l === 0 || l === 1 || l === 2) p.lv[n] = l; }
+  if (typeof x.bestMatch === "number" && x.bestMatch > 0) p.bestMatch = x.bestMatch;
+  const t = x.lastTest;
+  if (t && [t.score, t.total, t.at].every(v => typeof v === "number") && t.total > 0) p.lastTest = { score: t.score, total: t.total, at: t.at };
+  return p;
+}
+
+let P = cleanP(lsGet(KEY_P));
+let localOk = lsSet("pns-quiz:probe", 1);
+const touched = new Set();   // questions answered during this visit
+let wiped = false;           // progress was reset during this visit
+let remote = null, syncOn = false, writing = false, queued = false, pushTimer = 0, retried = false;
+
+function record(n, ok) { const l = P.lv[n]; P.lv[n] = ok ? Math.min(2, (l ?? 0) + 1) : 0; touched.add(n); }
+
+function saveP() {
+  P.updatedAt = Date.now();
+  localOk = lsSet(KEY_P, P);
+  if (remote) { clearTimeout(pushTimer); pushTimer = setTimeout(pushRemote, 1200); }
+  renderMeter(); renderSync();
+}
+
+async function pushRemote() {
+  pushTimer = 0;
+  if (!remote) return;
+  if (writing) { queued = true; return; }
+  writing = true;
+  try {
+    await remote.set(JSON.parse(JSON.stringify(P)));
+    retried = false;
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "unavailable" && !retried) { retried = true; pushTimer = setTimeout(pushRemote, 1500 + Math.random() * 2000); }
+    else if (code !== "unavailable" && code !== "resource_exhausted") { remote = null; syncOn = false; renderSync(); }
+  } finally {
+    writing = false;
+    if (queued) { queued = false; pushRemote(); }
+  }
+}
+
+function mergeP(base, mine) {
+  // The account copy is the base; answers given during this visit win for the questions they touched.
+  const p = cleanP(base);
+  for (const n of touched) { if (mine.lv[n] === undefined) delete p.lv[n]; else p.lv[n] = mine.lv[n]; }
+  if (mine.bestMatch && (!p.bestMatch || mine.bestMatch < p.bestMatch)) p.bestMatch = mine.bestMatch;
+  if (mine.lastTest && (!p.lastTest || mine.lastTest.at > p.lastTest.at)) p.lastTest = mine.lastTest;
+  return p;
+}
+
+async function connectSync() {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  try {
+    const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if (!db || !user) return;
+    const uid = await user.id();
+    if (!uid) return;
+    const ref = db.collection("data/users/" + uid).doc("pns-progress");
+    const snap = await ref.get();
+    const theirs = snap.exists ? cleanP(snap.data()) : null;
+    remote = ref; syncOn = true;
+    if (theirs && theirs.updatedAt) {
+      if (wiped) saveP();
+      else if (touched.size) { P = mergeP(theirs, P); saveP(); }
+      else if (theirs.updatedAt >= P.updatedAt) { P = theirs; localOk = lsSet(KEY_P, P); renderMeter(); refreshIdleView(); }
+      else pushRemote();
+    } else if (P.updatedAt) pushRemote();
+    renderSync();
+  } catch (e) { /* progress stays in this browser */ }
+}
+
+function refreshIdleView() {
+  const L = S.learn;
+  if ((S.mode === "test" && S.test.phase === "setup") || (S.mode === "match" && S.match.phase !== "playing") ||
+      (S.mode === "learn" && (!L.round.length || L.i >= L.round.length))) render();
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "hidden") return;
+  if (pushTimer && remote) { clearTimeout(pushTimer); pushRemote(); }
+  lsSet(KEY_UI, snapshotS());
+});
+
+/* ---------- Where you are in each mode (kept in this browser) ---------- */
+const defaultS = () => ({
+  mode: "cards",
+  cards: { shuffle: false, choices: true, subset: null, order: NS.slice(), i: 0, know: {}, end: false },
+  learn: { roundNo: 0, round: [], i: 0, picked: null, results: {}, lastN: null, confirm: false },
+  test: { phase: "setup", count: 20, weak: false, qs: [], ans: {}, warn: false },
+  match: { phase: "start" },
+});
+let S = defaultS();
+
+function restoreS(x) {
+  if (!x || typeof x !== "object") return;
+  const isN = n => BY.has(n);
+  const list = a => Array.isArray(a) && a.length > 0 && a.every(isN) ? a.slice() : null;
+  const bools = o => { const r = {}; if (o && typeof o === "object") for (const n of NS) if (typeof o[n] === "boolean") r[n] = o[n]; return r; };
+  if (["cards", "learn", "test", "match"].includes(x.mode)) S.mode = x.mode;
+  const c = x.cards;
+  if (c && typeof c === "object") {
+    const C = S.cards;
+    C.shuffle = c.shuffle === true;
+    C.choices = c.choices !== false;
+    C.subset = list(c.subset);
+    C.order = list(c.order) || (C.subset || NS).slice();
+    C.i = Number.isInteger(c.i) && c.i >= 0 && c.i < C.order.length ? c.i : 0;
+    C.end = c.end === true;
+    C.know = bools(c.know);
+  }
+  const l = x.learn;
+  if (l && typeof l === "object") {
+    const round = list(l.round) || [];
+    const i = Number.isInteger(l.i) ? Math.min(Math.max(l.i, 0), round.length) : 0;
+    S.learn = {
+      roundNo: Number.isInteger(l.roundNo) && l.roundNo > 0 ? l.roundNo : (round.length ? 1 : 0),
+      round, i,
+      picked: [0, 1, 2, 3].includes(l.picked) && i < round.length ? l.picked : null,
+      results: bools(l.results), lastN: isN(l.lastN) ? l.lastN : null, confirm: false,
+    };
+  }
+  const t = x.test;
+  if (t && typeof t === "object") {
+    const T = S.test;
+    T.count = [10, 20, NS.length].includes(t.count) ? t.count : 20;
+    T.weak = t.weak === true;
+    const qs = list(t.qs);
+    if (qs && (t.phase === "taking" || t.phase === "results")) {
+      T.phase = t.phase; T.qs = qs;
+      if (t.ans && typeof t.ans === "object") for (const n of qs) if ([0, 1, 2, 3].includes(t.ans[n])) T.ans[n] = t.ans[n];
+    }
+  }
+}
+function snapshotS() { return JSON.parse(JSON.stringify({ mode: S.mode, cards: S.cards, learn: S.learn, test: S.test })); }
+let uiTimer = 0;
+function saveUI() { clearTimeout(uiTimer); uiTimer = setTimeout(() => lsSet(KEY_UI, snapshotS()), 200); }
+
+/* ---------- Shared rendering ---------- */
+const liveCalls = new Set();
+let clockRAF = 0;
+
+function render() {
+  for (const ctl of liveCalls) ctl.abort();
+  liveCalls.clear();
+  cancelAnimationFrame(clockRAF);
+  if (S.mode === "cards") renderCards();
+  else if (S.mode === "learn") renderLearn();
+  else if (S.mode === "test") renderTest();
+  else renderMatch();
+  renderStatus();
+  saveUI();
+}
+
+function counts() {
+  let m = 0, l = 0;
+  for (const n of NS) { const v = P.lv[n]; if (v === 2) m++; else if (v !== undefined) l++; }
+  return { m, l, n: NS.length - m - l };
+}
+function renderMeter() {
+  const c = counts(), total = NS.length;
+  $("#meter-m").style.width = (c.m / total) * 100 + "%";
+  $("#meter-l").style.width = (c.l / total) * 100 + "%";
+  $("#leg-m").textContent = "Mastered " + c.m;
+  $("#leg-l").textContent = "Still learning " + c.l;
+  $("#leg-n").textContent = "Not studied " + c.n;
+  $("#meter").setAttribute("aria-label", `${c.m} mastered, ${c.l} still learning, ${c.n} not studied`);
+}
+function renderSync() {
+  $("#sync").textContent = syncOn ? "Progress saves to your Claude account, so it follows you to other devices."
+    : localOk ? "Progress saves in this browser." : "Progress can't be saved in this window.";
+}
+function renderTabs() {
+  for (const b of document.querySelectorAll(".tab")) {
+    const on = b.dataset.mode === S.mode;
+    b.setAttribute("aria-selected", String(on));
+    b.tabIndex = on ? 0 : -1;
+  }
+  panel.setAttribute("aria-labelledby", "tab-" + S.mode);
+}
+function renderStatus() {
+  const el = $("#status"), T = S.test;
+  if (S.mode === "test" && T.phase === "taking") {
+    el.textContent = `${T.qs.filter(n => T.ans[n] !== undefined).length} of ${T.qs.length} answered`;
+    el.hidden = false;
+  } else el.hidden = true;
+}
+function setMode(mode) {
+  if (mode === S.mode) return;
+  S.mode = mode;
+  renderTabs(); render();
+  const top = $(".top"), y = top.offsetTop + top.offsetHeight;
+  if (window.scrollY > y) window.scrollTo(0, y);
+}
+function scrollToPanel() {
+  const y = panel.getBoundingClientRect().top + window.scrollY - $(".bar").offsetHeight - 8;
+  if (window.scrollY > y) window.scrollTo(0, Math.max(0, y));
+}
+
+/* ---------- Explain with Claude ---------- */
+let askClaude = null;
+async function connectClaude() {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  try {
+    const sample = await window.claude.use("sample");
+    if (sample) { askClaude = sample; document.body.classList.add("claude-on"); }
+  } catch (e) { /* the page works without it */ }
+}
+const claudeBox = () => `<div class="claude-box needs-claude" hidden><p class="claude-label">Claude</p><div class="claude-text"></div><p class="claude-note" hidden></p></div>`;
+const explainBtn = (n, picked) => `<button class="btn quiet needs-claude" data-act="explain" data-n="${n}" data-p="${picked ?? ""}">Explain with Claude</button>`;
+const tidy = t => t.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,6}\s*/gm, "").trim();
+
+function explainPrompt(q, picked) {
+  const wrongPick = picked !== null && picked !== q.a;
+  return `You are tutoring a student for a peripheral nervous system exam. Explain this multiple-choice practice question from their course.
+
+Question: ${q.q}
+${q.o.map((o, i) => `${LETTERS[i]}. ${o}`).join("\n")}
+
+Answer key: ${LETTERS[q.a]}. ${q.o[q.a]}
+The course's explanation: ${q.e}${wrongPick ? `\nThe student picked ${LETTERS[picked]}. ${q.o[picked]}, which is wrong.` : ""}
+
+Reply in plain text with no markdown, headings or bullet symbols, in under 130 words:
+First, one or two sentences on why ${LETTERS[q.a]} is correct.
+Then one short line for each other option saying why it is wrong${wrongPick ? `, starting with ${LETTERS[picked]}` : ""}. Start each of those lines with the option's letter.
+Last, one line starting "Tip:" with a way to remember it.
+Agree with the answer key.`;
+}
+
+async function explain(btn) {
+  if (btn._ctl) { btn._ctl.abort(); return; }
+  if (!askClaude) return;
+  const box = btn.closest(".xscope").querySelector(".claude-box");
+  const out = box.querySelector(".claude-text"), note = box.querySelector(".claude-note");
+  const q = BY.get(Number(btn.dataset.n)), picked = btn.dataset.p === "" ? null : Number(btn.dataset.p);
+  const ctl = new AbortController();
+  btn._ctl = ctl; liveCalls.add(ctl);
+  box.hidden = false; note.hidden = true;
+  out.classList.add("wait"); out.textContent = "Thinking…";
+  btn.textContent = "Stop";
+  try {
+    const res = await askClaude(explainPrompt(q, picked), {
+      signal: ctl.signal,
+      modelTier: "quick",
+      onText: ({ text }) => { out.classList.remove("wait"); out.textContent = tidy(text); },
+    });
+    out.classList.remove("wait");
+    out.textContent = tidy(res.text);
+    if (res.truncated) { note.textContent = "Claude's answer was cut short."; note.hidden = false; }
+    btn.hidden = true;
+  } catch (e) {
+    const code = e && e.code;
+    out.classList.remove("wait");
+    if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(code)) {
+      askClaude = null;
+      document.body.classList.remove("claude-on");
+    } else if (code === "cancelled") {
+      out.textContent = e.text ? tidy(e.text) : "";
+      box.hidden = !e.text;
+    } else if (code === "refused") {
+      out.textContent = "";
+      note.textContent = "Claude couldn't explain this one."; note.hidden = false;
+    } else {
+      out.textContent = e && e.text ? tidy(e.text) : "";
+      note.textContent = code === "rate_limited" ? "Claude is busy right now. Try again in a minute."
+        : code === "session_expired" ? "Sign in to Claude again, then try once more."
+        : "The explanation didn't come through. Try again.";
+      note.hidden = false;
+    }
+  } finally {
+    liveCalls.delete(ctl);
+    btn._ctl = null;
+    if (!btn.hidden) btn.textContent = "Explain with Claude";
+  }
+}
+
+/* ---------- Flashcards ---------- */
+let flipped = false;
+
+function renderCards() {
+  const C = S.cards;
+  flipped = false;
+  if (C.end) return renderCardsEnd();
+  const q = BY.get(C.order[C.i]);
+  const nKnow = C.order.filter(n => C.know[n] === true).length;
+  const nLearn = C.order.filter(n => C.know[n] === false).length;
+  panel.innerHTML = `
+    <div class="cards-bar">
+      <span class="count">${C.i + 1} / ${C.order.length}${C.subset ? ` <span class="muted">· reviewing</span>` : ""}</span>
+      <div class="chips">
+        <button class="chip" data-act="choices" aria-pressed="${C.choices}">Show choices</button>
+        <button class="chip" data-act="shuffle" aria-pressed="${C.shuffle}">Shuffle</button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="flash" id="flash" role="button" tabindex="0" aria-label="Flashcard for question ${q.n}. Press to flip.">
+        <div class="face front">${cardFront(q)}</div>
+        <div class="face back" aria-hidden="true">${cardBack(q)}</div>
+      </div>
+    </div>
+    <div class="flash-nav">
+      <button class="circle" data-act="prev" aria-label="Previous card"${C.i === 0 ? " disabled" : ""}>←</button>
+      <p class="hint"><span class="on-keys">Space flips · ← → move</span><span class="on-touch">Swipe to move</span></p>
+      <button class="circle" data-act="next" aria-label="Next card">→</button>
+    </div>
+    <div class="sort">
+      <button class="btn s-learn" data-act="still">Still learning <span class="n">${nLearn}</span></button>
+      <button class="btn s-know" data-act="know">Know it <span class="n">${nKnow}</span></button>
+    </div>
+    <div class="xscope card-explain needs-claude" id="card-explain" hidden>
+      ${claudeBox()}
+      <div class="actions">${explainBtn(q.n, null)}</div>
+    </div>`;
+  bindFlash();
+}
+
+function cardFront(q) {
+  return `<div class="face-top"><span>Question</span><span title="Question ${q.n} on the practice sheet">Q${q.n}</span></div>
+    <p class="fq">${esc(q.q)}</p>
+    ${S.cards.choices ? `<ol class="fopts">${q.o.map((o, i) => `<li><span class="key">${LETTERS[i]}</span><span>${esc(o)}</span></li>`).join("")}</ol>` : ""}
+    <p class="hint">Flip for the answer</p>`;
+}
+function cardBack(q) {
+  const withChoices = S.cards.choices;
+  return `<div class="face-top"><span>Answer</span><span>Q${q.n}</span></div>
+    <p class="fans">${withChoices ? `<span class="key">${LETTERS[q.a]}</span>` : ""}<span>${esc(withChoices ? q.o[q.a] : answerText(q))}</span></p>
+    <p class="fexp">${esc(q.e)}</p>`;
+}
+
+function setFlip(on) {
+  const el = $("#flash");
+  if (!el) return;
+  flipped = on;
+  el.classList.toggle("flipped", on);
+  el.querySelector(".front").setAttribute("aria-hidden", String(on));
+  el.querySelector(".back").setAttribute("aria-hidden", String(!on));
+  $("#card-explain").hidden = !on;
+  const q = BY.get(S.cards.order[S.cards.i]);
+  announce(on ? `Answer: ${answerText(q)}. ${q.e}` : "Question side");
+}
+
+function bindFlash() {
+  const el = $("#flash");
+  if (!el) return;
+  let x0 = null, y0 = 0;
+  el.addEventListener("touchstart", e => {
+    if (e.touches.length !== 1) { x0 = null; return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener("touchend", e => {
+    if (x0 === null) return;
+    const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) {
+      e.preventDefault();   // stops the tap that follows a swipe from flipping the next card
+      if (dx < 0) cardsNext(); else cardsPrev();
+    }
+  }, { passive: false });
+  el.addEventListener("click", () => setFlip(!flipped));
+}
+
+function cardsNext() { const C = S.cards; if (C.end) return; if (C.i < C.order.length - 1) C.i++; else C.end = true; render(); }
+function cardsPrev() { const C = S.cards; if (C.end) C.end = false; else if (C.i > 0) C.i--; else return; render(); }
+function cardsSort(know) { const C = S.cards; if (C.end) return; C.know[C.order[C.i]] = know; cardsNext(); }
+function cardsShuffle() {
+  const C = S.cards, base = C.subset || NS;
+  C.shuffle = !C.shuffle;
+  C.order = C.shuffle ? shuffle(base) : bySheet(base);
+  C.i = 0; C.end = false;
+  render();
+}
+function cardsReview() {
+  const C = S.cards, rest = C.order.filter(n => C.know[n] !== true);
+  for (const n of rest) delete C.know[n];
+  C.subset = bySheet(rest);
+  C.order = C.shuffle ? shuffle(rest) : bySheet(rest);
+  C.i = 0; C.end = false;
+  render();
+}
+function cardsRestart() {
+  const C = S.cards;
+  C.subset = null; C.know = {};
+  C.order = C.shuffle ? shuffle(NS) : NS.slice();
+  C.i = 0; C.end = false;
+  render();
+}
+
+function renderCardsEnd() {
+  const C = S.cards, total = C.order.length;
+  const know = C.order.filter(n => C.know[n] === true).length, rest = total - know;
+  panel.innerHTML = `
+    <div class="block">
+      <p class="eyebrow">End of the deck</p>
+      <h2>${know === total ? `You know all ${total}` : `You know ${know} of ${total}`}</h2>
+      <p class="muted">${rest ? `${rest} left to review.` : "Nothing left to review."} Sorting cards here doesn't change your mastery; Learn and Test do.</p>
+      <div class="actions">
+        ${rest ? `<button class="btn primary" data-act="review">Review the ${rest}</button>` : ""}
+        <button class="btn" data-act="restart">Start over with all ${NS.length}</button>
+        <button class="btn quiet" data-act="prev">Back to the last card</button>
+      </div>
+    </div>`;
+}
+
+/* ---------- Learn: rounds of up to 7; two right answers in a row masters a question ---------- */
+const learnPool = () => NS.filter(n => P.lv[n] !== 2);
+
+function buildRound(lastN) {
+  const pool = learnPool();
+  const seen = shuffle(pool.filter(n => P.lv[n] !== undefined)).sort((a, b) => P.lv[a] - P.lv[b]);
+  const fresh = shuffle(pool.filter(n => P.lv[n] === undefined));
+  const pick = seen.slice(0, 4);
+  for (const n of fresh) { if (pick.length >= 7) break; pick.push(n); }
+  for (const n of seen.slice(4)) { if (pick.length >= 7) break; pick.push(n); }
+  const round = shuffle(pick);
+  if (round.length > 1 && round[0] === lastN) [round[0], round[1]] = [round[1], round[0]];
+  return round;
+}
+
+function renderLearn() {
+  const L = S.learn;
+  if (!L.round.length) {
+    if (!learnPool().length) return renderLearnDone();
+    L.roundNo++; L.round = buildRound(L.lastN); L.i = 0; L.picked = null; L.results = {};
+  }
+  if (L.i >= L.round.length) return renderLearnSummary();
+  const n = L.round[L.i], q = BY.get(n), picked = L.picked, done = picked !== null, lv = P.lv[n];
+  const [tag, tone] = !done
+    ? (lv === undefined ? ["New", "blue"] : lv === 0 ? ["Missed last time", ""] : ["Right once before", ""])
+    : (lv === 2 ? ["Mastered", "blue"] : lv === 1 ? ["1 more to master", ""] : ["Still learning", ""]);
+  panel.innerHTML = `
+    <div class="lhead"><span>Round ${L.roundNo} · ${L.i + 1} of ${L.round.length}</span><span class="tag ${tone}">${tag}</span></div>
+    <div class="line"><i style="width:${((L.i + (done ? 1 : 0)) / L.round.length) * 100}%"></i></div>
+    <p class="qtext" id="lq">${esc(q.q)}</p>
+    <div class="choices" role="group" aria-labelledby="lq">
+      ${q.o.map((o, i) => {
+        const cls = !done ? "" : i === q.a ? "right" : i === picked ? "wrong" : "dim";
+        return `<button class="choice ${cls}" data-act="pick" data-i="${i}"${done ? " disabled" : ""}><span class="key">${LETTERS[i]}</span><span>${esc(o)}</span></button>`;
+      }).join("")}
+    </div>
+    ${done ? feedback(q, picked) : `<p class="keys-hint on-keys">Press 1–4 or A–D to answer.</p>`}`;
+}
+
+function feedback(q, picked) {
+  const ok = picked === q.a;
+  return `<div class="feedback ${ok ? "ok" : "bad"} xscope" role="status">
+    <p class="verdict">${ok ? "Correct" : "Not quite"}</p>
+    ${ok ? "" : `<p>The answer is <b>${LETTERS[q.a]}. ${esc(q.o[q.a])}</b></p>`}
+    <p>${esc(q.e)}</p>
+    ${claudeBox()}
+    <div class="fb-actions">${explainBtn(q.n, ok ? null : picked)}<button class="btn primary" data-act="continue">Continue</button></div>
+  </div>`;
+}
+
+function learnPick(i) {
+  const L = S.learn;
+  if (L.picked !== null || L.i >= L.round.length) return;
+  const n = L.round[L.i], ok = i === BY.get(n).a;
+  L.picked = i; L.results[n] = ok;
+  record(n, ok); saveP(); render();
+  panel.querySelector(".feedback")?.scrollIntoView({ block: "nearest", behavior: reduceMotion() ? "auto" : "smooth" });
+  panel.querySelector('[data-act="continue"]')?.focus({ preventScroll: true });
+}
+function learnContinue() {
+  const L = S.learn;
+  if (L.picked === null) return;
+  L.lastN = L.round[L.i]; L.i++; L.picked = null;
+  render(); scrollToPanel();
+}
+function learnNextRound() { const L = S.learn; L.round = []; L.i = 0; L.picked = null; render(); scrollToPanel(); }
+
+function renderLearnSummary() {
+  const L = S.learn, c = counts(), right = L.round.filter(n => L.results[n]).length, finished = !learnPool().length;
+  panel.innerHTML = `
+    <div class="block">
+      <p class="eyebrow">Round ${L.roundNo} complete</p>
+      <h2>${right} of ${L.round.length} right</h2>
+      <p class="muted">${c.m} of ${NS.length} mastered so far. A question is mastered after two right answers in a row.</p>
+      <ul class="rlist">${L.round.map(n => {
+        const ok = L.results[n];
+        return `<li><span class="mark ${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"}<span class="sr">${ok ? " Right: " : " Wrong: "}</span></span><span>${esc(BY.get(n).q)}</span></li>`;
+      }).join("")}</ul>
+      <div class="actions"><button class="btn primary" data-act="next-round">${finished ? "Finish" : `Start round ${L.roundNo + 1}`}</button></div>
+    </div>`;
+  panel.querySelector('[data-act="next-round"]')?.focus({ preventScroll: true });
+}
+
+function renderLearnDone() {
+  const L = S.learn;
+  panel.innerHTML = `
+    <div class="block">
+      <p class="eyebrow">Learn complete</p>
+      <h2>All ${NS.length} mastered</h2>
+      <p class="muted">You've answered every question right twice in a row.</p>
+      <div class="actions">
+        ${L.confirm
+          ? `<p class="warn-text">This clears your mastery for all ${NS.length} questions.</p>
+             <button class="btn primary" data-act="learn-reset-yes">Clear and start over</button>
+             <button class="btn" data-act="learn-reset-no">Cancel</button>`
+          : `<button class="btn primary" data-act="goto-test">Take a practice test</button>
+             <button class="btn" data-act="learn-reset">Start Learn over</button>`}
+      </div>
+    </div>`;
+}
+function learnResetAll() {
+  P.lv = {};
+  for (const n of NS) touched.add(n);
+  S.learn = defaultS().learn;
+  saveP(); render();
+}
+
+/* ---------- Test ---------- */
+function renderTest() {
+  const T = S.test;
+  if (T.phase === "taking") renderTestTaking();
+  else if (T.phase === "results") renderTestResults();
+  else renderTestSetup();
+}
+
+function renderTestSetup() {
+  const T = S.test, weakPool = learnPool();
+  if (!weakPool.length) T.weak = false;
+  const pool = T.weak ? weakPool : NS, k = Math.min(T.count, pool.length), lt = P.lastTest;
+  panel.innerHTML = `
+    <div class="block">
+      <h2>Practice test</h2>
+      <p class="muted">Questions come in random order. Submit at the end to see your score and every explanation.</p>
+      <fieldset class="seg"><legend>How many questions</legend>
+        ${[10, 20, NS.length].map(v => `<button class="chip" data-act="count" data-v="${v}" aria-pressed="${T.count === v}">${v === NS.length ? `All ${v}` : v}</button>`).join("")}
+      </fieldset>
+      <label class="check"><input type="checkbox" id="t-weak"${T.weak ? " checked" : ""}${weakPool.length ? "" : " disabled"}> Only questions I haven't mastered <span class="muted">(${weakPool.length})</span></label>
+      <div class="actions"><button class="btn primary" data-act="start-test"${k ? "" : " disabled"}>Start ${k}-question test</button></div>
+      ${lt ? `<p class="muted">Last test: ${lt.score}/${lt.total} (${Math.round((lt.score / lt.total) * 100)}%) on ${fmtDate(lt.at)}</p>` : ""}
+    </div>`;
+}
+
+function startTest(qs) {
+  const T = S.test;
+  T.qs = qs; T.ans = {}; T.warn = false; T.phase = "taking";
+  render(); scrollToPanel();
+}
+
+function renderTestTaking() {
+  const T = S.test, total = T.qs.length, left = T.qs.filter(n => T.ans[n] === undefined).length;
+  panel.innerHTML = `
+    <ol class="tlist">${T.qs.map((n, k) => {
+      const q = BY.get(n), a = T.ans[n];
+      return `<li class="tq">
+        <p class="tq-num">${k + 1} of ${total}</p>
+        <p class="tq-q" id="tq-${n}">${esc(q.q)}</p>
+        <div class="choices" role="group" aria-labelledby="tq-${n}">
+          ${q.o.map((o, i) => `<button class="choice" data-act="tpick" data-n="${n}" data-i="${i}" aria-pressed="${a === i}"><span class="key">${LETTERS[i]}</span><span>${esc(o)}</span></button>`).join("")}
+        </div>
+      </li>`;
+    }).join("")}</ol>
+    <div class="submit">
+      <p class="warn" id="t-warn"${T.warn && left ? "" : " hidden"}>${left} unanswered. They count as wrong if you submit now.</p>
+      <div class="actions">
+        <button class="btn primary" data-act="submit">${T.warn && left ? "Submit anyway" : "Submit test"}</button>
+        <button class="btn quiet" data-act="quit-test">Quit test</button>
+      </div>
+    </div>`;
+}
+
+function testPick(btn) {
+  const T = S.test, n = Number(btn.dataset.n), i = Number(btn.dataset.i);
+  T.ans[n] = i;
+  for (const b of btn.parentElement.querySelectorAll(".choice")) b.setAttribute("aria-pressed", String(b === btn));
+  const left = T.qs.filter(m => T.ans[m] === undefined).length, warn = $("#t-warn");
+  if (T.warn && warn) {
+    if (left) warn.textContent = `${left} unanswered. They count as wrong if you submit now.`;
+    else { T.warn = false; warn.hidden = true; panel.querySelector('[data-act="submit"]').textContent = "Submit test"; }
+  }
+  renderStatus(); saveUI();
+}
+
+let quitArmed = 0;
+function quitTest(btn) {
+  const T = S.test;
+  if (T.qs.some(n => T.ans[n] !== undefined) && !quitArmed) {
+    btn.textContent = "Press again to quit";
+    quitArmed = setTimeout(() => { quitArmed = 0; if (btn.isConnected) btn.textContent = "Quit test"; }, 3000);
+    return;
+  }
+  clearTimeout(quitArmed); quitArmed = 0;
+  T.phase = "setup"; T.qs = []; T.ans = {};
+  render(); scrollToPanel();
+}
+
+function submitTest() {
+  const T = S.test, left = T.qs.filter(n => T.ans[n] === undefined).length;
+  if (left && !T.warn) { T.warn = true; render(); $("#t-warn")?.scrollIntoView({ block: "center" }); return; }
+  let score = 0;
+  for (const n of T.qs) {
+    const a = T.ans[n];
+    if (a === undefined) continue;
+    const ok = a === BY.get(n).a;
+    if (ok) score++;
+    record(n, ok);
+  }
+  P.lastTest = { score, total: T.qs.length, at: Date.now() };
+  T.phase = "results"; T.warn = false;
+  saveP(); render(); scrollToPanel();
+}
+
+function renderTestResults() {
+  const T = S.test, total = T.qs.length;
+  const missed = T.qs.filter(n => T.ans[n] !== BY.get(n).a);
+  const score = total - missed.length, pct = Math.round((score / total) * 100);
+  panel.innerHTML = `
+    <div class="block">
+      <p class="eyebrow">Test results</p>
+      <p class="score"><span class="big">${score}/${total}</span><span class="pct">${pct}%</span></p>
+      <p class="muted">${missed.length ? `${missed.length} to review below. Questions you got wrong go back to still learning.` : "Every answer right."}</p>
+      <div class="actions">
+        ${missed.length ? `<button class="btn primary" data-act="retake">Retake the ${missed.length} missed</button>` : ""}
+        <button class="btn" data-act="new-test">New test</button>
+      </div>
+    </div>
+    <ol class="tlist results-list">${T.qs.map((n, k) => {
+      const q = BY.get(n), a = T.ans[n], ok = a === q.a;
+      return `<li class="tq xscope">
+        <p class="tq-num"><span class="mark ${ok ? "ok" : "bad"}">${ok ? "✓ Right" : a === undefined ? "✗ Unanswered" : "✗ Wrong"}</span> · ${k + 1} of ${total}</p>
+        <p class="tq-q">${esc(q.q)}</p>
+        <div class="choices">${q.o.map((o, i) => `<div class="choice ${i === q.a ? "right" : i === a ? "wrong" : "dim"}"><span class="key">${LETTERS[i]}</span><span>${esc(o)}</span></div>`).join("")}</div>
+        <p class="tq-expl">${esc(q.e)}</p>
+        ${claudeBox()}
+        <div class="tq-actions">${explainBtn(n, ok || a === undefined ? null : a)}</div>
+      </li>`;
+    }).join("")}</ol>`;
+}
+
+/* ---------- Match: 6 questions, 12 tiles, a second added for each wrong pair ---------- */
+/* Pairs kept out of the same game because one question's answer also fits the other. */
+const MATCH_CLASH = [[8, 36], [24, 37], [34, 43], [31, 43]];
+const words = s => " " + s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() + " ";
+function clash(a, b) {
+  if (MATCH_CLASH.some(([x, y]) => (x === a.n && y === b.n) || (x === b.n && y === a.n))) return true;
+  const aa = words(answerText(a)), ba = words(answerText(b));
+  return aa === ba || words(a.q).includes(ba) || words(b.q).includes(aa);
+}
+function pickMatchSet() {
+  const chosen = [];
+  for (const q of shuffle(QS)) {
+    if (chosen.every(c => !clash(c, q))) chosen.push(q);
+    if (chosen.length === 6) break;
+  }
+  return chosen;
+}
+
+function renderMatch() {
+  const M = S.match;
+  if (M.phase === "playing") return renderMatchBoard();
+  if (M.phase === "done") return renderMatchDone();
+  panel.innerHTML = `
+    <div class="block">
+      <h2>Match</h2>
+      <p class="muted">Pair each question with its answer as fast as you can. Tap a question, then its answer. A wrong pair adds a second.</p>
+      ${P.bestMatch ? `<p>Your best: <b>${fmtSec(P.bestMatch)}</b></p>` : ""}
+      <div class="actions"><button class="btn primary" data-act="match-start">Start game</button></div>
+    </div>`;
+}
+
+function matchStart() {
+  const tiles = shuffle(pickMatchSet().flatMap(q => [
+    { k: "q" + q.n, n: q.n, side: "q", text: q.q },
+    { k: "a" + q.n, n: q.n, side: "a", text: answerText(q) },
+  ]));
+  S.match = { phase: "playing", tiles, gone: [], sel: null, t0: performance.now(), pen: 0 };
+  render();
+}
+
+function renderMatchBoard() {
+  const M = S.match, left = (M.tiles.length - M.gone.length) / 2;
+  panel.innerHTML = `
+    <div class="mhead"><span class="timer" id="m-timer">0.0 s</span><span class="muted" id="m-left">${left} pairs left</span><span class="pen" id="m-pen" aria-live="polite"></span></div>
+    <div class="tiles">${M.tiles.map(t => `<button class="tile${t.side === "a" ? " ans" : ""}${M.gone.includes(t.k) ? " gone" : ""}" data-act="tile" data-k="${t.k}">${esc(t.text)}</button>`).join("")}</div>`;
+  const el = $("#m-timer");
+  const tick = () => {
+    if (S.mode !== "match" || S.match.phase !== "playing") return;
+    el.textContent = fmtSec(performance.now() - S.match.t0 + S.match.pen);
+    clockRAF = requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+let penTimer = 0;
+function matchTile(btn) {
+  const M = S.match;
+  if (M.phase !== "playing") return;
+  const k = btn.dataset.k;
+  if (M.gone.includes(k)) return;
+  const prevEl = M.sel ? panel.querySelector(`[data-k="${M.sel}"]`) : null;
+  if (!M.sel || M.sel === k) { M.sel = M.sel === k ? null : k; btn.classList.toggle("sel", M.sel === k); return; }
+  const a = M.tiles.find(t => t.k === M.sel), b = M.tiles.find(t => t.k === k);
+  if (a.side === b.side) {   // two questions or two answers: move the selection
+    prevEl?.classList.remove("sel"); M.sel = k; btn.classList.add("sel"); return;
+  }
+  M.sel = null;
+  prevEl?.classList.remove("sel");
+  if (a.n === b.n) {
+    M.gone.push(a.k, b.k);
+    prevEl?.classList.add("gone"); btn.classList.add("gone");
+    const left = (M.tiles.length - M.gone.length) / 2;
+    $("#m-left").textContent = left ? `${left} pair${left === 1 ? "" : "s"} left` : "All matched";
+    if (!left) matchFinish();
+  } else {
+    M.pen += 1000;
+    for (const el of [prevEl, btn]) {
+      if (!el) continue;
+      el.classList.remove("wrong"); void el.offsetWidth; el.classList.add("wrong");
+      setTimeout(() => el.classList.remove("wrong"), 450);
+    }
+    const pen = $("#m-pen");
+    pen.textContent = "+1 s";
+    clearTimeout(penTimer);
+    penTimer = setTimeout(() => { if (pen.isConnected) pen.textContent = ""; }, 900);
+  }
+}
+
+function matchFinish() {
+  const M = S.match, time = performance.now() - M.t0 + M.pen;
+  const prevBest = P.bestMatch, best = !prevBest || time < prevBest;
+  if (best) { P.bestMatch = Math.round(time); saveP(); }
+  S.match = { phase: "done", time, best, prevBest };
+  cancelAnimationFrame(clockRAF);
+  setTimeout(() => { if (S.mode === "match" && S.match.phase === "done") render(); }, 350);
+}
+
+function renderMatchDone() {
+  const M = S.match;
+  panel.innerHTML = `
+    <div class="block">
+      <p class="eyebrow">Match complete</p>
+      <p class="score"><span class="big">${fmtSec(M.time)}</span></p>
+      <p class="muted">${M.best ? (M.prevBest ? `New best time. Your previous best was ${fmtSec(M.prevBest)}.` : "Your first time on the board.") : `Your best is ${fmtSec(P.bestMatch)}.`}</p>
+      <div class="actions"><button class="btn primary" data-act="match-start">Play again</button></div>
+    </div>`;
+}
+
+/* ---------- Reset ---------- */
+function armReset() {
+  $("#reset-slot").innerHTML = `Clear mastery, best time and last test? <button class="linkish" data-act="reset-yes">Clear</button> <button class="linkish" data-act="reset-no">Cancel</button>`;
+}
+function disarmReset() { $("#reset-slot").innerHTML = `<button class="linkish" data-act="reset">Reset progress</button>`; }
+function doReset() {
+  P = cleanP(null); wiped = true;
+  for (const n of NS) touched.add(n);
+  S.learn = defaultS().learn;
+  if (S.test.phase === "setup") S.test.weak = false;
+  if (S.match.phase !== "playing") S.match = { phase: "start" };
+  saveP(); disarmReset(); render();
+  announce("Progress cleared");
+}
+
+/* ---------- Input ---------- */
+const KEEP_FOCUS = new Set(["prev", "next", "still", "know", "shuffle", "choices", "count"]);
+document.addEventListener("click", e => {
+  const tab = e.target.closest(".tab");
+  if (tab) { setMode(tab.dataset.mode); return; }
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const act = b.dataset.act, T = S.test;
+  switch (act) {
+    case "prev": cardsPrev(); break;
+    case "next": cardsNext(); break;
+    case "still": cardsSort(false); break;
+    case "know": cardsSort(true); break;
+    case "shuffle": cardsShuffle(); break;
+    case "choices": S.cards.choices = !S.cards.choices; render(); break;
+    case "review": cardsReview(); break;
+    case "restart": cardsRestart(); break;
+    case "pick": learnPick(Number(b.dataset.i)); break;
+    case "continue": learnContinue(); break;
+    case "next-round": learnNextRound(); break;
+    case "goto-test": setMode("test"); break;
+    case "learn-reset": S.learn.confirm = true; render(); break;
+    case "learn-reset-yes": learnResetAll(); break;
+    case "learn-reset-no": S.learn.confirm = false; render(); break;
+    case "count": T.count = Number(b.dataset.v); render(); break;
+    case "start-test": { const pool = T.weak ? learnPool() : NS; startTest(shuffle(pool).slice(0, Math.min(T.count, pool.length))); break; }
+    case "tpick": testPick(b); break;
+    case "submit": submitTest(); break;
+    case "quit-test": quitTest(b); break;
+    case "retake": startTest(shuffle(T.qs.filter(n => T.ans[n] !== BY.get(n).a))); break;
+    case "new-test": T.phase = "setup"; T.qs = []; T.ans = {}; render(); scrollToPanel(); break;
+    case "match-start": matchStart(); break;
+    case "tile": matchTile(b); break;
+    case "explain": explain(b); break;
+    case "reset": armReset(); break;
+    case "reset-yes": doReset(); break;
+    case "reset-no": disarmReset(); break;
+  }
+  // Keep keyboard focus on the control that was used when a re-render replaced it.
+  if (KEEP_FOCUS.has(act) && !b.isConnected) panel.querySelector(`[data-act="${act}"]`)?.focus({ preventScroll: true });
+});
+
+document.addEventListener("change", e => {
+  if (e.target.id === "t-weak") { S.test.weak = e.target.checked; render(); }
+});
+
+$(".tabs").addEventListener("keydown", e => {
+  const tabs = [...document.querySelectorAll(".tab")], i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  const j = e.key === "ArrowRight" ? (i + 1) % tabs.length : e.key === "ArrowLeft" ? (i - 1 + tabs.length) % tabs.length
+    : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+  if (j === null) return;
+  e.preventDefault(); e.stopPropagation();
+  tabs[j].focus(); setMode(tabs[j].dataset.mode);
+});
+
+document.addEventListener("keydown", e => {
+  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target, tag = t.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || t.isContentEditable) return;
+  if (S.mode === "cards") {
+    if (e.key === "ArrowRight" && !S.cards.end) { e.preventDefault(); cardsNext(); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); cardsPrev(); }
+    else if ((e.key === " " || e.key === "Enter") && !S.cards.end && (t === document.body || t.id === "flash")) { e.preventDefault(); setFlip(!flipped); }
+  } else if (S.mode === "learn") {
+    const L = S.learn;
+    if (!L.round.length || L.i >= L.round.length) return;
+    if (L.picked === null && e.key.length === 1) {
+      const d = "1234".indexOf(e.key), i = d >= 0 ? d : "abcd".indexOf(e.key.toLowerCase());
+      if (i >= 0) { e.preventDefault(); learnPick(i); }
+    } else if (L.picked !== null && (e.key === "Enter" || e.key === " ") && tag !== "BUTTON") {
+      e.preventDefault(); learnContinue();
+    }
+  }
+});
+
+/* ---------- Start ---------- */
+function boot(data) {
+  S = defaultS();
+  restoreS(data && data.S ? data.S : lsGet(KEY_UI));
+  renderTabs(); renderMeter(); renderSync(); render();
+  connectSync(); connectClaude();
+}
+try { window.claude?.hot?.snapshot?.(() => ({ S: snapshotS() })); } catch (e) { /* not in a viewer */ }
+if (window.claude?.hot?.ready) window.claude.hot.ready(boot);
+else boot(window.claude?.hot?.data ?? {});
+</script>
