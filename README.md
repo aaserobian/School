@@ -60,6 +60,32 @@ so rather than failing. Regenerate it with
 Note the published Artifact link is *not* shareable this way: declaring the `db` capability
 makes an artifact organization-internal by platform rule.
 
+## Peripheral nervous system: Learn and Practice questions
+
+A separate, smaller set for the Module 2 lecture deck on the peripheral nervous system
+(`source/06-peripheral-nervous-system.pdf`): 101 term-and-definition cards, 76 of them with the
+deck's own figure. It does two things and nothing else.
+
+**Open it:** <https://claude.ai/artifact/5fw6dYrTAEyrYNy4mqE3KW>, or double-click
+`share/Peripheral-Nervous-System-Study-Set.html` (one file, no account or internet needed).
+
+- **Learn** asks short multiple-choice rounds, weakest cards first. A right answer moves a card up a
+  level, a wrong one sends it back and asks it again before the round ends, and two levels up counts
+  as mastered. Progress is saved in the browser.
+- **Practice questions** is a scored set of multiple-choice and true/false questions from any
+  section, ending in a breakdown by section and the misses to review or practise again.
+
+Every answer shows the card and the lecture figure it comes from. 88 cards are the summary notes;
+13 come straight from the slides and carry a **From slides** tag.
+
+Two facts are stated one way in a slide's text and another in its figure: the cervical plexus
+(C1-C4 in the text of slide 20, C1-C5 in the figure) and the big toe (L4 in the text of slide 18, L5
+on the map). The cards follow the text and say so.
+
+Edit `pns/cards.json` (the cards and which figure each uses) or `pns/study.html`, then run
+`python3 tools/build_pns.py`. The build stops if a card points at a section or figure that doesn't
+exist. `--fragment <path>` also writes the page without a document skeleton, for publishing.
+
 ## Rebuilding
 
 `study-guide.html` is generated — edit the files in `src/`, not the built page.
@@ -81,7 +107,8 @@ serve several objectives.
 ## Layout
 
 ```
-source/              the high-yield guide and the five lecture decks
+source/              the high-yield guide and the six lecture decks
+pns/                 the peripheral nervous system set: cards.json and study.html
 src/content.js       32 objectives, 129 questions, 81 cards, the timeline
 src/app.css          styling
 src/app.js           the app

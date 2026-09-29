@@ -1,0 +1,793 @@
+<title>PNS Study Set</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Layout: one narrow working column. A mode bar and a section filter sit above a single
+   question plate, the way an atlas legend sits above its figure. Colors come from the
+   plates themselves: ink navy, myelin blue, nerve yellow. */
+:root {
+  --bg: #eef2f6;
+  --surface: #ffffff;
+  --surface-2: #e4ebf2;
+  --ink: #12202e;
+  --muted: #536477;
+  --line: #c9d3de;
+  --accent: #17527f;
+  --accent-ink: #ffffff;
+  --nerve: #e3b23c;
+  --good: #17703f;
+  --good-bg: #ddf2e5;
+  --bad: #a92f26;
+  --bad-bg: #fbe3e0;
+  --plate: #ffffff;
+  --shadow: 0 1px 2px rgb(18 32 46 / .06), 0 10px 28px rgb(18 32 46 / .07);
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1621; --surface: #152232; --surface-2: #1d2d40; --ink: #e7eef6; --muted: #9db0c3;
+    --line: #2c3f54; --accent: #7db9ea; --accent-ink: #0a1622; --nerve: #f0c95a;
+    --good: #5ecb92; --good-bg: #12362a; --bad: #ff8f84; --bad-bg: #3d1f1c;
+    --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1621; --surface: #152232; --surface-2: #1d2d40; --ink: #e7eef6; --muted: #9db0c3;
+  --line: #2c3f54; --accent: #7db9ea; --accent-ink: #0a1622; --nerve: #f0c95a;
+  --good: #5ecb92; --good-bg: #12362a; --bad: #ff8f84; --bad-bg: #3d1f1c;
+  --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 var(--font-body);
+  padding-inline: 16px;
+  padding-block: 20px 56px;
+  -webkit-text-size-adjust: 100%;
+}
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--font-mono); }
+.muted { color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.app { max-width: 760px; margin-inline: auto; display: flex; flex-direction: column; gap: 18px; }
+
+/* masthead */
+.masthead h1 {
+  margin: 0; font: 600 clamp(1.5rem, 5vw, 1.9rem)/1.15 var(--font-display);
+  letter-spacing: -.01em; text-wrap: balance;
+}
+.masthead .meta { margin: 6px 0 0; font: 400 .78rem var(--font-mono); letter-spacing: .02em; color: var(--muted); }
+
+/* mode tabs */
+.modes { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.modes button {
+  appearance: none; background: none; border: 0; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; padding: 10px 14px; min-height: 44px; cursor: pointer;
+  font-weight: 500; color: var(--muted); white-space: nowrap;
+}
+.modes button:hover { color: var(--ink); }
+.modes button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* section filter */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  appearance: none; cursor: pointer; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: 6px 10px; min-height: 34px; font-size: .84rem; font-weight: 500;
+  display: inline-flex; align-items: baseline; gap: 6px;
+}
+.chip .n { font: 400 .72rem var(--font-mono); color: var(--muted); }
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.chip[aria-pressed="true"] .n { color: inherit; opacity: .75; }
+
+/* buttons */
+.btn {
+  appearance: none; cursor: pointer; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 5px; padding: 10px 16px; min-height: 44px; font-weight: 500;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { background: none; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+/* learn progress */
+.meter { display: grid; gap: 6px; }
+.meter-text { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .95rem; }
+.meter-text .round { font: 400 .78rem var(--font-mono); color: var(--muted); }
+.meter-bar { display: flex; height: 8px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.meter-bar i { display: block; height: 100%; transition: width .3s ease; }
+.meter-bar .m { background: var(--good); }
+.meter-bar .l { background: var(--nerve); }
+.legend { margin: 0; font-size: .74rem; color: var(--muted); }
+
+/* the question plate */
+.q {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow);
+  padding: 20px 22px 8px; display: flex; flex-direction: column; gap: 14px; min-width: 0;
+}
+.q:focus { outline: none; }
+.q-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.tag, .q-count, .k, .tf-k {
+  font: 500 .72rem var(--font-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted);
+}
+.q-count { text-transform: none; letter-spacing: .02em; font-weight: 400; }
+.ask { margin: 0; font-size: .92rem; color: var(--muted); }
+.q-prompt { margin: 0; overflow-wrap: anywhere; }
+.q-prompt.term, .term {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 4.4vw, 1.75rem); line-height: 1.25;
+  text-wrap: balance;
+}
+.q-prompt.def { font-size: 1.15rem; line-height: 1.55; }
+.tf { display: grid; gap: 10px; }
+.tf-row { margin: 0; display: grid; gap: 2px; }
+.tf-v { overflow-wrap: anywhere; }
+.tf-v:not(.term) { font-size: 1.1rem; line-height: 1.55; }
+.tf-v.term { font-size: 1.3rem; }
+
+.opts { display: grid; gap: 8px; }
+.opt {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 12px;
+  width: 100%; text-align: left; padding: 12px 14px; min-height: 48px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 5px;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; color: var(--ink); }
+.opt .key {
+  font: 500 .78rem var(--font-mono); color: var(--muted); border: 1px solid var(--line);
+  border-radius: 3px; min-width: 1.7rem; height: 1.7rem; display: grid; place-items: center; margin-top: 1px;
+}
+.opt-text { overflow-wrap: anywhere; line-height: 1.45; }
+.opt-flag { align-self: center; font: 500 .68rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.opt.is-correct { border-color: var(--good); background: var(--good-bg); }
+.opt.is-correct .opt-flag { color: var(--good); }
+.opt.is-wrong { border-color: var(--bad); background: var(--bad-bg); }
+.opt.is-wrong .opt-flag { color: var(--bad); }
+.opt.is-dim { opacity: .62; }
+
+/* feedback under the options */
+.fb { display: grid; gap: 14px; padding-top: 6px; }
+.fb-head { margin: 0; font-size: 1.05rem; }
+.fb.is-good .fb-head { color: var(--good); }
+.fb.is-bad .fb-head { color: var(--bad); }
+.fb-card { display: grid; gap: 10px; padding: 12px 14px; background: var(--surface-2); border-radius: 5px; }
+.fb-line { margin: 0; display: grid; gap: 2px; }
+.fb-line .v { overflow-wrap: anywhere; }
+.fb-line .v:not(.term) { line-height: 1.55; }
+.fb-line .v.term { font-size: 1.15rem; }
+.badge {
+  display: inline-block; font: 500 .68rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase;
+  border: 1px solid var(--nerve); border-radius: 3px; padding: 2px 6px; color: var(--ink);
+}
+.badge-row { margin: 0; }
+
+.fig { margin: 0; display: grid; gap: 6px; }
+.plate {
+  display: block; width: 100%; padding: 8px; cursor: zoom-in; background: var(--plate);
+  border: 1px solid var(--line); border-radius: 4px;
+}
+.plate img { display: block; margin: 0 auto; width: auto; height: auto; max-width: 100%; max-height: min(52vh, 460px); object-fit: contain; }
+.fig figcaption { font: 400 .76rem var(--font-mono); color: var(--muted); }
+
+.actions {
+  position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--surface) 72%, transparent);
+}
+
+.actions.flow { position: static; background: none; padding: 0; }
+.stack { display: grid; gap: 14px; }
+
+/* panels: setup, results, done */
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px;
+  display: grid; gap: 16px; min-width: 0;
+}
+.panel h2 { margin: 0; font: 600 1.35rem/1.25 var(--font-display); text-wrap: balance; }
+.panel h3 { margin: 0; font: 600 1rem var(--font-body); }
+.panel p { margin: 0; }
+.field { display: grid; gap: 6px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field > label, .field > legend, .ctl > span { font: 500 .78rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 0; }
+select {
+  appearance: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 5px;
+  padding: 9px 10px; min-height: 44px; max-width: 100%;
+}
+.check { display: flex; align-items: center; gap: 10px; min-height: 36px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+.ctl { display: grid; gap: 6px; }
+
+.score { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 1.05rem; }
+.score .big { font: 500 2.6rem/1 var(--font-mono); }
+.score .pct { font: 500 1rem var(--font-mono); color: var(--muted); }
+.sec-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.sec-table th { text-align: left; font: 500 .72rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 0 8px 6px 0; }
+.sec-table td { padding: 8px 8px 8px 0; border-top: 1px solid var(--line); vertical-align: middle; }
+.sec-table .num { font-family: var(--font-mono); white-space: nowrap; }
+.sec-bar { display: block; height: 8px; min-width: 60px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.sec-bar i { display: block; height: 100%; background: var(--good); }
+.table-scroll { overflow-x: auto; }
+.missed { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.missed li { display: grid; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); min-width: 0; }
+.missed .said { color: var(--bad); }
+.missed .fig { max-width: 280px; }
+.missed .plate img { max-height: 160px; }
+
+.foot { display: grid; gap: 6px; font-size: .8rem; color: var(--muted); }
+.foot p { margin: 0; }
+
+/* figure lightbox */
+dialog.lightbox {
+  width: min(96vw, 980px); max-height: 94vh; padding: 0; overflow: auto;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px;
+}
+dialog.lightbox::backdrop { background: rgb(6 12 20 / .76); }
+.lb-bar {
+  position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.lb-bar p { margin: 0; font: 400 .8rem var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+.lb-body { padding: 10px; background: var(--plate); }
+.lb-body img { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 480px) {
+  .q, .panel { padding-inline: 16px; }
+  .opt { padding: 12px; gap: 10px; }
+}
+</style>
+
+<div class="app">
+  <header class="masthead">
+    <h1>PNS Study Set</h1>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <nav class="modes" role="tablist" aria-label="Study mode" id="modes">
+    <button type="button" role="tab" id="tab-learn" data-mode="learn" aria-controls="stage">Learn</button>
+    <button type="button" role="tab" id="tab-practice" data-mode="practice" aria-controls="stage">Practice questions</button>
+  </nav>
+
+  <div class="filters" id="filters" role="group" aria-label="Section to study"></div>
+
+  <main id="stage" role="tabpanel" tabindex="-1"></main>
+
+  <footer class="foot">
+    <p id="refs"></p>
+    <p>A <span class="badge">From slides</span> tag marks a card taken straight from the lecture slides rather than the summary notes.</p>
+  </footer>
+
+  <p class="sr" id="live" aria-live="polite"></p>
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Figure">
+  <div class="lb-bar"><p id="lb-title"></p><button type="button" class="btn" id="lb-close">Close</button></div>
+  <div class="lb-body"><img id="lb-img" alt=""></div>
+</dialog>
+
+<script id="deck" type="application/json">__DECK_JSON__</script>
+<script>
+(() => {
+'use strict';
+
+/* ---------- the deck ---------- */
+const DECK = JSON.parse(document.getElementById('deck').textContent);
+const SECTIONS = DECK.sections;
+const CARDS = DECK.cards;
+const FIGS = DECK.figures;
+const BY_ID = Object.fromEntries(CARDS.map(c => [c.id, c]));
+const SECTION = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
+const norm = s => s.toLowerCase().replace(/\s+/g, ' ').trim();
+
+// Two cards can share a definition (both the submandibular and pterygopalatine ganglia
+// connect with CN VII). Asked backwards, that definition has two right answers, so those
+// cards are only ever asked term first.
+const defCount = {};
+for (const c of CARDS) defCount[norm(c.d)] = (defCount[norm(c.d)] || 0) + 1;
+const uniqueDef = c => defCount[norm(c.d)] === 1;
+
+/* ---------- saved state ---------- */
+const KEY = 'pns-study-set.v2';
+const FORMATS = ['mixed', 'td', 'dt'];
+const COUNTS = [10, 20, 40, 0];                       // 0 means every card in the section
+const saved = (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } })();
+const P = {
+  mode: saved.mode === 'practice' ? 'practice' : 'learn',
+  section: SECTION[saved.section] ? saved.section : 'all',
+  format: FORMATS.includes(saved.format) ? saved.format : 'mixed',
+  count: COUNTS.includes(saved.count) ? saved.count : 20,
+  mc: saved.mc !== false,
+  tf: saved.tf !== false,
+  level: {},                                           // card id -> 1 or 2; absent means new
+};
+if (saved.level && typeof saved.level === 'object') {
+  for (const [id, v] of Object.entries(saved.level)) if (BY_ID[id] && (v === 1 || v === 2)) P.level[id] = v;
+}
+if (!P.mc && !P.tf) P.mc = true;
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) { /* storage blocked: carry on in memory */ }
+}
+
+/* ---------- small helpers ---------- */
+const $ = (sel, root = document) => root.querySelector(sel);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (v === false || v == null) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'text') el.textContent = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, '');
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid);
+  return el;
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+const activeCards = () => P.section === 'all' ? CARDS : CARDS.filter(c => c.s === P.section);
+const lvl = id => P.level[id] || 0;
+const say = text => { $('#live').textContent = ''; setTimeout(() => { $('#live').textContent = text; }, 30); };
+
+// Figures arrive as data URIs. Turning each into one blob URL keeps the same plate from
+// being copied into the page every time it is shown.
+function blobUrl(dataUri) {
+  try {
+    const [head, b64] = dataUri.split(',');
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return URL.createObjectURL(new Blob([bytes], { type: head.match(/:(.*?);/)[1] }));
+  } catch (e) { return dataUri; }
+}
+for (const f of Object.values(FIGS)) f.url = blobUrl(f.src);
+
+/* ---------- questions ---------- */
+// Wrong answers that could pass for right: same section first, then closest in length, so
+// the right answer is never the only long one.
+function distractors(card, key, count) {
+  const size = card[key].length;
+  const seen = new Set([norm(card[key])]);
+  const pool = CARDS.filter(c => c.id !== card.id && !seen.has(norm(c[key])));
+  pool.sort((a, b) =>
+    (a.s === card.s ? 0 : 1) - (b.s === card.s ? 0 : 1) ||
+    Math.abs(a[key].length - size) - Math.abs(b[key].length - size));
+  const out = [];
+  for (const c of shuffle(pool.slice(0, 12))) {
+    const k = norm(c[key]);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(c[key]);
+    if (out.length === count) break;
+  }
+  return out;
+}
+function makeMC(card) {
+  let dir = P.format === 'mixed' ? (Math.random() < 0.5 ? 'td' : 'dt') : P.format;
+  if (dir === 'dt' && !uniqueDef(card)) dir = 'td';
+  const answer = card[dir === 'td' ? 'd' : 't'];
+  const options = shuffle([answer, ...distractors(card, dir === 'td' ? 'd' : 't', 3)]);
+  return { type: 'mc', card, dir, prompt: card[dir === 'td' ? 't' : 'd'], options, correct: options.indexOf(answer), picked: -1 };
+}
+function makeTF(card) {
+  const truth = Math.random() < 0.5;
+  let shown = card.d;
+  if (!truth) {
+    const other = distractors(card, 'd', 1)[0];
+    if (!other) return null;
+    shown = other;
+  }
+  return { type: 'tf', card, shown, truth, options: ['True', 'False'], correct: truth ? 0 : 1, picked: -1 };
+}
+function makeQuestion(card, allowTF) {
+  if (allowTF && (!P.mc || Math.random() < 0.5)) { const q = makeTF(card); if (q) return q; }
+  return makeMC(card);
+}
+
+/* ---------- one question, as a plate ---------- */
+function figureBlock(id) {
+  const f = FIGS[id];
+  return h('figure', { class: 'fig' },
+    h('button', { type: 'button', class: 'plate', 'aria-label': 'Enlarge figure: ' + f.title, onclick: () => openFigure(id) },
+      h('img', { src: f.url, alt: f.alt, width: f.w, height: f.h })),
+    h('figcaption', { text: `Slide ${f.slide}: ${f.title}. Tap to enlarge.` }));
+}
+function cardBlock(c) {
+  return h('div', { class: 'fb-card' },
+    h('p', { class: 'fb-line' }, h('span', { class: 'k', text: 'Term' }), h('span', { class: 'v term', text: c.t })),
+    h('p', { class: 'fb-line' }, h('span', { class: 'k', text: 'Definition' }), h('span', { class: 'v', text: c.d })),
+    c.src === 'slides' ? h('p', { class: 'badge-row' }, h('span', { class: 'badge', text: `From slides, slide ${c.slide}` })) : null);
+}
+function verdict(q) {
+  if (q.picked === q.correct) return 'Correct.';
+  if (q.type === 'tf') return q.truth ? 'Not quite. That definition does belong to this term.' : 'Not quite. That definition belongs to a different term.';
+  return 'Not quite.';
+}
+function questionPlate(q, ctx) {
+  const answered = q.picked >= 0;
+  const right = answered && q.picked === q.correct;
+  const tag = q.type === 'tf' ? 'True or false' : (q.dir === 'td' ? 'Term' : 'Definition');
+  const ask = q.type === 'tf' ? 'Does this definition belong to this term?'
+    : (q.dir === 'td' ? 'Choose the matching definition.' : 'Choose the matching term.');
+
+  const prompt = q.type === 'tf'
+    ? h('div', { class: 'tf' },
+        h('p', { class: 'tf-row' }, h('span', { class: 'tf-k', text: 'Term' }), h('span', { class: 'tf-v term', text: q.card.t })),
+        h('p', { class: 'tf-row' }, h('span', { class: 'tf-k', text: 'Definition' }), h('span', { class: 'tf-v', text: q.shown })))
+    : h('p', { class: 'q-prompt ' + (q.dir === 'td' ? 'term' : 'def'), text: q.prompt });
+
+  const options = q.options.map((text, i) => {
+    const cls = ['opt'];
+    let flag = '';
+    if (answered) {
+      if (i === q.correct) { cls.push('is-correct'); flag = 'Correct'; }
+      else if (i === q.picked) { cls.push('is-wrong'); flag = 'Your answer'; }
+      else cls.push('is-dim');
+    }
+    return h('button', { type: 'button', class: cls.join(' '), disabled: answered, 'data-i': i, onclick: () => ctx.pick(i) },
+      h('span', { class: 'key', text: q.type === 'tf' ? (i === 0 ? 'T' : 'F') : String(i + 1) }),
+      h('span', { class: 'opt-text', text }),
+      h('span', { class: 'opt-flag', text: flag }));
+  });
+
+  const plate = h('section', { class: 'q', tabindex: '-1', 'aria-label': 'Question' },
+    h('div', { class: 'q-top' }, h('span', { class: 'tag', text: tag }), h('span', { class: 'q-count', text: ctx.count })),
+    h('p', { class: 'ask', text: ask }),
+    prompt,
+    h('div', { class: 'opts', role: 'group', 'aria-label': 'Answer choices' }, options));
+
+  if (answered) {
+    plate.append(h('div', { class: 'fb ' + (right ? 'is-good' : 'is-bad') },
+      h('p', { class: 'fb-head' }, h('strong', { text: verdict(q) })),
+      cardBlock(q.card),
+      q.card.img ? figureBlock(q.card.img) : null));
+    plate.append(h('div', { class: 'actions' },
+      h('button', { type: 'button', class: 'btn primary', id: 'next', onclick: ctx.next, text: ctx.nextLabel })));
+  }
+  return plate;
+}
+
+/* ---------- Learn ---------- */
+// Cards come round in short rounds, weakest first. A right answer moves a card up one
+// level, a wrong one sends it back to new and asks it again before the round ends. Two
+// levels up and it counts as mastered, so a card needs two right answers in separate rounds.
+const learn = { started: false, queue: [], q: null, round: 0, asked: 0, right: 0, done: false };
+
+function startLearn(erase) {
+  if (erase) for (const c of activeCards()) delete P.level[c.id];
+  Object.assign(learn, { started: true, queue: [], q: null, round: 0, asked: 0, right: 0, done: false });
+  nextLearn();
+  persist();
+}
+function nextLearn() {
+  if (!learn.queue.length) {
+    const open = activeCards().filter(c => lvl(c.id) < 2);
+    if (!open.length) { learn.done = true; learn.q = null; return; }
+    learn.round++;
+    const ranked = shuffle(open).sort((a, b) => lvl(a.id) - lvl(b.id));
+    learn.queue = shuffle(ranked.slice(0, 7)).map(c => c.id);
+  }
+  learn.q = makeQuestion(BY_ID[learn.queue.shift()], false);
+}
+function pickLearn(i) {
+  const q = learn.q;
+  if (!q || q.picked >= 0) return;
+  q.picked = i;
+  const id = q.card.id;
+  learn.asked++;
+  if (i === q.correct) { learn.right++; P.level[id] = Math.min(2, lvl(id) + 1); }
+  else { delete P.level[id]; learn.queue.push(id); }
+  persist();
+  say(verdict(q));
+  paintLearn();
+  const next = $('#next'); if (next) next.focus({ preventScroll: true });
+}
+function continueLearn() {
+  nextLearn();
+  paintLearn();
+  toStage();
+}
+
+function formatSelect(id) {
+  const sel = h('select', { id },
+    h('option', { value: 'mixed', text: 'Mixed' }),
+    h('option', { value: 'td', text: 'Term, pick the definition' }),
+    h('option', { value: 'dt', text: 'Definition, pick the term' }));
+  sel.value = P.format;
+  sel.addEventListener('change', () => { P.format = sel.value; persist(); });
+  return sel;
+}
+// Erasing progress takes two clicks, because the page cannot show a confirm dialog.
+function confirmButton(label, confirmLabel, action) {
+  const btn = h('button', { type: 'button', class: 'btn ghost', text: label });
+  let timer = null;
+  btn.addEventListener('click', () => {
+    if (timer) { clearTimeout(timer); timer = null; action(); return; }
+    btn.textContent = confirmLabel;
+    timer = setTimeout(() => { timer = null; btn.textContent = label; }, 4000);
+  });
+  return btn;
+}
+
+function renderLearn() {
+  const stage = $('#stage');
+  stage.replaceChildren();
+  if (activeCards().length < 2) { stage.append(notice('Learn needs at least two cards. Pick a larger section.')); return; }
+  if (!learn.started) startLearn(false);
+  stage.append(
+    h('div', { class: 'meter', id: 'meter' }),
+    h('div', { id: 'qwrap' }),
+    h('div', { class: 'controls' },
+      h('div', { class: 'ctl' }, h('span', { text: 'Question format' }), formatSelect('l-format')),
+      confirmButton('Start over', 'Click again to erase progress', () => { startLearn(true); paintLearn(); })));
+  paintLearn();
+}
+function paintLearn() {
+  const ids = activeCards().map(c => c.id);
+  const mastered = ids.filter(id => lvl(id) >= 2).length;
+  const learning = ids.filter(id => lvl(id) === 1).length;
+  const bar = h('div', { class: 'meter-bar', role: 'progressbar', 'aria-label': 'Cards mastered', 'aria-valuemin': '0', 'aria-valuemax': String(ids.length), 'aria-valuenow': String(mastered) },
+    h('i', { class: 'm' }), h('i', { class: 'l' }));
+  bar.children[0].style.width = (100 * mastered / ids.length) + '%';
+  bar.children[1].style.width = (100 * learning / ids.length) + '%';
+  $('#meter').replaceChildren(
+    h('div', { class: 'meter-text' },
+      h('span', null, h('b', { text: String(mastered) }), ` of ${ids.length} cards mastered`),
+      h('span', { class: 'round', text: learn.round ? 'Round ' + learn.round : '' })),
+    bar,
+    h('p', { class: 'legend mono', text: `Mastered ${mastered} · Learning ${learning} · New ${ids.length - mastered - learning}` }));
+
+  const wrap = $('#qwrap');
+  wrap.replaceChildren();
+  if (learn.done) {
+    const stats = learn.asked
+      ? `You answered ${learn.asked} question${learn.asked === 1 ? '' : 's'} and got ${learn.right} right (${Math.round(100 * learn.right / learn.asked)}%).`
+      : 'Every card here was already mastered from an earlier session.';
+    wrap.append(h('section', { class: 'panel' },
+      h('h2', { text: P.section === 'all' ? 'Every card is mastered' : 'Every card in this section is mastered' }),
+      h('p', { text: stats }),
+      h('div', { class: 'actions flow' },
+        h('button', { type: 'button', class: 'btn primary', text: 'Practice questions', onclick: () => setMode('practice') }),
+        h('button', { type: 'button', class: 'btn', text: 'Start over', onclick: () => { startLearn(true); paintLearn(); } }))));
+    return;
+  }
+  const answered = learn.q.picked >= 0;
+  wrap.append(questionPlate(learn.q, {
+    count: `Question ${learn.asked + (answered ? 0 : 1)}`,
+    pick: pickLearn, next: continueLearn, nextLabel: 'Continue',
+  }));
+}
+
+/* ---------- Practice questions ---------- */
+const prac = { stage: 'setup', qs: [], i: 0 };
+
+function startPractice(onlyIds) {
+  const pool = onlyIds ? onlyIds.map(id => BY_ID[id]) : activeCards();
+  const n = onlyIds || P.count === 0 ? pool.length : Math.min(P.count, pool.length);
+  prac.qs = shuffle(pool).slice(0, n).map(c => makeQuestion(c, P.tf));
+  prac.i = 0;
+  prac.stage = 'run';
+}
+function pickPractice(i) {
+  const q = prac.qs[prac.i];
+  if (!q || q.picked >= 0) return;
+  q.picked = i;
+  say(verdict(q));
+  paintPractice();
+  const next = $('#next'); if (next) next.focus({ preventScroll: true });
+}
+function continuePractice() {
+  prac.i++;
+  if (prac.i >= prac.qs.length) prac.stage = 'done';
+  paintPractice();
+  toStage();
+}
+
+function renderPractice() {
+  const stage = $('#stage');
+  stage.replaceChildren();
+  if (activeCards().length < 2) { stage.append(notice('Practice questions need at least two cards. Pick a larger section.')); return; }
+  paintPractice();
+}
+function paintPractice() {
+  const stage = $('#stage');
+  stage.replaceChildren();
+  if (prac.stage === 'setup') return stage.append(practiceSetup());
+  if (prac.stage === 'done') return stage.append(practiceResults());
+  const q = prac.qs[prac.i];
+  const right = prac.qs.filter(x => x.picked >= 0 && x.picked === x.correct).length;
+  const last = prac.i === prac.qs.length - 1;
+  stage.append(
+    h('div', { class: 'meter' },
+      h('div', { class: 'meter-text' },
+        h('span', null, h('b', { text: String(prac.i + (q.picked >= 0 ? 1 : 0)) }), ` of ${prac.qs.length} answered`),
+        h('span', { class: 'round', text: `${right} correct` })),
+      (() => {
+        const bar = h('div', { class: 'meter-bar', role: 'progressbar', 'aria-label': 'Questions answered', 'aria-valuemin': '0', 'aria-valuemax': String(prac.qs.length), 'aria-valuenow': String(prac.i + (q.picked >= 0 ? 1 : 0)) }, h('i', { class: 'm' }));
+        bar.children[0].style.width = (100 * (prac.i + (q.picked >= 0 ? 1 : 0)) / prac.qs.length) + '%';
+        return bar;
+      })()),
+    questionPlate(q, {
+      count: `Question ${prac.i + 1} of ${prac.qs.length}`,
+      pick: pickPractice, next: continuePractice, nextLabel: last ? 'See results' : 'Next question',
+    }),
+    h('div', { class: 'controls' },
+      h('span'),
+      confirmButton('End practice', 'Click again to end and lose this score', () => { prac.stage = 'setup'; paintPractice(); })));
+}
+function practiceSetup() {
+  const cards = activeCards();
+  const count = h('select', { id: 'p-count' },
+    COUNTS.map(n => h('option', { value: String(n), text: n === 0 ? `All ${cards.length} cards` : `${n} questions` })));
+  count.value = String(P.count);
+  const hint = h('p', { class: 'muted' });
+  const setHint = () => {
+    const n = P.count === 0 ? cards.length : Math.min(P.count, cards.length);
+    hint.textContent = `${n} question${n === 1 ? '' : 's'} from ${P.section === 'all' ? 'all sections' : SECTION[P.section].name.toLowerCase()}.`;
+  };
+  count.addEventListener('change', () => { P.count = Number(count.value); persist(); setHint(); });
+  setHint();
+
+  const mc = h('input', { type: 'checkbox', id: 'p-mc' });
+  const tf = h('input', { type: 'checkbox', id: 'p-tf' });
+  mc.checked = P.mc; tf.checked = P.tf;
+  // At least one type stays on: unticking the last one ticks the other back.
+  const types = e => {
+    if (!mc.checked && !tf.checked) (e.target === mc ? tf : mc).checked = true;
+    P.mc = mc.checked; P.tf = tf.checked; persist();
+  };
+  mc.addEventListener('change', types); tf.addEventListener('change', types);
+
+  return h('section', { class: 'panel' },
+    h('h2', { text: 'Practice questions' }),
+    h('p', { class: 'muted', text: 'Every answer shows the term, its definition and the lecture figure that goes with it.' }),
+    h('div', { class: 'field' }, h('label', { for: 'p-count', text: 'How many' }), count, hint),
+    h('fieldset', { class: 'field' }, h('legend', { text: 'Question types' }),
+      h('label', { class: 'check', for: 'p-mc' }, mc, 'Multiple choice'),
+      h('label', { class: 'check', for: 'p-tf' }, tf, 'True or false')),
+    h('div', { class: 'field' }, h('label', { for: 'p-format', text: 'Multiple choice format' }), formatSelect('p-format')),
+    h('div', null, h('button', { type: 'button', class: 'btn primary', id: 'p-start', text: 'Start practice', onclick: () => { startPractice(); paintPractice(); toStage(); } })));
+}
+function practiceResults() {
+  const total = prac.qs.length;
+  const right = prac.qs.filter(q => q.picked === q.correct).length;
+  const missed = prac.qs.filter(q => q.picked !== q.correct);
+  const rows = SECTIONS.map(s => {
+    const asked = prac.qs.filter(q => q.card.s === s.id);
+    return asked.length ? { s, asked: asked.length, right: asked.filter(q => q.picked === q.correct).length } : null;
+  }).filter(Boolean);
+
+  const table = h('table', { class: 'sec-table' },
+    h('thead', null, h('tr', null, h('th', { text: 'Section' }), h('th', { text: 'Right' }), h('th', { text: '' }))),
+    h('tbody', null, rows.map(r => {
+      const fill = h('i');
+      fill.style.width = (100 * r.right / r.asked) + '%';
+      return h('tr', null,
+        h('td', { text: r.s.short }),
+        h('td', { class: 'num', text: `${r.right} of ${r.asked}` }),
+        h('td', null, h('span', { class: 'sec-bar', role: 'img', 'aria-label': `${Math.round(100 * r.right / r.asked)} percent` }, fill)));
+    })));
+
+  const missedList = missed.length
+    ? h('div', { class: 'stack' },
+        h('h3', { text: `Missed (${missed.length})` }),
+        h('ul', { class: 'missed' }, missed.map(q => h('li', null,
+          q.type === 'tf'
+            ? h('p', { class: 'said', text: `You said ${q.options[q.picked]}. ${q.truth ? 'That definition does belong to this term.' : 'That definition belongs to a different term.'}` })
+            : h('p', { class: 'said', text: 'You chose: ' + q.options[q.picked] }),
+          cardBlock(q.card),
+          q.card.img ? figureBlock(q.card.img) : null))))
+    : h('p', { text: 'No misses. Every question was right.' });
+
+  return h('section', { class: 'panel' },
+    h('h2', { text: 'Results' }),
+    h('p', { class: 'score' },
+      h('span', { class: 'big', text: String(right) }), ` of ${total} correct`,
+      h('span', { class: 'pct', text: Math.round(100 * right / total) + '%' })),
+    h('div', { class: 'table-scroll' }, table),
+    missedList,
+    h('div', { class: 'actions flow' },
+      missed.length ? h('button', { type: 'button', class: 'btn primary', text: `Practice the ${missed.length} missed`, onclick: () => { startPractice(missed.map(q => q.card.id)); paintPractice(); toStage(); } }) : null,
+      h('button', { type: 'button', class: missed.length ? 'btn' : 'btn primary', text: 'New practice set', onclick: () => { prac.stage = 'setup'; paintPractice(); toStage(); } })));
+}
+
+/* ---------- shell: tabs, filter, figure viewer ---------- */
+function notice(text) { return h('section', { class: 'panel' }, h('p', { text })); }
+function toStage() {
+  const top = $('#stage').getBoundingClientRect().top;
+  if (top < 0) window.scrollTo({ top: window.scrollY + top - 12 });
+}
+function setMode(mode) {
+  P.mode = mode;
+  persist();
+  render();
+}
+function paintTabs() {
+  for (const tab of document.querySelectorAll('#modes [role="tab"]')) {
+    const on = tab.dataset.mode === P.mode;
+    tab.setAttribute('aria-selected', String(on));
+    tab.tabIndex = on ? 0 : -1;
+  }
+  $('#stage').setAttribute('aria-labelledby', 'tab-' + P.mode);
+}
+function paintFilters() {
+  const options = [{ id: 'all', short: 'All sections', n: CARDS.length }]
+    .concat(SECTIONS.map(s => ({ id: s.id, short: s.short, n: CARDS.filter(c => c.s === s.id).length })));
+  $('#filters').replaceChildren(...options.map(o =>
+    h('button', { type: 'button', class: 'chip', 'aria-pressed': String(P.section === o.id), onclick: () => {
+      if (P.section === o.id) return;
+      P.section = o.id; persist();
+      learn.started = false; prac.stage = 'setup';
+      render();
+    } }, o.short, h('span', { class: 'n', text: String(o.n) }))));
+}
+function render() {
+  paintTabs();
+  paintFilters();
+  if (P.mode === 'learn') renderLearn(); else renderPractice();
+}
+
+const lightbox = $('#lightbox');
+function openFigure(id) {
+  const f = FIGS[id];
+  $('#lb-title').textContent = `Slide ${f.slide}: ${f.title}`;
+  $('#lb-img').src = f.url;
+  $('#lb-img').alt = f.alt;
+  if (lightbox.showModal) lightbox.showModal(); else lightbox.setAttribute('open', '');
+}
+$('#lb-close').addEventListener('click', () => lightbox.close());
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.close(); });
+
+/* ---------- keyboard ---------- */
+$('#modes').addEventListener('click', e => {
+  const tab = e.target.closest('[role="tab"]');
+  if (tab && tab.dataset.mode !== P.mode) setMode(tab.dataset.mode);
+});
+$('#modes').addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Home' && e.key !== 'End') return;
+  e.preventDefault();
+  const modes = ['learn', 'practice'];
+  const at = modes.indexOf(P.mode);
+  const to = e.key === 'Home' ? 0 : e.key === 'End' ? modes.length - 1 : (at + (e.key === 'ArrowRight' ? 1 : modes.length - 1)) % modes.length;
+  setMode(modes[to]);
+  $('#tab-' + modes[to]).focus();
+});
+function currentQuestion() {
+  if (P.mode === 'learn') return learn.started && !learn.done ? learn.q : null;
+  return prac.stage === 'run' ? prac.qs[prac.i] : null;
+}
+document.addEventListener('keydown', e => {
+  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || lightbox.open) return;
+  if (e.target.closest && e.target.closest('input, select, textarea, #modes')) return;
+  const q = currentQuestion();
+  if (!q) return;
+  const key = e.key.toLowerCase();
+  if (q.picked < 0) {
+    let i = -1;
+    if (/^[1-4]$/.test(key)) i = Number(key) - 1;
+    else if (q.type === 'tf' && key === 't') i = 0;
+    else if (q.type === 'tf' && key === 'f') i = 1;
+    if (i >= 0 && i < q.options.length) { e.preventDefault(); (P.mode === 'learn' ? pickLearn : pickPractice)(i); }
+  } else if ((key === 'enter' || key === ' ') && !e.target.closest('button, a')) {
+    e.preventDefault();
+    (P.mode === 'learn' ? continueLearn : continuePractice)();
+  }
+});
+
+/* ---------- go ---------- */
+$('#meta').textContent = `${CARDS.length} cards · ${Object.keys(FIGS).length} figures · ${DECK.module} lecture deck`;
+$('#refs').textContent = 'Figures come from the ' + DECK.module + ' lecture deck; each caption gives its slide. The deck cites ' + DECK.references.join('; ') + '.';
+render();
+})();
+</script>
